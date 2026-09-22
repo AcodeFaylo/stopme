@@ -229,7 +229,7 @@ WindowsStatusIcon::init()
   nid.hWnd = tray_hwnd;
   nid.guidItem = guid;
 
-  set_tooltip("Workrave");
+  set_tooltip("stopme");
 }
 
 void

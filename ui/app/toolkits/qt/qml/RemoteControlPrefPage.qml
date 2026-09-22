@@ -22,7 +22,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Enable gRPC")
-                hint: qsTr("Allows local applications to control Workrave through gRPC. Disabling this closes the server immediately.")
+                hint: qsTr("Allows local applications to control stopme through gRPC. Disabling this closes the server immediately.")
                 checked: root.bridge ? root.bridge.grpcEnabled : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setGrpcEnabled(v) }
             }
@@ -41,7 +41,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? (root.bridge.grpcEnabled && root.bridge.grpcTransport === 0) : false
                 label: qsTr("Server address")
-                hint: qsTr("Address of the Unix-domain socket used by Workrave.")
+                hint: qsTr("Address of the Unix-domain socket used by stopme.")
                 value: root.bridge ? root.bridge.grpcAddress : ""
                 readOnly: true
             }

@@ -33,7 +33,6 @@ Item {
                 hint:  qsTr("Active time required before a rest break is prompted.")
                 value: root.bridge ? root.bridge.limitDisplay : "45:00"
                 sliderValue: root.bridge ? root.bridge.limitNorm : 0.5
-                sliderColor: "#6B8068"
                 ticks: [
                     { at: 0.000, label: "15m" },
                     { at: 0.333, label: "30m" },
@@ -53,7 +52,6 @@ Item {
                 hint:  qsTr("How long each rest break lasts.")
                 value: root.bridge ? root.bridge.durationDisplay : "10:00"
                 sliderValue: root.bridge ? root.bridge.durationNorm : 0.444
-                sliderColor: "#6B8068"
                 ticks: [
                     { at: 0.000, label: "5m"  },
                     { at: 0.444, label: "10m" },
@@ -69,10 +67,9 @@ Item {
             PrefTimeControl {
                 width: parent.width
                 label: qsTr("Postpone time")
-                hint:  qsTr("When postponed, Workrave reminds you again after this long.")
+                hint:  qsTr("When postponed, stopme reminds you again after this long.")
                 value: root.bridge ? root.bridge.snoozeDisplay : "3:00"
                 sliderValue: root.bridge ? root.bridge.snoozeNorm : 0.222
-                sliderColor: "#6B8068"
                 ticks: [
                     { at: 0.000, label: "1m"  },
                     { at: 0.222, label: "3m"  },
@@ -102,7 +99,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? root.bridge.preludeEnabled : true
                 label:   qsTr("Limit number of prompts")
-                hint:    qsTr("When off, Workrave keeps reminding you until the break starts.")
+                hint:    qsTr("When off, stopme keeps reminding you until the break starts.")
                 checked: root.bridge ? root.bridge.hasMaxPreludes : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setHasMaxPreludes(v) }
             }
@@ -162,7 +159,7 @@ Item {
             PrefSpinRow {
                 width: parent.width
                 label: qsTr("Number of exercises")
-                hint:  qsTr("Workrave picks this many at random from its library each rest break.")
+                hint:  qsTr("stopme picks this many at random from its library each rest break.")
                 display: root.bridge ? root.bridge.exercises.toString() : "4"
                 narrow: true
                 onIncrement: { if (root.bridge) root.bridge.incrementExercises() }

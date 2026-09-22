@@ -33,7 +33,6 @@ Item {
                 hint:  qsTr("How long you've been using the keyboard or mouse before being prompted.")
                 value: root.bridge ? root.bridge.limitDisplay : "3:00"
                 sliderValue: root.bridge ? root.bridge.limitNorm : 0.3
-                sliderColor: "#6B8068"
                 secondsStep: 5
                 ticks: [
                     { at: 0.000, label: "1m" },
@@ -54,7 +53,6 @@ Item {
                 hint:  qsTr("How long each microbreak lasts.")
                 value: root.bridge ? root.bridge.durationDisplay : "0:30"
                 sliderValue: root.bridge ? root.bridge.durationNorm : 0.143
-                sliderColor: "#6B8068"
                 secondsStep: 5
                 ticks: [
                     { at: 0.000, label: "15s" },
@@ -71,10 +69,9 @@ Item {
             PrefTimeControl {
                 width: parent.width
                 label: qsTr("Postpone time")
-                hint:  qsTr("When postponed, Workrave reminds you again after this long.")
+                hint:  qsTr("When postponed, stopme reminds you again after this long.")
                 value: root.bridge ? root.bridge.snoozeDisplay : "5:00"
                 sliderValue: root.bridge ? root.bridge.snoozeNorm : 0.444
-                sliderColor: "#6B8068"
                 ticks: [
                     { at: 0.000, label: "1m"  },
                     { at: 0.444, label: "5m"  },
@@ -103,7 +100,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? root.bridge.preludeEnabled : true
                 label:   qsTr("Limit number of prompts")
-                hint:    qsTr("When off, Workrave keeps reminding you until the break starts.")
+                hint:    qsTr("When off, stopme keeps reminding you until the break starts.")
                 checked: root.bridge ? root.bridge.hasMaxPreludes : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setHasMaxPreludes(v) }
             }
@@ -142,7 +139,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Break in quiet-mode")
-                hint:  qsTr("When on, micro-breaks behave as if Workrave were in quiet mode: no break windows will appear.")
+                hint:  qsTr("When on, micro-breaks behave as if stopme were in quiet mode: no break windows will appear.")
                 checked: root.bridge ? root.bridge.quietMode : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setQuietMode(v) }
             }

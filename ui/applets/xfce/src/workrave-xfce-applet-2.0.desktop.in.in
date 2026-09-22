@@ -1,8 +1,8 @@
 [Xfce Panel]
 Type=X-XFCE-PanelPlugin
 Encoding=UTF-8
-Name=Workrave
-Comment=Workrave
+Name=stopme
+Comment=stopme
 Icon=workrave
 X-XFCE-Module=workrave-plugin
 X-XFCE-Internal=false

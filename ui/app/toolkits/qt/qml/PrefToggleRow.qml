@@ -93,7 +93,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: 999
-                color: root.checked ? tok.sage : tok.track
+                color: root.checked ? tok.accent : tok.track
                 Behavior on color { ColorAnimation { duration: 150 } }
             }
 

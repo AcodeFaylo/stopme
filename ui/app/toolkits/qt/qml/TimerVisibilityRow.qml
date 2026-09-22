@@ -6,7 +6,7 @@ Item {
     id: row
 
     property string timerName:  ""
-    property color  timerColor: tok.sage
+    property color  timerColor: tok.accent
     property int    value:      0
     property bool   isLast:     false
 
@@ -81,7 +81,7 @@ Item {
 
                     Rectangle {
                         anchors.fill: parent; radius: 6
-                        color:   row.value === modelData.val ? tok.sage : "transparent"
+                        color:   row.value === modelData.val ? tok.accent : "transparent"
                         visible: row.value === modelData.val
                     }
 

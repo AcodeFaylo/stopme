@@ -37,8 +37,8 @@ Item {
     // ── State → colour helper ─────────────────────────────────────────────────
     function timerColor(overdue, progress) {
         if (overdue)          return tok.danger
-        if (progress < 0.25)  return tok.clay
-        return tok.sage
+        if (progress < 0.25)  return tok.accent2
+        return tok.accent
     }
 
     // ── Per-style sizing ─────────────────────────────────────────────────────
@@ -77,15 +77,15 @@ Item {
         }
 
         Rectangle {
-            width: 5; height: 5; radius: 999; color: tok.sage
+            width: 5; height: 5; radius: 999; color: tok.accent
             anchors { left: parent.left; leftMargin: 8; verticalCenter: parent.verticalCenter }
         }
 
         Text {
             anchors { left: parent.left; leftMargin: 18; verticalCenter: parent.verticalCenter }
-            text: "Workrave"
+            text: "stopme"
             font.pixelSize: 11; font.italic: true
-            font.family: "Georgia"
+            font.family: tok.displayFamily
             color: tok.ink
         }
 
@@ -145,7 +145,7 @@ Item {
                     }
                     Text {
                         text: microTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.family: tok.displayFamily
                         color: microOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
@@ -170,7 +170,7 @@ Item {
                     }
                     Text {
                         text: restTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.family: tok.displayFamily
                         color: restOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
@@ -195,7 +195,7 @@ Item {
                     }
                     Text {
                         text: dailyTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.family: tok.displayFamily
                         color: dailyOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
@@ -298,7 +298,7 @@ Item {
                         text: microTime
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: 17
-                        font.family: "Georgia"
+                        font.family: tok.displayFamily
                         color: microOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -335,7 +335,7 @@ Item {
                     Text {
                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                         text: restTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.family: tok.displayFamily
                         color: restOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -362,7 +362,7 @@ Item {
                     Text {
                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                         text: dailyTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.family: tok.displayFamily
                         color: dailyOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -377,7 +377,7 @@ Item {
 
     component MiniRing: Canvas {
         width: 34; height: 34
-        property color accent: tok.sage
+        property color accent: tok.accent
         property double progress: 0.5
         property double idleProgress: 0.0
 
@@ -417,7 +417,7 @@ Item {
 
     component BarRow: Item {
         height: 26
-        property color  accent:        tok.sage
+        property color  accent:        tok.accent
         property string iconText:      "✋"
         property double progress:      0.5
         property double idleProgress:  0.0
@@ -450,7 +450,7 @@ Item {
             id: barTime
             anchors { right: parent.right; top: parent.top; topMargin: 3 }
             text: timeText; font.pixelSize: 13
-            font.family: "Georgia"
+            font.family: tok.displayFamily
             color: overdue ? tok.danger : tok.ink
             width: 46; horizontalAlignment: Text.AlignRight
             renderType: Text.NativeRendering; font.features: { "tnum": 1 }

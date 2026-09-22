@@ -58,34 +58,34 @@ Item {
         if (sec === "timers") {
             if (pg === "microbreak") return {
                 title: qsTr("Micro-break"),
-                lede:  qsTr("A short pause to look away, stretch, and reset. Workrave reminds you several times an hour."),
+                lede:  qsTr("A short pause to look away, stretch, and reset. stopme reminds you several times an hour."),
                 url:   "MicrobreakPrefPage.qml"
             }
             if (pg === "restbreak") return {
                 title: qsTr("Rest break"),
-                lede:  qsTr("A longer break with guided exercises. Workrave suggests one every 30–60 minutes of activity."),
+                lede:  qsTr("A longer break with guided exercises. stopme suggests one every 30–60 minutes of activity."),
                 url:   "RestBreakPrefPage.qml"
             }
             if (pg === "daily") return {
                 title: qsTr("Daily limit"),
-                lede:  qsTr("A cap on how long you'll work at the computer in a day. Workrave nudges you to stop when you reach it."),
+                lede:  qsTr("A cap on how long you'll work at the computer in a day. stopme nudges you to stop when you reach it."),
                 url:   "DailyLimitPrefPage.qml"
             }
             if (pg === "monitoring") return {
                 title: qsTr("Monitoring"),
-                lede:  qsTr("How Workrave detects your activity — keyboard, mouse, and system idle state."),
+                lede:  qsTr("How stopme detects your activity — keyboard, mouse, and system idle state."),
                 url:   "MonitoringPrefPage.qml"
             }
         }
         if (sec === "ui") {
             if (pg === "general") return {
                 title: qsTr("General"),
-                lede:  qsTr("How Workrave behaves on your system, and how forcefully it interrupts."),
+                lede:  qsTr("How stopme behaves on your system, and how forcefully it interrupts."),
                 url:   "GeneralPrefPage.qml"
             }
             if (pg === "sounds") return {
                 title: qsTr("Sounds"),
-                lede:  qsTr("Choose which sounds Workrave plays at break events, and adjust the volume."),
+                lede:  qsTr("Choose which sounds stopme plays at break events, and adjust the volume."),
                 url:   "SoundsPrefPage.qml"
             }
             if (pg === "status") return {
@@ -101,7 +101,7 @@ Item {
         }
         if (sec === "remote-control" && pg === "grpc") return {
             title: "gRPC",
-            lede: qsTr("Allow local applications to inspect and control Workrave."),
+            lede: qsTr("Allow local applications to inspect and control stopme."),
             url: "RemoteControlPrefPage.qml"
         }
         if (sec === "plugin") {
@@ -124,7 +124,7 @@ Item {
 
         // ── Body: sidebar + content ──────────────────────────────────────────
         // No custom title bar here — the native window title bar (set via
-        // QQuickView::setTitle) already shows "Workrave — Preferences" and
+        // QQuickView::setTitle) already shows "stopme — Preferences" and
         // provides the close button; drawing our own duplicated both.
         Item {
             id: body
@@ -195,7 +195,7 @@ Item {
                                         Rectangle {
                                             anchors.fill: parent
                                             radius: 6
-                                            color: parent.active ? tok.sageSoft : "transparent"
+                                            color: parent.active ? tok.accentSoft : "transparent"
                                         }
 
                                         Text {
@@ -203,7 +203,7 @@ Item {
                                             text: modelData.title
                                             font.pixelSize: 13
                                             font.weight: parent.active ? Font.DemiBold : Font.Normal
-                                            color: parent.active ? tok.sageDeep : tok.ink2
+                                            color: parent.active ? tok.accentStrong : tok.ink2
                                         }
 
                                         MouseArea {
@@ -248,7 +248,7 @@ Item {
                             width: parent.width
                             text: root.pageMeta.title
                             font.pixelSize: 30
-                            font.family: "Georgia"
+                            font.family: tok.displayFamily
                             color: tok.ink
                             lineHeight: 1.1
                             wrapMode: Text.WordWrap
@@ -303,8 +303,8 @@ Item {
                 Rectangle {
                     anchors.fill: parent
                     radius: 7
-                    color:  footerCloseBtn.hovered ? tok.sage : tok.sageSoft
-                    border.color: tok.sage
+                    color:  footerCloseBtn.hovered ? tok.accent : tok.accentSoft
+                    border.color: tok.accent
                     border.width: 1
                 }
 
@@ -313,7 +313,7 @@ Item {
                     text: qsTr("Close")
                     font.pixelSize: 13
                     font.weight: Font.Medium
-                    color: footerCloseBtn.hovered ? tok.panel : tok.sageDeep
+                    color: footerCloseBtn.hovered ? tok.panel : tok.accentStrong
                 }
 
                 MouseArea {

@@ -65,7 +65,7 @@ Item {
                     anchors.centerIn: parent
                     text: root.value
                     font.pixelSize: tok.stepperPx
-                    font.family: tok.serifFamily
+                    font.family: tok.displayFamily
                     font.features: { "tnum": 1 }
                     color: tok.ink
                 }

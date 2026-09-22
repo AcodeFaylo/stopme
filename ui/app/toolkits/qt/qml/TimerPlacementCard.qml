@@ -17,8 +17,8 @@ Item {
 
     Rectangle {
         anchors.fill: parent; radius: 10
-        color:        plCard.active ? tok.sageSoft : tok.panel
-        border.color: plCard.active ? tok.sage : tok.edge
+        color:        plCard.active ? tok.accentSoft : tok.panel
+        border.color: plCard.active ? tok.accent : tok.edge
         border.width: plCard.active ? 2 : 1
     }
 
@@ -60,9 +60,9 @@ Item {
                                 required property string modelData
                                 required property int    index
                                 anchors.fill: parent; radius: 11
-                                color:   modelData === "M" ? tok.sage
-                                       : modelData === "R" ? tok.clay
-                                       :                     tok.sageDeep
+                                color:   modelData === "M" ? tok.accent
+                                       : modelData === "R" ? tok.accent2
+                                       :                     tok.accentStrong
                                 opacity: index === 0 ? 1.0 : 0.35
                             }
                         }

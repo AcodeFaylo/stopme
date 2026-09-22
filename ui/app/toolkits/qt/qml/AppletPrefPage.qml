@@ -28,7 +28,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Show status applet")
-                hint:  qsTr("Turn off to hide the panel applet — Workrave still runs from the tray.")
+                hint:  qsTr("Turn off to hide the panel applet — stopme still runs from the tray.")
                 checked: root.bridge ? root.bridge.enabled : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setEnabled(v) }
             }
@@ -105,7 +105,7 @@ Item {
                             width: (parent.width - 30) / 4
                             active: root.bridge ? root.bridge.displayStyle === 3 : false
                             cardTitle: qsTr("D · Classic")
-                            cardSub:   qsTr("The original Workrave widget — text timers, no transparency.")
+                            cardSub:   qsTr("The original stopme widget — text timers, no transparency.")
                             kind: "classic"
                             onClicked: { if (root.bridge) root.bridge.setDisplayStyle(3) }
                         }
@@ -122,7 +122,7 @@ Item {
             TimerVisibilityRow {
                 width: parent.width
                 timerName:  qsTr("Micro-break")
-                timerColor: tok.sage
+                timerColor: tok.accent
                 value:      root.bridge ? root.bridge.microVisibility : 0
                 onSelected: (v) => { if (root.bridge) root.bridge.setMicroVisibility(v) }
             }
@@ -130,7 +130,7 @@ Item {
             TimerVisibilityRow {
                 width: parent.width
                 timerName:  qsTr("Rest break")
-                timerColor: tok.clay
+                timerColor: tok.accent2
                 value:      root.bridge ? root.bridge.restVisibility : 0
                 onSelected: (v) => { if (root.bridge) root.bridge.setRestVisibility(v) }
             }
@@ -138,7 +138,7 @@ Item {
             TimerVisibilityRow {
                 width: parent.width
                 timerName:  qsTr("Daily limit")
-                timerColor: tok.sageDeep
+                timerColor: tok.accentStrong
                 value:      root.bridge ? root.bridge.dailyVisibility : 0
                 isLast:     true
                 onSelected: (v) => { if (root.bridge) root.bridge.setDailyVisibility(v) }

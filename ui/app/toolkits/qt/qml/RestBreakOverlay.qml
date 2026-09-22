@@ -87,7 +87,7 @@ Item {
                         spacing: 0
 
                         Rectangle {
-                            width: 6; height: 6; radius: 999; color: tok.clay
+                            width: 6; height: 6; radius: 999; color: tok.accent2
                             anchors.verticalCenter: parent.verticalCenter
                         }
                         Item { width: 8; height: 1 }
@@ -176,7 +176,7 @@ Item {
                             Rectangle {
                                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                 width: Math.max(4, parent.width * root.lockProgress)
-                                radius: 2; color: tok.sage
+                                radius: 2; color: tok.accent
                                 Behavior on width { NumberAnimation { duration: 500 } }
                             }
                         }
@@ -203,7 +203,7 @@ Item {
                             spacing: 8
                             Repeater {
                                 model: root.exerciseCount
-                                Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.clay : tok.track }
+                                Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.accent2 : tok.track }
                             }
                         }
 
@@ -227,7 +227,7 @@ Item {
                                         fillMode: Image.PreserveAspectFit
                                     }
                                     Rectangle {
-                                        anchors.fill: parent; color: tok.sageSoft; radius: 16
+                                        anchors.fill: parent; color: tok.accentSoft; radius: 16
                                         visible: cardExImg.status !== Image.Ready || root.exerciseImage === ""
                                     }
                                 }
@@ -237,7 +237,7 @@ Item {
                                     Rectangle {
                                         width: parent.width * root.exerciseProgress
                                         height: parent.height; radius: parent.radius
-                                        color: root.isPaused ? tok.warn : tok.sage
+                                        color: root.isPaused ? tok.warn : tok.accent
                                         Behavior on width { NumberAnimation { duration: 500 } }
                                     }
                                 }
@@ -250,7 +250,7 @@ Item {
                                 Text {
                                     width: parent.width
                                     text: root.exerciseName
-                                    font.pixelSize: 36; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 36; font.family: tok.displayFamily; color: tok.ink
                                     wrapMode: Text.Wrap; lineHeight: 1.1
                                 }
                                 Text {
@@ -277,13 +277,13 @@ Item {
 
                             Rectangle {
                                 width: 36; height: 36; radius: tok.actionRadius
-                                color: root.isPaused ? tok.claySoft : tok.actionBg
-                                border.color: root.isPaused ? tok.clay : tok.actionEdge; border.width: 1
+                                color: root.isPaused ? tok.accent2Soft : tok.actionBg
+                                border.color: root.isPaused ? tok.accent2 : tok.actionEdge; border.width: 1
                                 Text {
                                     anchors.centerIn: parent
                                     text: root.isPaused ? "▶" : "‖"
                                     font.pixelSize: 13; font.weight: Font.Bold
-                                    color: root.isPaused ? tok.clay : tok.ink2
+                                    color: root.isPaused ? tok.accent2 : tok.ink2
                                 }
                                 Accessible.role: Accessible.Button
                                 Accessible.name: root.isPaused ? qsTr("Resume exercises") : qsTr("Pause exercises")
@@ -297,14 +297,14 @@ Item {
                                     anchors { right: parent.horizontalCenter; rightMargin: 5; verticalCenter: parent.verticalCenter }
                                     width: 34
                                     text: root.exerciseTimeMinutes
-                                    font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
                                     horizontalAlignment: Text.AlignRight
                                     font.features: {"tnum": 1}
                                 }
                                 Text {
                                     anchors.centerIn: parent
                                     text: ":"
-                                    font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
                                     horizontalAlignment: Text.AlignHCenter
                                     font.features: {"tnum": 1}
                                 }
@@ -312,7 +312,7 @@ Item {
                                     anchors { left: parent.horizontalCenter; leftMargin: 5; verticalCenter: parent.verticalCenter }
                                     width: 34
                                     text: root.exerciseTimeSeconds
-                                    font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
                                     horizontalAlignment: Text.AlignLeft
                                     font.features: {"tnum": 1}
                                 }
@@ -363,7 +363,7 @@ Item {
                                 ctx.beginPath();
                                 ctx.arc(cx, cy, r, -Math.PI / 2,
                                         -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001));
-                                ctx.strokeStyle = tok.sage.toString();
+                                ctx.strokeStyle = tok.accent.toString();
                                 ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
                             }
 
@@ -375,21 +375,21 @@ Item {
                                     anchors { right: parent.horizontalCenter; rightMargin: 10; verticalCenter: parent.verticalCenter }
                                     width: 100
                                     text: root.breakTimeBeforeColon
-                                    font.pixelSize: 70; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 70; font.family: tok.displayFamily; color: tok.ink
                                     horizontalAlignment: Text.AlignRight
                                     font.features: {"tnum": 1}
                                 }
                                 Text {
                                     anchors.centerIn: parent
                                     text: ":"
-                                    font.pixelSize: 70; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 70; font.family: tok.displayFamily; color: tok.ink
                                     font.features: {"tnum": 1}
                                 }
                                 Text {
                                     anchors { left: parent.horizontalCenter; leftMargin: 10; verticalCenter: parent.verticalCenter }
                                     width: 100
                                     text: root.breakTimeAfterColon
-                                    font.pixelSize: 70; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 70; font.family: tok.displayFamily; color: tok.ink
                                     horizontalAlignment: Text.AlignLeft
                                     font.features: {"tnum": 1}
                                 }
@@ -467,7 +467,7 @@ Item {
                             Text {
                                 id: breakBarTime
                                 text: qsTr("%1 of %2").arg(root.breakTimeShort).arg(root.breakMaxStr)
-                                font.pixelSize: 15; font.family: "Georgia"; color: tok.ink
+                                font.pixelSize: 15; font.family: tok.displayFamily; color: tok.ink
                                 font.features: {"tnum": 1}
                             }
                         }
@@ -479,7 +479,7 @@ Item {
                             Rectangle {
                                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                 width: parent.width * root.breakProgress
-                                radius: parent.radius; color: tok.sage
+                                radius: parent.radius; color: tok.accent
                                 Behavior on width { NumberAnimation { duration: 500 } }
                             }
                         }
@@ -570,7 +570,7 @@ Item {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 8
-                    Rectangle { width: 6; height: 6; radius: 999; color: tok.clay; anchors.verticalCenter: parent.verticalCenter }
+                    Rectangle { width: 6; height: 6; radius: 999; color: tok.accent2; anchors.verticalCenter: parent.verticalCenter }
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("Rest break").toUpperCase() + " · "
@@ -676,7 +676,7 @@ Item {
                         Rectangle {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
-                            radius: 2; color: tok.sage
+                            radius: 2; color: tok.accent
                             Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }
@@ -704,7 +704,7 @@ Item {
                             anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right }
                             spacing: 2
 
-                            Text { text: qsTr("Exercises"); font.pixelSize: 14; font.italic: true; font.family: "Georgia"; color: tok.mute; bottomPadding: 10 }
+                            Text { text: qsTr("Exercises"); font.pixelSize: 14; font.italic: true; font.family: tok.displayFamily; color: tok.mute; bottomPadding: 10 }
 
                             Repeater {
                                 model: root.exerciseNames
@@ -724,10 +724,10 @@ Item {
                                         spacing: 10
                                         Rectangle {
                                             width: 32; height: 32; radius: 8
-                                            color: exRow.isDone ? tok.sageSoft : (exRow.isCurrent ? tok.claySoft : "transparent")
+                                            color: exRow.isDone ? tok.accentSoft : (exRow.isCurrent ? tok.accent2Soft : "transparent")
                                             border.color: (!exRow.isDone && !exRow.isCurrent) ? tok.edge : "transparent"; border.width: 1
                                             anchors.verticalCenter: parent.verticalCenter
-                                            Text { anchors.centerIn: parent; text: exRow.isDone ? "✓" : (exRow.isCurrent ? "●" : "○"); font.pixelSize: 13; color: exRow.isDone ? tok.sage : (exRow.isCurrent ? tok.clay : tok.mute) }
+                                            Text { anchors.centerIn: parent; text: exRow.isDone ? "✓" : (exRow.isCurrent ? "●" : "○"); font.pixelSize: 13; color: exRow.isDone ? tok.accent : (exRow.isCurrent ? tok.accent2 : tok.mute) }
                                         }
                                         Text {
                                             anchors.verticalCenter: parent.verticalCenter
@@ -751,12 +751,12 @@ Item {
                         Column {
                             anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                             spacing: 0
-                            Text { anchors.right: parent.right; text: qsTr("Total left"); font.pixelSize: 13; font.italic: true; font.family: "Georgia"; color: tok.mute; bottomPadding: 4 }
-                            Text { anchors.right: parent.right; text: root.breakTimeShort; font.pixelSize: 58; font.family: "Georgia"; color: tok.ink; lineHeight: 1.0 }
+                            Text { anchors.right: parent.right; text: qsTr("Total left"); font.pixelSize: 13; font.italic: true; font.family: tok.displayFamily; color: tok.mute; bottomPadding: 4 }
+                            Text { anchors.right: parent.right; text: root.breakTimeShort; font.pixelSize: 58; font.family: tok.displayFamily; color: tok.ink; lineHeight: 1.0 }
                             Text { anchors.right: parent.right; text: qsTr("of %1").arg(root.breakMaxStr); font.pixelSize: 11; font.weight: Font.DemiBold; font.letterSpacing: 1.4; color: tok.mute; topPadding: 4; bottomPadding: 10 }
                             Rectangle {
                                 anchors.right: parent.right; width: parent.width; height: 4; radius: 2; color: tok.track
-                                Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: Math.max(4, parent.width * root.breakProgress); radius: 2; color: tok.clay }
+                                Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: Math.max(4, parent.width * root.breakProgress); radius: 2; color: tok.accent2 }
                             }
                         }
                     }
@@ -788,7 +788,7 @@ Item {
                                     spacing: 8
                                     Repeater {
                                         model: root.exerciseCount
-                                        Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.clay : tok.track }
+                                        Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.accent2 : tok.track }
                                     }
                                 }
 
@@ -811,13 +811,13 @@ Item {
 
                                         Rectangle {
                                             width: 36; height: 36; radius: tok.actionRadius
-                                            color: root.isPaused ? tok.claySoft : tok.actionBg
-                                            border.color: root.isPaused ? tok.clay : tok.actionEdge; border.width: 1
+                                            color: root.isPaused ? tok.accent2Soft : tok.actionBg
+                                            border.color: root.isPaused ? tok.accent2 : tok.actionEdge; border.width: 1
                                             Text {
                                                 anchors.centerIn: parent
                                                 text: root.isPaused ? "▶" : "‖"
                                                 font.pixelSize: 13; font.weight: Font.Bold
-                                                color: root.isPaused ? tok.clay : tok.ink2
+                                                color: root.isPaused ? tok.accent2 : tok.ink2
                                             }
                                             Accessible.role: Accessible.Button
                                             Accessible.name: root.isPaused ? qsTr("Resume exercises") : qsTr("Pause exercises")
@@ -831,14 +831,14 @@ Item {
                                                 anchors { right: parent.horizontalCenter; rightMargin: 5; verticalCenter: parent.verticalCenter }
                                                 width: 34
                                                 text: root.exerciseTimeMinutes
-                                                font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                                font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
                                                 horizontalAlignment: Text.AlignRight
                                                 font.features: {"tnum": 1}
                                             }
                                             Text {
                                                 anchors.centerIn: parent
                                                 text: ":"
-                                                font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                                font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
                                                 horizontalAlignment: Text.AlignHCenter
                                                 font.features: {"tnum": 1}
                                             }
@@ -846,7 +846,7 @@ Item {
                                                 anchors { left: parent.horizontalCenter; leftMargin: 5; verticalCenter: parent.verticalCenter }
                                                 width: 34
                                                 text: root.exerciseTimeSeconds
-                                                font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                                font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
                                                 horizontalAlignment: Text.AlignLeft
                                                 font.features: {"tnum": 1}
                                             }
@@ -889,7 +889,7 @@ Item {
                                                 fillMode: Image.PreserveAspectFit
                                             }
                                             Rectangle {
-                                                anchors.fill: parent; color: tok.sageSoft; radius: 16
+                                                anchors.fill: parent; color: tok.accentSoft; radius: 16
                                                 visible: fsExImg.status !== Image.Ready || root.exerciseImage === ""
                                             }
                                         }
@@ -900,7 +900,7 @@ Item {
                                             Rectangle {
                                                 width: parent.width * root.exerciseProgress
                                                 height: parent.height; radius: parent.radius
-                                                color: root.isPaused ? tok.warn : tok.sage
+                                                color: root.isPaused ? tok.warn : tok.accent
                                                 Behavior on width { NumberAnimation { duration: 500 } }
                                             }
                                         }
@@ -909,7 +909,7 @@ Item {
                                     Column {
                                         anchors { left: fsImgContainer.right; leftMargin: 32; right: parent.right; verticalCenter: parent.verticalCenter }
                                         spacing: 14
-                                        Text { width: parent.width; text: root.exerciseName; font.pixelSize: 36; font.family: "Georgia"; color: tok.ink; wrapMode: Text.Wrap; lineHeight: 1.1 }
+                                        Text { width: parent.width; text: root.exerciseName; font.pixelSize: 36; font.family: tok.displayFamily; color: tok.ink; wrapMode: Text.Wrap; lineHeight: 1.1 }
                                         Text { width: parent.width; text: root.exerciseDesc; font.pixelSize: 15; color: tok.ink2; wrapMode: Text.WordWrap; lineHeight: 1.6 }
                                     }
                                 }
@@ -934,7 +934,7 @@ Item {
                                         ctx.clearRect(0, 0, width, height);
                                         var cx = 160, cy = 160, r = 152, sw = 9;
                                         ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.strokeStyle = tok.track.toString(); ctx.lineWidth = sw; ctx.stroke();
-                                        ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = tok.sage.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
+                                        ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = tok.accent.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
                                     }
                                 }
 
@@ -949,21 +949,21 @@ Item {
                                             anchors { right: parent.horizontalCenter; rightMargin: 11; verticalCenter: parent.verticalCenter }
                                             width: 118
                                             text: root.breakTimeBeforeColon
-                                            font.pixelSize: 80; font.family: "Georgia"; color: tok.ink
+                                            font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
                                             horizontalAlignment: Text.AlignRight
                                             font.features: {"tnum": 1}
                                         }
                                         Text {
                                             anchors.centerIn: parent
                                             text: ":"
-                                            font.pixelSize: 80; font.family: "Georgia"; color: tok.ink
+                                            font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
                                             font.features: {"tnum": 1}
                                         }
                                         Text {
                                             anchors { left: parent.horizontalCenter; leftMargin: 11; verticalCenter: parent.verticalCenter }
                                             width: 118
                                             text: root.breakTimeAfterColon
-                                            font.pixelSize: 80; font.family: "Georgia"; color: tok.ink
+                                            font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
                                             horizontalAlignment: Text.AlignLeft
                                             font.features: {"tnum": 1}
                                         }

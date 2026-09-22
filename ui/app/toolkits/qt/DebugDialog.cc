@@ -70,7 +70,7 @@ namespace
 DebugDialog::DebugDialog(std::shared_ptr<IApplicationContext> app)
   : app(app)
 {
-  setWindowTitle(tr("Debug Workrave"));
+  setWindowTitle(tr("Debug stopme"));
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
   auto *vbox = new QVBoxLayout(this);

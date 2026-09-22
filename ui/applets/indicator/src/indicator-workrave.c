@@ -294,7 +294,7 @@ get_accessible_desc(IndicatorObject *io)
 
   if (priv->label != NULL)
     {
-      name = "Workrave";
+      name = "stopme";
     }
   return name;
 }

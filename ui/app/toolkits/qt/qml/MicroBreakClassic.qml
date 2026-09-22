@@ -14,9 +14,9 @@ Item {
 
     // ── Design tokens ────────────────────────────────────────────────────────
     readonly property color colBg:     "#E8E8E8"
-    readonly property color colBar:    "#4A90D9"
+    readonly property color colBar:    "#5566FF"
     readonly property color colBorder: "#AAAAAA"
-    readonly property color colWarn:   "#F08700"
+    readonly property color colWarn:   "#FFB020"
     readonly property color colInk:    "#1A1A1A"
     readonly property color colInk2:   "#444444"
     readonly property color colBtn:    "#D4D0C8"
@@ -138,7 +138,7 @@ Item {
                     x: 1; y: 1
                     width: Math.max(0, (parent.width - 2) * root.barProgress)
                     height: parent.height - 2
-                    color: "#90EE90"
+                    color: "#9AA8FF"
                     Behavior on width { NumberAnimation { duration: 500 } }
                 }
 

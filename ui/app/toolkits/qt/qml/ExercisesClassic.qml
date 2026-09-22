@@ -14,7 +14,7 @@ Item {
     readonly property bool   exPaused:   exercisesBridge != null ? exercisesBridge.isPaused : false
 
     readonly property color colBg:     "#EFEFEF"
-    readonly property color colBar:    "#4A90D9"
+    readonly property color colBar:    "#5566FF"
     readonly property color colInk:    "#1A1A1A"
     readonly property color colInk2:   "#444444"
 

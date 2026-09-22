@@ -61,8 +61,8 @@ public:
   void set_enabled(bool enabled);
 
   void set_geometry(Orientation orientation, int size);
-  void set_sheep_only(bool sheep_only);
-  bool is_sheep_only() const;
+  void set_mascot_only(bool mascot_only);
+  bool is_mascot_only() const;
 
   bool on_draw(const Cairo::RefPtr<Cairo::Context> &cr) override;
 
@@ -91,11 +91,11 @@ private:
   //! Break images
   std::array<Gtk::Image *, workrave::BREAK_ID_SIZEOF> images{};
 
-  //! Sheep
-  Gtk::Image *sheep{nullptr};
+  //! Mascot
+  Gtk::Image *mascot{nullptr};
 
-  //! Sheep
-  Gtk::EventBox *sheep_eventbox{nullptr};
+  //! Mascot
+  Gtk::EventBox *mascot_eventbox{nullptr};
 
   //! orientation.
   Orientation orientation{ORIENTATION_VERTICAL};
@@ -118,8 +118,8 @@ private:
   //! Number of visible breaks.
   int visible_count{-1};
 
-  //! Only show the sheep
-  bool sheep_only{false};
+  //! Only show the mascot
+  bool mascot_only{false};
 };
 
 inline int

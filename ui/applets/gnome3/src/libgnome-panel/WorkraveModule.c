@@ -24,7 +24,7 @@
 static GpAppletInfo *
 get_applet_info(const gchar *id)
 {
-  return gp_applet_info_new(workrave_applet_get_type, _("Workrave"), _("Workrave Applet"), "workrave");
+  return gp_applet_info_new(workrave_applet_get_type, _("stopme"), _("stopme Applet"), "workrave");
 }
 
 static const gchar *

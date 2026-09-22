@@ -55,7 +55,7 @@ Item {
                         Rectangle {
                             anchors.fill: parent
                             color: detailsBridge && detailsBridge.selectedIndex === index
-                                   ? tok.sageSoft : "transparent"
+                                   ? tok.accentSoft : "transparent"
                             radius: 2
                         }
 
@@ -113,7 +113,7 @@ Item {
                         width: Math.max(contentFl.width, implicitWidth)
                         text: detailsBridge ? detailsBridge.selectedContent : ""
                         textFormat: Text.RichText
-                        font.family: "Courier New"
+                        font.family: tok.monoFamily
                         font.pixelSize: 11
                         color: tok.ink
                         wrapMode: Text.NoWrap
@@ -142,7 +142,7 @@ Item {
         anchors.fill: parent
         color: tok.bg
 
-        // ── Header: crashed sheep + title + description ───────────────────────
+        // ── Header: crashed mascot + title + description ───────────────────────
         Rectangle {
             id: headerRect
             anchors { top: parent.top; left: parent.left; right: parent.right }
@@ -156,26 +156,26 @@ Item {
                 spacing: 16
 
                 Column {
-                    width: parent.width - sheepImg.width - parent.spacing
+                    width: parent.width - mascotImg.width - parent.spacing
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 6
 
                     Text {
-                        text: qsTr("Workrave has crashed.")
+                        text: qsTr("stopme has crashed.")
                         font.pixelSize: 16; font.bold: true
                         color: tok.danger
                     }
                     Text {
                         width: parent.width
-                        text: qsTr("Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report.")
+                        text: qsTr("stopme encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report.")
                         font.pixelSize: 12; color: tok.ink
                         wrapMode: Text.WordWrap; lineHeight: 1.4
                     }
                 }
 
                 Image {
-                    id: sheepImg
-                    source: "qrc:/crash/workrave-sheep-crashed.svg"
+                    id: mascotImg
+                    source: "qrc:/crash/stopme-panda-crashed.svg"
                     width: 120; height: 88
                     fillMode: Image.PreserveAspectFit; smooth: true
                     anchors.verticalCenter: parent.verticalCenter
@@ -193,7 +193,7 @@ Item {
         CheckBox {
             id: submitCheck
             anchors { top: headerSep.bottom; left: parent.left; topMargin: 12; leftMargin: 16 }
-            text: qsTr("Submit crash report to the Workrave developers")
+            text: qsTr("Submit crash report to the stopme developers")
             checked: true
             font.pixelSize: 12
             onCheckedChanged: if (crashBridge) crashBridge.setSubmitEnabled(checked)
@@ -290,9 +290,9 @@ Item {
         width: Math.max(lbl.implicitWidth + 24, 100)
         radius: tok.actionRadius
         color: !enabled ? tok.track
-               : hovered ? (highlighted ? tok.sageDeep : tok.sageSoft)
-               : (highlighted ? tok.sage : tok.actionBg)
-        border.color: highlighted ? tok.sage : tok.actionEdge
+               : hovered ? (highlighted ? tok.accentStrong : tok.accentSoft)
+               : (highlighted ? tok.accent : tok.actionBg)
+        border.color: highlighted ? tok.accent : tok.actionEdge
         border.width: 1
 
         Text {

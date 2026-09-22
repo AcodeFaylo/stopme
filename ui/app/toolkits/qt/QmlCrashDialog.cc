@@ -259,7 +259,7 @@ QmlCrashDialog::QmlCrashDialog(const std::map<std::string, std::string> & /*anno
   details_bridge_ = new CrashDetailsBridge(attachments, summary);
 
   view_ = new QQuickView;
-  view_->setTitle(QObject::tr("Workrave crash reporter"));
+  view_->setTitle(QObject::tr("stopme crash reporter"));
   view_->setResizeMode(QQuickView::SizeRootObjectToView);
   view_->setMinimumSize(QSize(600, 420));
   view_->resize(600, 420);

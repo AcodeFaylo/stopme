@@ -7,7 +7,7 @@ Item {
     id: root
 
     property real   value:       0.5
-    property color  sliderColor: tok.sage
+    property color  sliderColor: tok.accent
     property var    ticks:       []
 
     signal moved(real value)

@@ -106,7 +106,7 @@ X11SystrayAppletWindow::activate()
       return;
     }
 
-  tray_icon = wrgtk_tray_icon_new("Workrave Tray Icon");
+  tray_icon = wrgtk_tray_icon_new("stopme Tray Icon");
 
   if (tray_icon != nullptr)
     {
@@ -300,9 +300,9 @@ X11SystrayAppletWindow::on_size_allocate(Gtk::Allocation &allocation)
       TRACE_MSG("natural_size = {} {}", natural_size.width, natural_size.height);
 
       // hack...
-      if (!view->is_sheep_only())
+      if (!view->is_mascot_only())
         {
-          view->set_sheep_only(allocation.get_width() < my_size.width || allocation.get_height() < my_size.height);
+          view->set_mascot_only(allocation.get_width() < my_size.width || allocation.get_height() < my_size.height);
         }
     }
 }

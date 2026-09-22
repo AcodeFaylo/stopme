@@ -102,8 +102,8 @@ TimerBoxView::init()
       bars[i]->set_text(tr("Wait"));
     }
 
-  sheep = new QLabel("");
-  sheep->setToolTip("Workrave");
+  mascot = new QLabel("");
+  mascot->setToolTip("stopme");
 
   GUIConfig::icon_theme().attach(this, [this](std::string) { update_widgets(); });
   update_widgets();
@@ -113,7 +113,7 @@ auto
 TimerBoxView::get_number_of_timers() const -> int
 {
   int number_of_timers = 0;
-  if (!sheep_only)
+  if (!mascot_only)
     {
       for (int timer: new_content)
         {
@@ -154,21 +154,21 @@ TimerBoxView::init_table()
         }
     }
 
-  // Remove sheep
+  // Remove mascot
   if ((number_of_timers > 0 || remove_all) && visible_count == 0)
     {
-      TRACE_MSG("remove sheep");
-      layout->removeWidget(sheep);
-      sheep->hide();
+      TRACE_MSG("remove mascot");
+      layout->removeWidget(mascot);
+      mascot->hide();
       visible_count = -1;
     }
 
-  // Add sheep.
+  // Add mascot.
   if (number_of_timers == 0 && visible_count != 0)
     {
-      TRACE_MSG("add sheep");
-      layout->addWidget(sheep, 0, 0);
-      sheep->show();
+      TRACE_MSG("add mascot");
+      layout->addWidget(mascot, 0, 0);
+      mascot->show();
     }
 
   // Fill table.
@@ -258,7 +258,7 @@ void
 TimerBoxView::set_icon(OperationModeIcon icon)
 {
   current_icon = icon;
-  sheep->setPixmap(QPixmap(Ui::get_status_icon_filename(icon)));
+  mascot->setPixmap(QPixmap(Ui::get_status_icon_filename(icon)));
 }
 
 void
@@ -306,18 +306,18 @@ TimerBoxView::update_view()
 }
 
 void
-TimerBoxView::set_sheep_only(bool sheep_only)
+TimerBoxView::set_mascot_only(bool mascot_only)
 {
-  TRACE_ENTRY_PAR(sheep_only);
-  if (this->sheep_only != sheep_only)
+  TRACE_ENTRY_PAR(mascot_only);
+  if (this->mascot_only != mascot_only)
     {
-      this->sheep_only = sheep_only;
+      this->mascot_only = mascot_only;
       update_view();
     }
 }
 
 auto
-TimerBoxView::is_sheep_only() const -> bool
+TimerBoxView::is_mascot_only() const -> bool
 {
-  return sheep_only || get_number_of_timers() == 0;
+  return mascot_only || get_number_of_timers() == 0;
 }

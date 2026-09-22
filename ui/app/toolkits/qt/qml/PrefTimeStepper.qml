@@ -101,7 +101,7 @@ Item {
         anchors.fill: parent
         radius: 10
         color: tok.panel
-        border.color: valueInput.activeFocus ? tok.sage : tok.edge
+        border.color: valueInput.activeFocus ? tok.accent : tok.edge
         border.width:  valueInput.activeFocus ? 2 : 1
         clip: true
 
@@ -151,10 +151,10 @@ Item {
                     horizontalAlignment: TextInput.AlignHCenter
 
                     font.pixelSize: tok.stepperPx
-                    font.family: tok.serifFamily
+                    font.family: tok.displayFamily
                     font.features: { "tnum": 1 }
                     color: tok.ink
-                    selectionColor: tok.sageSoft
+                    selectionColor: tok.accentSoft
                     selectedTextColor: tok.ink
                     cursorVisible: activeFocus && !readOnly
 

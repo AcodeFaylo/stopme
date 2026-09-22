@@ -1,8 +1,8 @@
 # CSS Styling
 
-Workrave supports customization of colors through CSS. You can change the colors of the prelude window (the window that appears before a break) and other UI elements.
+stopme supports customization of colors through CSS. You can change the colors of the prelude window (the window that appears before a break) and other UI elements.
 
-To customize Workrave with CSS:
+To customize stopme with CSS:
 
 1. Create a file named `user.css` in your user config directory:
 
@@ -55,4 +55,7 @@ To customize Workrave with CSS:
 
    ```
 
-3. Restart Workrave for the changes to take effect.
+3. Restart stopme for the changes to take effect.
+
+The selectors keep the `workrave-` prefix so stylesheets written for earlier
+releases keep working unchanged.

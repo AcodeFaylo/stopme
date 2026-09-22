@@ -18,8 +18,8 @@ Item {
 
     Rectangle {
         anchors.fill: parent; radius: 12
-        color:        card.active ? tok.sageSoft : tok.panel
-        border.color: card.active ? tok.sage : tok.edge
+        color:        card.active ? tok.accentSoft : tok.panel
+        border.color: card.active ? tok.accent : tok.edge
         border.width: card.active ? 2 : 1
     }
 
@@ -58,8 +58,8 @@ Item {
 
                 Rectangle {
                     anchors.fill: parent; radius: 7
-                    color:        card.active ? tok.sage : tok.panel
-                    border.color: card.active ? tok.sage : tok.edge
+                    color:        card.active ? tok.accent : tok.panel
+                    border.color: card.active ? tok.accent : tok.edge
                     border.width: 1
                 }
                 Rectangle {
@@ -70,7 +70,7 @@ Item {
                 Rectangle {
                     visible: card.active
                     anchors.centerIn: parent
-                    width: 4; height: 4; radius: 2; color: tok.sage
+                    width: 4; height: 4; radius: 2; color: tok.accent
                 }
             }
 

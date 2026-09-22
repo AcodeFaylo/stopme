@@ -71,7 +71,7 @@ Item {
             background: Rectangle {
                 radius: 8
                 color: tok.panel
-                border.color: field.activeFocus ? tok.sage : tok.edge
+                border.color: field.activeFocus ? tok.accent : tok.edge
                 border.width: field.activeFocus ? 1.5 : 1
             }
 

@@ -41,7 +41,7 @@ QmlAboutDialog::QmlAboutDialog(QObject *parent)
   TRACE_ENTRY();
 
   view = new QQuickView();
-  view->setTitle(tr("About Workrave"));
+  view->setTitle(tr("About stopme"));
   view->setResizeMode(QQuickView::SizeRootObjectToView);
   view->setMinimumSize(QSize(540, 430));
   view->setMaximumSize(QSize(540, 430));

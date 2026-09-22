@@ -42,7 +42,7 @@ Item {
                 anchors { right: parent.right; verticalCenter: parent.verticalCenter; rightMargin: 16 }
                 text: exercisesBridge != null ? exercisesBridge.exerciseTimeStr : "0:00"
                 font.pixelSize: 22; font.bold: true
-                color: exPaused ? tok.warn : tok.sage
+                color: exPaused ? tok.warn : tok.accent
             }
         }
 
@@ -84,7 +84,7 @@ Item {
                     width: parent.width * root.exProgress
                     height: parent.height
                     radius: parent.radius
-                    color: exPaused ? tok.warn : tok.sage
+                    color: exPaused ? tok.warn : tok.accent
                     Behavior on width { NumberAnimation { duration: 500 } }
                 }
             }
@@ -178,7 +178,7 @@ Item {
         height: 30
         width: Math.max(lbl.implicitWidth + 24, 100)
         radius: tok.actionRadius
-        color: hovered ? tok.sageSoft : tok.actionBg
+        color: hovered ? tok.accentSoft : tok.actionBg
         border.color: tok.actionEdge; border.width: 1
 
         Text {

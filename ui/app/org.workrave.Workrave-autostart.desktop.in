@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=Workrave
+Name=stopme
 Comment=Assists in the prevention and recovery of Repetitive Strain Injury (RSI)
 Categories=Utility;GTK;Accessibility;
 Exec=workrave
