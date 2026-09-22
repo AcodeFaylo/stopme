@@ -387,7 +387,7 @@ Item {
             Text {
                 anchors.centerIn: parent
                 text: "0:18"
-                font.pixelSize: 14; font.families: tok.displayFamilies
+                font.pixelSize: 14; font.family: tok.displayFamily
                 color: tok.ink
             }
         }
@@ -407,7 +407,7 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     text: "0:18"
-                    font.pixelSize: 18; font.families: tok.displayFamilies
+                    font.pixelSize: 18; font.family: tok.displayFamily
                     color: tok.ink
                 }
             }
@@ -424,7 +424,7 @@ Item {
             Text {
                 anchors.centerIn: parent
                 text: "0:18"
-                font.pixelSize: 11; font.families: tok.displayFamilies
+                font.pixelSize: 11; font.family: tok.displayFamily
                 color: tok.ink
             }
         }

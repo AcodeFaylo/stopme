@@ -113,7 +113,7 @@ Item {
                         width: Math.max(contentFl.width, implicitWidth)
                         text: detailsBridge ? detailsBridge.selectedContent : ""
                         textFormat: Text.RichText
-                        font.families: tok.monoFamilies
+                        font.family: tok.monoFamily
                         font.pixelSize: 11
                         color: tok.ink
                         wrapMode: Text.NoWrap

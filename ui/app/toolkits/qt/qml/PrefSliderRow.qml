@@ -93,7 +93,7 @@ Item {
                 anchors.top: parent.top
                 text: modelData.label
                 font.pixelSize: tok.tickPx
-                font.families: tok.monoFamilies
+                font.family: tok.monoFamily
                 font.letterSpacing: 9.5 * 0.04
                 color: tok.mute
             }

@@ -67,12 +67,15 @@ QtObject {
     readonly property int btnPx:      16    // +/− button glyphs
     readonly property int tickPx:     10    // slider tick labels
 
-    // Lists, not single names: Qt walks them until one resolves, so the brand
-    // face is used where it is installed and a sane system sans elsewhere.
-    readonly property var displayFamilies: ["Space Grotesk", "Inter", "Segoe UI Variable",
-                                            "Avenir Next", "DejaVu Sans"]
-    readonly property var monoFamilies:    ["JetBrains Mono", "SF Mono", "Menlo",
-                                            "Consolas", "DejaVu Sans Mono"]
+    // Single family names, not lists. The QML font value type has `family`;
+    // it has no `families` member, and the build enforces no Qt minimum, so a
+    // list assignment would fail to load the whole component at runtime.
+    // Qt substitutes the default font when the named family is missing, so the
+    // brand face is used where it is installed and a system face elsewhere.
+    readonly property string displayFamily: "Space Grotesk"
+    // Present on Windows and macOS, and aliased to a metric-compatible face by
+    // fontconfig on Linux — so this stays monospaced even when it is not installed.
+    readonly property string monoFamily:    "Courier New"
 
     // ── Layout ────────────────────────────────────────────────────────────────
     readonly property int  labelHintGap: 3     // spacing between label and hint

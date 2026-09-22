@@ -128,7 +128,7 @@ Item {
                     id: creditsText
                     width: parent.width
                     text: tabBar.selected === 0 ? aboutAuthors : aboutTranslators
-                    font.pixelSize: 12; font.families: tok.monoFamilies
+                    font.pixelSize: 12; font.family: tok.monoFamily
                     color: tok.ink2
                     wrapMode: Text.WordWrap
                     lineHeight: 1.6

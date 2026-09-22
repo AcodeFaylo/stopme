@@ -91,7 +91,7 @@ Item {
                     width: parent.width
                     text: root.heading
                     font.pixelSize: 17
-                    font.families: tok.displayFamilies
+                    font.family: tok.displayFamily
                     font.weight: Font.DemiBold
                     color: tok.ink
                     elide: Text.ElideRight

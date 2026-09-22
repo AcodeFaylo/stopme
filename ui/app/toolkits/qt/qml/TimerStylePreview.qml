@@ -86,7 +86,7 @@ Item {
 
                 Text {
                     text: modelData.time
-                    font.pixelSize: 8; font.families: tok.monoFamilies
+                    font.pixelSize: 8; font.family: tok.monoFamily
                     color: tok.ink2
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -119,7 +119,7 @@ Item {
 
                 Text {
                     text: modelData.label
-                    font.pixelSize: 9; font.families: tok.monoFamilies
+                    font.pixelSize: 9; font.family: tok.monoFamily
                     color: tok.ink
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -181,7 +181,7 @@ Item {
                         }
                         Text {
                             text: modelData.time
-                            font.pixelSize: 7; font.families: tok.monoFamilies
+                            font.pixelSize: 7; font.family: tok.monoFamily
                             color: tok.ink2
                             anchors.verticalCenter: parent.verticalCenter
                         }

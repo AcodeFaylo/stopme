@@ -248,7 +248,7 @@ Item {
                             width: parent.width
                             text: root.pageMeta.title
                             font.pixelSize: 30
-                            font.families: tok.displayFamilies
+                            font.family: tok.displayFamily
                             color: tok.ink
                             lineHeight: 1.1
                             wrapMode: Text.WordWrap

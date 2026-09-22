@@ -151,7 +151,7 @@ Item {
                     horizontalAlignment: TextInput.AlignHCenter
 
                     font.pixelSize: tok.stepperPx
-                    font.families: tok.displayFamilies
+                    font.family: tok.displayFamily
                     font.features: { "tnum": 1 }
                     color: tok.ink
                     selectionColor: tok.accentSoft
