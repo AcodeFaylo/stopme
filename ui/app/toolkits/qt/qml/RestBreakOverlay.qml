@@ -250,7 +250,7 @@ Item {
                                 Text {
                                     width: parent.width
                                     text: root.exerciseName
-                                    font.pixelSize: 36; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 36; font.families: tok.displayFamilies; color: tok.ink
                                     wrapMode: Text.Wrap; lineHeight: 1.1
                                 }
                                 Text {
@@ -297,14 +297,14 @@ Item {
                                     anchors { right: parent.horizontalCenter; rightMargin: 5; verticalCenter: parent.verticalCenter }
                                     width: 34
                                     text: root.exerciseTimeMinutes
-                                    font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 34; font.families: tok.displayFamilies; color: tok.ink
                                     horizontalAlignment: Text.AlignRight
                                     font.features: {"tnum": 1}
                                 }
                                 Text {
                                     anchors.centerIn: parent
                                     text: ":"
-                                    font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 34; font.families: tok.displayFamilies; color: tok.ink
                                     horizontalAlignment: Text.AlignHCenter
                                     font.features: {"tnum": 1}
                                 }
@@ -312,7 +312,7 @@ Item {
                                     anchors { left: parent.horizontalCenter; leftMargin: 5; verticalCenter: parent.verticalCenter }
                                     width: 34
                                     text: root.exerciseTimeSeconds
-                                    font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 34; font.families: tok.displayFamilies; color: tok.ink
                                     horizontalAlignment: Text.AlignLeft
                                     font.features: {"tnum": 1}
                                 }
@@ -375,21 +375,21 @@ Item {
                                     anchors { right: parent.horizontalCenter; rightMargin: 10; verticalCenter: parent.verticalCenter }
                                     width: 100
                                     text: root.breakTimeBeforeColon
-                                    font.pixelSize: 70; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 70; font.families: tok.displayFamilies; color: tok.ink
                                     horizontalAlignment: Text.AlignRight
                                     font.features: {"tnum": 1}
                                 }
                                 Text {
                                     anchors.centerIn: parent
                                     text: ":"
-                                    font.pixelSize: 70; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 70; font.families: tok.displayFamilies; color: tok.ink
                                     font.features: {"tnum": 1}
                                 }
                                 Text {
                                     anchors { left: parent.horizontalCenter; leftMargin: 10; verticalCenter: parent.verticalCenter }
                                     width: 100
                                     text: root.breakTimeAfterColon
-                                    font.pixelSize: 70; font.family: "Georgia"; color: tok.ink
+                                    font.pixelSize: 70; font.families: tok.displayFamilies; color: tok.ink
                                     horizontalAlignment: Text.AlignLeft
                                     font.features: {"tnum": 1}
                                 }
@@ -467,7 +467,7 @@ Item {
                             Text {
                                 id: breakBarTime
                                 text: qsTr("%1 of %2").arg(root.breakTimeShort).arg(root.breakMaxStr)
-                                font.pixelSize: 15; font.family: "Georgia"; color: tok.ink
+                                font.pixelSize: 15; font.families: tok.displayFamilies; color: tok.ink
                                 font.features: {"tnum": 1}
                             }
                         }
@@ -704,7 +704,7 @@ Item {
                             anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right }
                             spacing: 2
 
-                            Text { text: qsTr("Exercises"); font.pixelSize: 14; font.italic: true; font.family: "Georgia"; color: tok.mute; bottomPadding: 10 }
+                            Text { text: qsTr("Exercises"); font.pixelSize: 14; font.italic: true; font.families: tok.displayFamilies; color: tok.mute; bottomPadding: 10 }
 
                             Repeater {
                                 model: root.exerciseNames
@@ -751,8 +751,8 @@ Item {
                         Column {
                             anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                             spacing: 0
-                            Text { anchors.right: parent.right; text: qsTr("Total left"); font.pixelSize: 13; font.italic: true; font.family: "Georgia"; color: tok.mute; bottomPadding: 4 }
-                            Text { anchors.right: parent.right; text: root.breakTimeShort; font.pixelSize: 58; font.family: "Georgia"; color: tok.ink; lineHeight: 1.0 }
+                            Text { anchors.right: parent.right; text: qsTr("Total left"); font.pixelSize: 13; font.italic: true; font.families: tok.displayFamilies; color: tok.mute; bottomPadding: 4 }
+                            Text { anchors.right: parent.right; text: root.breakTimeShort; font.pixelSize: 58; font.families: tok.displayFamilies; color: tok.ink; lineHeight: 1.0 }
                             Text { anchors.right: parent.right; text: qsTr("of %1").arg(root.breakMaxStr); font.pixelSize: 11; font.weight: Font.DemiBold; font.letterSpacing: 1.4; color: tok.mute; topPadding: 4; bottomPadding: 10 }
                             Rectangle {
                                 anchors.right: parent.right; width: parent.width; height: 4; radius: 2; color: tok.track
@@ -831,14 +831,14 @@ Item {
                                                 anchors { right: parent.horizontalCenter; rightMargin: 5; verticalCenter: parent.verticalCenter }
                                                 width: 34
                                                 text: root.exerciseTimeMinutes
-                                                font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                                font.pixelSize: 34; font.families: tok.displayFamilies; color: tok.ink
                                                 horizontalAlignment: Text.AlignRight
                                                 font.features: {"tnum": 1}
                                             }
                                             Text {
                                                 anchors.centerIn: parent
                                                 text: ":"
-                                                font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                                font.pixelSize: 34; font.families: tok.displayFamilies; color: tok.ink
                                                 horizontalAlignment: Text.AlignHCenter
                                                 font.features: {"tnum": 1}
                                             }
@@ -846,7 +846,7 @@ Item {
                                                 anchors { left: parent.horizontalCenter; leftMargin: 5; verticalCenter: parent.verticalCenter }
                                                 width: 34
                                                 text: root.exerciseTimeSeconds
-                                                font.pixelSize: 34; font.family: "Georgia"; color: tok.ink
+                                                font.pixelSize: 34; font.families: tok.displayFamilies; color: tok.ink
                                                 horizontalAlignment: Text.AlignLeft
                                                 font.features: {"tnum": 1}
                                             }
@@ -909,7 +909,7 @@ Item {
                                     Column {
                                         anchors { left: fsImgContainer.right; leftMargin: 32; right: parent.right; verticalCenter: parent.verticalCenter }
                                         spacing: 14
-                                        Text { width: parent.width; text: root.exerciseName; font.pixelSize: 36; font.family: "Georgia"; color: tok.ink; wrapMode: Text.Wrap; lineHeight: 1.1 }
+                                        Text { width: parent.width; text: root.exerciseName; font.pixelSize: 36; font.families: tok.displayFamilies; color: tok.ink; wrapMode: Text.Wrap; lineHeight: 1.1 }
                                         Text { width: parent.width; text: root.exerciseDesc; font.pixelSize: 15; color: tok.ink2; wrapMode: Text.WordWrap; lineHeight: 1.6 }
                                     }
                                 }
@@ -949,21 +949,21 @@ Item {
                                             anchors { right: parent.horizontalCenter; rightMargin: 11; verticalCenter: parent.verticalCenter }
                                             width: 118
                                             text: root.breakTimeBeforeColon
-                                            font.pixelSize: 80; font.family: "Georgia"; color: tok.ink
+                                            font.pixelSize: 80; font.families: tok.displayFamilies; color: tok.ink
                                             horizontalAlignment: Text.AlignRight
                                             font.features: {"tnum": 1}
                                         }
                                         Text {
                                             anchors.centerIn: parent
                                             text: ":"
-                                            font.pixelSize: 80; font.family: "Georgia"; color: tok.ink
+                                            font.pixelSize: 80; font.families: tok.displayFamilies; color: tok.ink
                                             font.features: {"tnum": 1}
                                         }
                                         Text {
                                             anchors { left: parent.horizontalCenter; leftMargin: 11; verticalCenter: parent.verticalCenter }
                                             width: 118
                                             text: root.breakTimeAfterColon
-                                            font.pixelSize: 80; font.family: "Georgia"; color: tok.ink
+                                            font.pixelSize: 80; font.families: tok.displayFamilies; color: tok.ink
                                             horizontalAlignment: Text.AlignLeft
                                             font.features: {"tnum": 1}
                                         }

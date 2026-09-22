@@ -173,7 +173,7 @@ Item {
                         text: root.timeRemaining
                         horizontalAlignment: Text.AlignHCenter
                         font.pixelSize: 52
-                        font.family: "Georgia"
+                        font.families: tok.displayFamilies
                         color: tok.ink
                         renderType: Text.NativeRendering
                         font.features: { "tnum": 1 }

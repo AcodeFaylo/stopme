@@ -85,7 +85,7 @@ Item {
             anchors { left: parent.left; leftMargin: 18; verticalCenter: parent.verticalCenter }
             text: "stopme"
             font.pixelSize: 11; font.italic: true
-            font.family: "Georgia"
+            font.families: tok.displayFamilies
             color: tok.ink
         }
 
@@ -145,7 +145,7 @@ Item {
                     }
                     Text {
                         text: microTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.families: tok.displayFamilies
                         color: microOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
@@ -170,7 +170,7 @@ Item {
                     }
                     Text {
                         text: restTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.families: tok.displayFamilies
                         color: restOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
@@ -195,7 +195,7 @@ Item {
                     }
                     Text {
                         text: dailyTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.families: tok.displayFamilies
                         color: dailyOverdue ? tok.danger : tok.ink
                         anchors.horizontalCenter: parent.horizontalCenter
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
@@ -298,7 +298,7 @@ Item {
                         text: microTime
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: 17
-                        font.family: "Georgia"
+                        font.families: tok.displayFamilies
                         color: microOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -335,7 +335,7 @@ Item {
                     Text {
                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                         text: restTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.families: tok.displayFamilies
                         color: restOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -362,7 +362,7 @@ Item {
                     Text {
                         anchors { right: parent.right; verticalCenter: parent.verticalCenter }
                         text: dailyTime; font.pixelSize: 13
-                        font.family: "Georgia"
+                        font.families: tok.displayFamilies
                         color: dailyOverdue ? tok.danger : tok.ink
                         renderType: Text.NativeRendering; font.features: { "tnum": 1 }
                     }
@@ -450,7 +450,7 @@ Item {
             id: barTime
             anchors { right: parent.right; top: parent.top; topMargin: 3 }
             text: timeText; font.pixelSize: 13
-            font.family: "Georgia"
+            font.families: tok.displayFamilies
             color: overdue ? tok.danger : tok.ink
             width: 46; horizontalAlignment: Text.AlignRight
             renderType: Text.NativeRendering; font.features: { "tnum": 1 }

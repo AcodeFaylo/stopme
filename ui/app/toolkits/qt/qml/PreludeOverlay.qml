@@ -91,7 +91,7 @@ Item {
                     width: parent.width
                     text: root.heading
                     font.pixelSize: 17
-                    font.family: "Georgia"
+                    font.families: tok.displayFamilies
                     font.weight: Font.DemiBold
                     color: tok.ink
                     elide: Text.ElideRight
