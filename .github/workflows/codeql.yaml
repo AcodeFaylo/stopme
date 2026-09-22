@@ -14,6 +14,11 @@ on:
       - 'release/v1.11'
       - 'feature/*'
 
+  # Lets this workflow be started by hand from the Actions tab, so a commit
+  # that landed while Actions was disabled can still be built without
+  # inventing a push.
+  workflow_dispatch:
+
 jobs:
   check-msys2:
     runs-on: windows-latest
