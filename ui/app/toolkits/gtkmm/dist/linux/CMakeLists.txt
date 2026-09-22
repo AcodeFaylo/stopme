@@ -35,9 +35,10 @@ set(LINUXDEPLOY_PLUGIN_GTK "${APPIMAGE_TOOLS_DIR}/linuxdeploy-plugin-gtk.sh")
 # linuxdeploy looks for its plugins on PATH.
 get_filename_component(APPIMAGE_TOOLS_DIR_ABS "${APPIMAGE_TOOLS_DIR}" ABSOLUTE)
 
-# linuxdeploy names its own output (Workrave-<version>-<arch>.AppImage) and
-# there's no way to know that name at configure time, so track completion
-# with a stamp file instead of the AppImage path itself.
+# linuxdeploy names its own output after the desktop entry's Name=
+# (stopme-<version>-<arch>.AppImage) and there's no way to know that name at
+# configure time, so track completion with a stamp file instead of the
+# AppImage path itself.
 set(APPIMAGE_STAMP "${CMAKE_BINARY_DIR}/appimage.stamp")
 
 add_custom_command(OUTPUT "${APPIMAGE_STAMP}"

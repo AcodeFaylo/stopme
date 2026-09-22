@@ -450,7 +450,9 @@ jobs:
   deploy:
     runs-on: ubuntu-24.04
     needs: [prep, build-cmake, build-msys2, merge]
-    if: github.event_name == 'push' && ( github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release/v1.11' || startsWith(github.ref, 'refs/tags/') )
+    # Signs with upstream's key and publishes to upstream's snapshot server
+    # (snapshots.workrave.org), so it can only run in upstream's repository.
+    if: github.repository == 'rcaelers/workrave' && github.event_name == 'push' && ( github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release/v1.11' || startsWith(github.ref, 'refs/tags/') )
     steps:
       - uses: actions/checkout@v6
         with:
@@ -501,7 +503,8 @@ jobs:
 
   website:
     runs-on: ubuntu-24.04
-    if: github.event_name == 'push'
+    # Triggers a rebuild of upstream's website; upstream only, like deploy.
+    if: github.repository == 'rcaelers/workrave' && github.event_name == 'push'
     needs: [deploy]
     steps:
       - name: Trigger workrave.org rebuild
