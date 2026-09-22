@@ -178,14 +178,20 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
     if [ -n "${CONF_APPIMAGE}" ]; then
         ninja ${MAKE_FLAGS[@]} appimage
 
-        appImageFile=$(find "${BUILD_DIR}" -maxdepth 1 -name "Workrave*.AppImage" | head -n1)
-        if [ -n "$appImageFile" ]; then
-            baseLinuxFilename=workrave-linux-${baseFilenamePostfix}
-            filename=${baseLinuxFilename}.AppImage
-
-            cp "$appImageFile" ${DEPLOY_DIR}/${filename}
-            ${SCRIPTS_DIR}/ci/artifact.sh -f ${filename} -k appimage -c ${CONFIG} -p linux
+        # linuxdeploy names the file after the desktop entry's Name=, so this
+        # pattern has to follow the product name.
+        appImageFile=$(find "${BUILD_DIR}" -maxdepth 1 -name "stopme*.AppImage" | head -n1)
+        if [ -z "$appImageFile" ]; then
+            # Fail here: an empty _deploy only surfaces later, as a confusing
+            # attestation error, while this step itself would stay green.
+            echo "error: 'ninja appimage' produced no stopme*.AppImage in ${BUILD_DIR}" >&2
+            exit 1
         fi
+        baseLinuxFilename=workrave-linux-${baseFilenamePostfix}
+        filename=${baseLinuxFilename}.AppImage
+
+        cp "$appImageFile" ${DEPLOY_DIR}/${filename}
+        ${SCRIPTS_DIR}/ci/artifact.sh -f ${filename} -k appimage -c ${CONFIG} -p linux
     fi
 fi
 
