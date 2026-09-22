@@ -1,30 +1,40 @@
+/* stopme — Gtk timer-bar palette.
+ *
+ * Magenta #FF3D8B is the alert/overdue accent, Electric Blue #5566FF carries
+ * active time and Deep Navy #1A204F is the empty track. The QML "classic"
+ * break windows mirror these values, so change both together. The class names
+ * stay `workrave-*`: they are a documented hook for user themes (docs/styling.md),
+ * so renaming them would break every existing custom stylesheet.
+ */
+
 .workrave-flash-warn {
-  color: orange;
+  color: #FFB020;
 }
 .workrave-flash-alert {
-  color: red;
+  color: #FF3D8B;
 }
+
 .workrave-timebar {
-  color: black;
-  background-color: #777777;
+  color: #EEF1F8;
+  background-color: #1A204F;
 }
 .workrave-timebar-active {
-  color: black;
-  background-color: lightblue;
+  color: #EEF1F8;
+  background-color: #5566FF;
 }
 .workrave-timebar-inactive {
-  color: black;
-  background-color: lightgreen;
+  color: #1A204F;
+  background-color: #9AA8FF;
 }
 .workrave-timebar-overdue {
-  color: black;
-  background-color: orange;
+  color: #0A0E1C;
+  background-color: #FF3D8B;
 }
 .workrave-timebar-inactive-over-active {
-  color: black;
-  background-color: #00d4b2;
+  color: #EEF1F8;
+  background-color: #A855F7;
 }
 .workrave-timebar-inactive-over-overdue {
-  color: black;
-  background-color: lightgreen;
+  color: #1A204F;
+  background-color: #9AA8FF;
 }

@@ -1,7 +1,12 @@
 [![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
 [![Build Status](https://github.com/rcaelers/workrave/workflows/CI/badge.svg?branch=main)](https://github.com/rcaelers/workrave/actions)
 
-# Workrave 1.12
+# stopme 1.12
+
+stopme is a break reminder that helps you recover from — and avoid —
+Repetitive Strain Injury. It was formerly known as Workrave; the project
+keeps the `workrave` binary, D-Bus names and configuration paths so existing
+installations, packages and scripts keep working.
 
 Please visit <https://workrave.org> for more information.
 
@@ -27,14 +32,14 @@ Please visit <https://workrave.org> for more information.
 
 ## Licenses
 
-Workrave is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
+stopme is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html).
 Parts of the code is licensed under different licenses. See the [LICENSES](LICENSES.md) for more information.
 
 ## Troubleshooting
 
 ### Show timers applet in Cinnamon
 
-To make timers visible you need to explicitly add Workrave applet to a panel. In the other case only workrave icon is shown.
+To make timers visible you need to explicitly add the stopme applet to a panel. Otherwise only the stopme icon is shown.
 
 ## Technical Information
 
@@ -42,13 +47,13 @@ Have a look at the [contrib](./contrib) directory to get a little insight into t
 
 ### Unix/Linux
 
-- Workrave uses [dconf](https://wiki.gnome.org/Projects/dconf) to store its configuration.
+- stopme uses [dconf](https://wiki.gnome.org/Projects/dconf) to store its configuration.
   `dconf-editor` can be used to explore and manipulate the values - be careful!
-- Workrave can receive [dbus](https://www.freedesktop.org/wiki/Software/dbus/) signals.
+- stopme can receive [dbus](https://www.freedesktop.org/wiki/Software/dbus/) signals.
   Explore by having a look at the [example python script](./libs/core/src/dbus-example.py) or viewing in `qdbusviewer` (part of the `qttools5-dev-tools` package in Ubuntu).
 
 In both of these, workrave is found under the `org.workrave` key.
 
 ### Changelog
 
-Workrave keeps an overview of user-visible changes under [NEWS](NEWS).
+stopme keeps an overview of user-visible changes under [NEWS](NEWS).

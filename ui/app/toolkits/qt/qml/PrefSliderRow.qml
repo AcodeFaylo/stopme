@@ -7,7 +7,7 @@ Item {
     id: root
 
     property real   value:       0.5
-    property color  sliderColor: tok.sage
+    property color  sliderColor: tok.accent
     property var    ticks:       []
 
     signal moved(real value)
@@ -93,7 +93,7 @@ Item {
                 anchors.top: parent.top
                 text: modelData.label
                 font.pixelSize: tok.tickPx
-                font.family: tok.monoFamily
+                font.families: tok.monoFamilies
                 font.letterSpacing: 9.5 * 0.04
                 color: tok.mute
             }

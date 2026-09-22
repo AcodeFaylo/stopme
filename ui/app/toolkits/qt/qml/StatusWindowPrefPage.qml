@@ -28,7 +28,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Show status window")
-                hint:  qsTr("Turn off to hide the main window — Workrave still runs from the tray.")
+                hint:  qsTr("Turn off to hide the main window — stopme still runs from the tray.")
                 checked: root.bridge ? root.bridge.enabled : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setEnabled(v) }
             }
@@ -113,7 +113,7 @@ Item {
                             width: (parent.width - 30) / 4
                             active: root.bridge ? root.bridge.displayStyle === 3 : false
                             cardTitle: qsTr("D · Classic")
-                            cardSub:   qsTr("The original Workrave widget — text timers, no transparency.")
+                            cardSub:   qsTr("The original stopme widget — text timers, no transparency.")
                             kind: "classic"
                             onClicked: { if (root.bridge) root.bridge.setDisplayStyle(3) }
                         }
@@ -153,7 +153,7 @@ Item {
                         }
                         Text {
                             width: parent.width
-                            text: qsTr("Where each timer appears. Pair timers into the same slot to save space — Workrave will alternate between them.")
+                            text: qsTr("Where each timer appears. Pair timers into the same slot to save space — stopme will alternate between them.")
                             font.pixelSize: tok.hintPx; color: tok.mute
                             wrapMode: Text.WordWrap; lineHeight: tok.hintLineH
                         }
@@ -206,7 +206,7 @@ Item {
                 hint:        qsTr("When timers share a slot, switch between them this often.")
                 value:       root.bridge ? root.bridge.cycleDisplay : "0:10"
                 sliderValue: root.bridge ? root.bridge.cycleNorm    : 0.286
-                sliderColor: tok.sage
+                sliderColor: tok.accent
                 ticks: [
                     { at: 0.000, label: "2s"  },
                     { at: 0.286, label: "10s" },
@@ -227,7 +227,7 @@ Item {
             TimerVisibilityRow {
                 width: parent.width
                 timerName:  qsTr("Micro-break")
-                timerColor: tok.sage
+                timerColor: tok.accent
                 value:      root.bridge ? root.bridge.microVisibility : 0
                 onSelected: (v) => { if (root.bridge) root.bridge.setMicroVisibility(v) }
             }
@@ -235,7 +235,7 @@ Item {
             TimerVisibilityRow {
                 width: parent.width
                 timerName:  qsTr("Rest break")
-                timerColor: tok.clay
+                timerColor: tok.accent2
                 value:      root.bridge ? root.bridge.restVisibility : 0
                 onSelected: (v) => { if (root.bridge) root.bridge.setRestVisibility(v) }
             }
@@ -243,7 +243,7 @@ Item {
             TimerVisibilityRow {
                 width: parent.width
                 timerName:  qsTr("Daily limit")
-                timerColor: tok.sageDeep
+                timerColor: tok.accentStrong
                 value:      root.bridge ? root.bridge.dailyVisibility : 0
                 isLast:     true
                 onSelected: (v) => { if (root.bridge) root.bridge.setDailyVisibility(v) }

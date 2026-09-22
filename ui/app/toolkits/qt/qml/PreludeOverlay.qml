@@ -18,7 +18,7 @@ Item {
     // stage: 0=Initial, 1=Warn, 2=Alert, 3=MoveOut
     readonly property color stageAccent: stage === 1 ? tok.warn
                                        : stage === 2 ? tok.danger
-                                       :               tok.sage
+                                       :               tok.accent
 
     // ── Icon per break type ───────────────────────────────────────────────────
     function breakIcon(t) { return t === 0 ? "✋" : (t === 1 ? "☕" : "☀") }
@@ -70,7 +70,7 @@ Item {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
                 radius: 999
-                color: tok.sageSoft
+                color: tok.accentSoft
 
                 Text {
                     anchors.centerIn: parent

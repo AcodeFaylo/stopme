@@ -27,7 +27,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Use alternate monitor")
-                hint:  qsTr("Enable this option if Workrave fails to detect when you are using your computer")
+                hint:  qsTr("Enable this option if stopme fails to detect when you are using your computer")
                 checked: root.bridge ? root.bridge.alternateMonitor : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setAlternateMonitor(v) }
             }
@@ -97,7 +97,7 @@ Item {
 
                         Rectangle {
                             anchors.fill: parent; radius: tok.actionRadius
-                            color: debugMouse.containsMouse ? tok.sageSoft : tok.actionBg
+                            color: debugMouse.containsMouse ? tok.accentSoft : tok.actionBg
                             border.color: tok.actionEdge; border.width: 1
                             Behavior on color { ColorAnimation { duration: 120 } }
                         }

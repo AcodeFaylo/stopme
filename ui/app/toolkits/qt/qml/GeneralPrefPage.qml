@@ -50,7 +50,7 @@ Item {
                         }
                         Text {
                             width: parent.width
-                            text: qsTr("What Workrave does to the rest of your screen when a break starts.")
+                            text: qsTr("What stopme does to the rest of your screen when a break starts.")
                             font.pixelSize: tok.hintPx; color: tok.mute
                             wrapMode: Text.WordWrap; lineHeight: tok.hintLineH
                         }
@@ -83,7 +83,7 @@ Item {
                             width: (parent.width - 24) / 3
                             active: root.bridge ? root.bridge.blockMode === 0 : false
                             cardTitle: qsTr("No blocking")
-                            cardDesc:  qsTr("Workrave shows the break window but doesn't interrupt input.")
+                            cardDesc:  qsTr("stopme shows the break window but doesn't interrupt input.")
                             previewKind: "none"
                             onClicked: { if (root.bridge) root.bridge.setBlockMode(0) }
                         }
@@ -100,7 +100,7 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Use Sanctuary UI")
-                hint:  qsTr("When enabled, break windows and the status window use the new QML-based design. Restart Workrave after changing this setting.")
+                hint:  qsTr("When enabled, break windows and the status window use the new QML-based design. Restart stopme after changing this setting.")
                 checked: root.bridge ? root.bridge.sanctuaryEnabled : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setSanctuaryEnabled(v) }
                 isLast: true
@@ -115,15 +115,15 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 label: qsTr("Show system tray icon")
-                hint:  qsTr("Adds a Workrave icon to the system tray for quick access.")
+                hint:  qsTr("Adds a stopme icon to the system tray for quick access.")
                 checked: root.bridge ? root.bridge.trayIconEnabled : true
                 onToggled: (v) => { if (root.bridge) root.bridge.setTrayIconEnabled(v) }
             }
 
             PrefToggleRow {
                 width: parent.width
-                label: qsTr("Start Workrave on logon")
-                hint:  qsTr("Launches Workrave automatically when you sign in.")
+                label: qsTr("Start stopme on logon")
+                hint:  qsTr("Launches stopme automatically when you sign in.")
                 checked: root.bridge ? root.bridge.autostartEnabled : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setAutostartEnabled(v) }
             }
@@ -131,7 +131,7 @@ Item {
             PrefLanguageRow {
                 width: parent.width
                 label:     qsTr("Language")
-                hint:      qsTr("Language used for Workrave's interface.")
+                hint:      qsTr("Language used for stopme's interface.")
                 languages: root.bridge ? root.bridge.languages : []
                 currentId: root.bridge ? root.bridge.currentLanguage : ""
                 onSelected: (id) => { if (root.bridge) root.bridge.setLanguage(id) }
@@ -141,7 +141,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasDarkMode : false
                 label:   qsTr("Dark mode")
-                hint:    qsTr("Light or dark colour scheme for the Workrave windows.")
+                hint:    qsTr("Light or dark colour scheme for the stopme windows.")
                 options: [qsTr("Light"), qsTr("Dark"), qsTr("Auto")]
                 currentIndex: root.bridge ? root.bridge.darkMode : 0
                 onSelected: (idx) => { if (root.bridge) root.bridge.setDarkMode(idx) }
@@ -152,7 +152,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? root.bridge.iconThemes.length > 0 : false
                 label:   qsTr("Icon theme")
-                hint:    qsTr("Visual style used for Workrave's icons.")
+                hint:    qsTr("Visual style used for stopme's icons.")
                 options: {
                     if (!root.bridge) return [qsTr("Default")]
                     var names = [qsTr("Default")]
@@ -224,8 +224,8 @@ Item {
             PrefToggleRow {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasForceX11 : false
-                label: qsTr("Force the use of X11 on Wayland (requires restart of Workrave)")
-                hint:  qsTr("Runs Workrave under XWayland instead of native Wayland. Requires a restart of Workrave.")
+                label: qsTr("Force the use of X11 on Wayland (requires restart of stopme)")
+                hint:  qsTr("Runs stopme under XWayland instead of native Wayland. Requires a restart of stopme.")
                 checked: root.bridge ? root.bridge.forceX11 : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setForceX11(v) }
             }
@@ -234,7 +234,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? root.bridge.hasGnomeShellPreludes : false
                 label: qsTr("Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)")
-                hint:  qsTr("Uses the Workrave GNOME Shell extension to show break prompts on Wayland. Experimental.")
+                hint:  qsTr("Uses the stopme GNOME Shell extension to show break prompts on Wayland. Experimental.")
                 checked: root.bridge ? root.bridge.gnomeShellPreludes : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setGnomeShellPreludes(v) }
             }
@@ -257,8 +257,8 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: 10
-            color:  card.active ? tok.sageSoft : tok.panel
-            border.color: card.active ? tok.sage : tok.edge
+            color:  card.active ? tok.accentSoft : tok.panel
+            border.color: card.active ? tok.accent : tok.edge
             border.width: card.active ? 2 : 1
         }
 
@@ -282,7 +282,7 @@ Item {
             Row {
                 spacing: 6
 
-                // Active: sage outer ring + white gap + sage center
+                // Active: accent outer ring + white gap + accent centre
                 // Inactive: white fill + edge border
                 Item {
                     width: 14; height: 14
@@ -291,8 +291,8 @@ Item {
                     Rectangle {
                         anchors.fill: parent
                         radius: 7
-                        color:  card.active ? tok.sage : tok.panel
-                        border.color: card.active ? tok.sage : tok.edge
+                        color:  card.active ? tok.accent : tok.panel
+                        border.color: card.active ? tok.accent : tok.edge
                         border.width: 1
                     }
 
@@ -309,7 +309,7 @@ Item {
                         visible: card.active
                         anchors.centerIn: parent
                         width: 4; height: 4; radius: 2
-                        color: tok.sage
+                        color: tok.accent
                     }
                 }
 
@@ -351,14 +351,14 @@ Item {
 
         clip: true
 
-        // Green desktop gradient background
+        // Brand desktop gradient background
         Rectangle {
             anchors.fill: parent
             radius: 6
             gradient: Gradient {
                 orientation: Gradient.Vertical
-                GradientStop { position: 0.0; color: tok.isDark ? "#2E3A2A" : "#c9d7c0" }
-                GradientStop { position: 1.0; color: tok.isDark ? "#253020" : "#b6c5a8" }
+                GradientStop { position: 0.0; color: tok.isDark ? "#1A204F" : "#D5DBF4" }
+                GradientStop { position: 1.0; color: tok.isDark ? "#131A33" : "#BFC8EC" }
             }
             border.color: tok.edge
             border.width: 1

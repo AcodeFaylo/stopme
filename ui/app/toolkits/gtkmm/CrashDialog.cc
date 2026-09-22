@@ -50,9 +50,9 @@
 
 namespace
 {
-  Gtk::Image *create_crashed_sheep_image()
+  Gtk::Image *create_crashed_mascot_image()
   {
-    const std::string image_file = workrave::utils::AssetPath::complete_directory("workrave-sheep-crashed.svg",
+    const std::string image_file = workrave::utils::AssetPath::complete_directory("stopme-panda-crashed.svg",
                                                                                   workrave::utils::SearchPathId::Images);
 
     try
@@ -333,7 +333,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
 {
   details_dlg->set_transient_for(*this);
   set_default_size(600, 420);
-  set_title(_("Workrave crash reporter"));
+  set_title(_("stopme crash reporter"));
   set_border_width(0);
 
   vbox = Gtk::manage(new Gtk::VBox());
@@ -363,14 +363,14 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   header_content->pack_start(*header_text, true, true, 0);
 
   auto *title_label = Gtk::manage(new Gtk::Label());
-  title_label->set_markup("<span weight=\"bold\" size=\"large\">Workrave has crashed.</span>");
+  title_label->set_markup("<span weight=\"bold\" size=\"large\">stopme has crashed.</span>");
   title_label->set_xalign(0);
   title_label->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
   title_label->override_color(header_fg, Gtk::STATE_FLAG_NORMAL);
   header_text->pack_start(*title_label, false, false, 0);
 
   auto *info_label = Gtk::manage(new Gtk::Label(
-    _("Workrave encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."),
+    _("stopme encountered a problem and crashed. Please help us diagnose and fix this problem by sending a crash report."),
     Gtk::ALIGN_START));
   info_label->set_line_wrap();
   info_label->set_xalign(0);
@@ -378,13 +378,13 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   info_label->override_color(header_fg, Gtk::STATE_FLAG_NORMAL);
   header_text->pack_start(*info_label, false, false, 0);
 
-  if (auto *sheep_image = create_crashed_sheep_image(); sheep_image != nullptr)
+  if (auto *mascot_image = create_crashed_mascot_image(); mascot_image != nullptr)
     {
-      sheep_image->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
-      auto *sheep_align = Gtk::manage(new Gtk::Alignment(Gtk::ALIGN_END, Gtk::ALIGN_START, 0.0, 0.0));
-      sheep_align->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
-      sheep_align->add(*sheep_image);
-      header_content->pack_start(*sheep_align, false, false, 0);
+      mascot_image->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
+      auto *mascot_align = Gtk::manage(new Gtk::Alignment(Gtk::ALIGN_END, Gtk::ALIGN_START, 0.0, 0.0));
+      mascot_align->override_background_color(header_color, Gtk::STATE_FLAG_NORMAL);
+      mascot_align->add(*mascot_image);
+      header_content->pack_start(*mascot_align, false, false, 0);
     }
 
   // Content area
@@ -392,7 +392,7 @@ CrashDialog::CrashDialog(const std::map<std::string, std::string> &annotations,
   content_box->set_border_width(12);
   vbox->pack_start(*content_box, true, true, 0);
 
-  submit_cb = Gtk::manage(new Gtk::CheckButton(_("Submit crash report to the Workrave developers")));
+  submit_cb = Gtk::manage(new Gtk::CheckButton(_("Submit crash report to the stopme developers")));
   submit_cb->signal_toggled().connect(sigc::mem_fun(*this, &CrashDialog::on_submit_toggled));
   content_box->pack_start(*submit_cb, false, false, 0);
 

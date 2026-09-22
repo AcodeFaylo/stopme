@@ -114,7 +114,7 @@ ToolkitUnix::show_notification(const std::string &id,
                                std::function<void()> func)
 {
   notify_add_confirm_function(id, func);
-  auto notification = Gio::Notification::create("Workrave");
+  auto notification = Gio::Notification::create("stopme");
   notification->set_body(balloon);
   notification->set_default_action_variant("app.confirm-notification", Glib::Variant<Glib::ustring>::create(id));
   auto icon = Gio::ThemedIcon::create("dialog-information");

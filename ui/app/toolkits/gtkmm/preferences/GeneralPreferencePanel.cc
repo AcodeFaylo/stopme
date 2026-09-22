@@ -187,7 +187,7 @@ GeneralPreferencePanel::create_panel()
 
   if (show_autostart)
     {
-      Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start Workrave on logon"), false));
+      Gtk::Label *autostart_lab = Gtk::manage(GtkUtil::create_label(_("Start stopme on logon"), false));
       autostart_cb = Gtk::manage(new Gtk::CheckButton());
       autostart_cb->add(*autostart_lab);
       autostart_cb->signal_toggled().connect(sigc::mem_fun(*this, &GeneralPreferencePanel::on_autostart_toggled));
@@ -214,10 +214,10 @@ GeneralPreferencePanel::create_panel()
 
 #if defined(PLATFORM_OS_UNIX)
   auto *force_x11_lab = Gtk::manage(
-    GtkUtil::create_label_with_tooltip(_("Force the use of X11 on Wayland (requires restart of Workrave)"),
-                                       _("Workrave does not fully support Wayland natively. "
+    GtkUtil::create_label_with_tooltip(_("Force the use of X11 on Wayland (requires restart of stopme)"),
+                                       _("stopme does not fully support Wayland natively. "
                                          "This option forces the use of X11 on Wayland. "
-                                         "Changing this option requires a restart of Workrave.")));
+                                         "Changing this option requires a restart of stopme.")));
 
   force_x11_cb = Gtk::manage(new Gtk::CheckButton());
   force_x11_cb->add(*force_x11_lab);
@@ -227,7 +227,7 @@ GeneralPreferencePanel::create_panel()
 
   auto *use_gnome_shell_preludes_lab = Gtk::manage(GtkUtil::create_label_with_tooltip(
     _("Use GNOME Shell extension for showing break prompts on Wayland (EXPERIMENTAL)"),
-    _("Workrave can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland.")));
+    _("stopme can use its GNOME Shell extension to enhance its integration with the desktop environment running on Wayland.")));
 
   use_gnome_shell_preludes_cb = Gtk::manage(new Gtk::CheckButton());
   use_gnome_shell_preludes_cb->add(*use_gnome_shell_preludes_lab);

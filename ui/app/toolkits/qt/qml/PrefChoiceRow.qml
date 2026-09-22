@@ -128,7 +128,7 @@ Item {
                 highlighted: pill.highlightedIndex === index
 
                 background: Rectangle {
-                    color: parent.highlighted ? tok.sageSoft : "transparent"
+                    color: parent.highlighted ? tok.accentSoft : "transparent"
                     radius: 6
                 }
 

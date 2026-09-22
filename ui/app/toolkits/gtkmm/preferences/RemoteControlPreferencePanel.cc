@@ -29,7 +29,7 @@ RemoteControlPreferencePanel::create_panel()
 
   auto *grpc_enabled_label = Gtk::manage(GtkUtil::create_label_with_tooltip(
     _("Enable gRPC"),
-    _("Allows local applications to control Workrave through gRPC. Disabling this closes the server immediately.")));
+    _("Allows local applications to control stopme through gRPC. Disabling this closes the server immediately.")));
   grpc_enabled_cb = Gtk::manage(new Gtk::CheckButton());
   grpc_enabled_cb->add(*grpc_enabled_label);
   grpc_enabled_cb->set_active(CoreConfig::grpc_enabled()());
@@ -47,7 +47,7 @@ RemoteControlPreferencePanel::create_panel()
     Gtk::manage(new Gtk::Label("unix:" + workrave::utils::Paths::get_rpc_socket_path().string()));
   grpc_address_label->set_xalign(0.0);
   grpc_address_label->set_selectable(true);
-  grpc_address_label->set_tooltip_text(_("Address of the Unix-domain socket used by Workrave."));
+  grpc_address_label->set_tooltip_text(_("Address of the Unix-domain socket used by stopme."));
   grpc_panel->add_label(std::string(_("Server address")) + ":", *grpc_address_label);
 
   grpc_port_spin = Gtk::manage(new Gtk::SpinButton());

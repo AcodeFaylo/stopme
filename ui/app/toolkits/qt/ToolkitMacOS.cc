@@ -111,11 +111,11 @@ ToolkitMacOS::init(std::shared_ptr<IApplicationContext> app)
 
   // Native macOS menu bar.  QMenuBar with nullptr parent becomes the global
   // system menu bar on macOS.  Qt automatically promotes actions whose text
-  // matches "About", "Preferences", or "Quit" into the "Workrave" app menu
+  // matches "About", "Preferences", or "Quit" into the "stopme" app menu
   // at the top-left, so they appear there without any extra work.
   menu_bar = new QMenuBar(nullptr);
   menu_bar_menu = std::make_shared<ToolkitMenu>(app->get_menu_model());
-  menu_bar_menu->get_menu()->setTitle(QObject::tr("Workrave"));
+  menu_bar_menu->get_menu()->setTitle(QObject::tr("stopme"));
   menu_bar->addMenu(menu_bar_menu->get_menu());
 }
 

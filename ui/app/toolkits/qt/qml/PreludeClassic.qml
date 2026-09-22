@@ -1,5 +1,5 @@
 // PreludeClassic.qml — GTK-faithful break-warning card
-// Replicates the original Workrave prelude window: icon + bold heading +
+// Replicates the original stopme prelude window: icon + bold heading +
 // orange progress bar with overlaid text. Border flashes orange (Warn) or
 // red (Alert) at 500 ms intervals, matching the original Frame behaviour.
 // Fills its parent (positioned by PreludeShell.qml via Loader).
@@ -35,7 +35,7 @@ Item {
         // 1 px neutral border in Initial/MoveOut.
         // Thick coloured border flashing on/off in Warn/Alert.
         border.width: (root.stage === 1 || root.stage === 2) && root.flashOn ? 6 : 1
-        border.color: root.stage === 1 ? "#F08000"
+        border.color: root.stage === 1 ? "#FFB020"
                     : root.stage === 2 ? "#CC2222"
                     :                    "#8A8885"
 

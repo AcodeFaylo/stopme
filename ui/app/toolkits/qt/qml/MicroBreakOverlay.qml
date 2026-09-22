@@ -22,8 +22,8 @@ Item {
     readonly property bool   isLocked:     bridge != null ? bridge.isLocked     : false
     readonly property double lockProgress: bridge != null ? bridge.lockProgress  : 0.0
 
-    // Ring colour: clay/orange when the user is active during the break, sage otherwise
-    readonly property color ringColor: userActive ? tok.warn : tok.sage
+    // Ring colour: warn amber when the user is active during the break, accent otherwise
+    readonly property color ringColor: userActive ? tok.warn : tok.accent
 
     // ── Dim backdrop (block_input_and_screen only) ────────────────────────────
     Rectangle {
@@ -84,7 +84,7 @@ Item {
                     height: 22
                     width: headerLabel.implicitWidth + 20
                     radius: 999
-                    color: tok.sageSoft
+                    color: tok.accentSoft
 
                     Text {
                         id: headerLabel
@@ -94,7 +94,7 @@ Item {
                         font.weight: Font.DemiBold
                         font.letterSpacing: 1.8
                         font.capitalization: Font.AllUppercase
-                        color: tok.sage
+                        color: tok.accent
                     }
                 }
 
@@ -224,7 +224,7 @@ Item {
                         Text {
                             text: "☕"
                             font.pixelSize: 12
-                            color: tok.clay
+                            color: tok.accent2
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
@@ -254,7 +254,7 @@ Item {
                         height: 34
                         width: restBtnLabel.implicitWidth + 28
                         radius: tok.actionRadius
-                        color: tok.clay
+                        color: tok.accent2
 
                         Text {
                             id: restBtnLabel
@@ -373,7 +373,7 @@ Item {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
                             radius: 2
-                            color: tok.sage
+                            color: tok.accent
                             Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }

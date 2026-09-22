@@ -124,14 +124,14 @@ Item {
                                     width: calGrid.cellW - 2
                                     height: calGrid.cellH - 2
                                     radius: 4
-                                    color: modelData.isSelected ? tok.sageSoft : "transparent"
+                                    color: modelData.isSelected ? tok.accentSoft : "transparent"
 
                                     // Data indicator dot
                                     Rectangle {
                                         visible: modelData.hasData && !modelData.isSelected
                                         anchors { bottom: parent.bottom; horizontalCenter: parent.horizontalCenter; bottomMargin: 2 }
                                         width: 3; height: 3; radius: 2
-                                        color: tok.sage
+                                        color: tok.accent
                                     }
 
                                     Text {
@@ -139,7 +139,7 @@ Item {
                                         text: modelData.day > 0 ? modelData.day : ""
                                         font.pixelSize: 12
                                         font.weight: modelData.isSelected ? Font.DemiBold : Font.Normal
-                                        color: modelData.isSelected ? tok.sageDeep : (modelData.hasData ? tok.ink : tok.mute)
+                                        color: modelData.isSelected ? tok.accentStrong : (modelData.hasData ? tok.ink : tok.mute)
                                     }
                                 }
 
@@ -519,9 +519,9 @@ Item {
         width: Math.max(lbl.implicitWidth + 24, 100)
         radius: tok.actionRadius
         color: !enabled ? tok.track
-               : hovered ? (highlighted ? tok.sageDeep : tok.sageSoft)
-               : (highlighted ? tok.sage : tok.actionBg)
-        border.color: highlighted ? tok.sage : tok.actionEdge
+               : hovered ? (highlighted ? tok.accentStrong : tok.accentSoft)
+               : (highlighted ? tok.accent : tok.actionBg)
+        border.color: highlighted ? tok.accent : tok.actionEdge
         border.width: 1
 
         Text {
@@ -552,7 +552,7 @@ Item {
         width: 30; height: 30
         radius: tok.actionRadius
         color: !enabled ? "transparent"
-               : hovered ? tok.sageSoft
+               : hovered ? tok.accentSoft
                : tok.actionBg
         border.color: enabled ? tok.actionEdge : "transparent"
         border.width: 1

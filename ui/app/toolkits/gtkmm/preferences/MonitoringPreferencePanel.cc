@@ -60,10 +60,10 @@ MonitoringPreferencePanel::create_panel()
   pack_start(*monitor_type_cb, false, false, 0);
 
   Gtk::Label *monitor_type_help1 = Gtk::manage(
-    GtkUtil::create_label(_("Enable this option if Workrave fails to detect when you are using your computer"), false));
+    GtkUtil::create_label(_("Enable this option if stopme fails to detect when you are using your computer"), false));
   pack_start(*monitor_type_help1, false, false, 0);
   Gtk::Label *monitor_type_help2 = Gtk::manage(
-    GtkUtil::create_label(_("Workrave needs to be restarted manually after changing this setting"), false));
+    GtkUtil::create_label(_("stopme needs to be restarted manually after changing this setting"), false));
   pack_start(*monitor_type_help2, false, false, 0);
 
   sensitivity_box = Gtk::manage(new Gtk::HBox());

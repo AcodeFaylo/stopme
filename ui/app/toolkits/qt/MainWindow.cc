@@ -41,7 +41,7 @@ MainWindow::MainWindow(std::shared_ptr<IApplicationContext> app, QWidget *parent
   : QWidget(parent)
   , app(app)
 {
-  setWindowTitle("Workrave");
+  setWindowTitle("stopme");
   setWindowIcon(QIcon(Ui::get_status_icon_filename(OperationModeIcon::Normal)));
 #if defined(PLATFORM_OS_MACOS)
   // Qt::Tool on macOS creates an NSPanel that auto-hides whenever another app

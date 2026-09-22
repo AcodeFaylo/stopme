@@ -466,9 +466,9 @@ Application::core_event_notify(const CoreEvent event)
 
   if (event == CORE_EVENT_MONITOR_FAILURE)
     {
-      std::string msg = _("Workrave could not monitor your keyboard and mouse activity.\n");
+      std::string msg = _("stopme could not monitor your keyboard and mouse activity.\n");
 
-      toolkit->show_notification("failed_monitor", "Workrave", msg, []() {});
+      toolkit->show_notification("failed_monitor", "stopme", msg, []() {});
       toolkit->terminate();
     }
 }
@@ -691,8 +691,8 @@ Application::on_main_window_closed()
     {
       toolkit->show_notification("closewarn",
                                  "Workrave",
-                                 _("Workrave is still running. "
-                                   "You can access Workrave by clicking on the white sheep icon. "
+                                 _("stopme is still running. "
+                                   "You can access stopme by clicking on the panda icon in the system tray. "
                                    "Click on this balloon to disable this message"),
                                  []() { GUIConfig::closewarn_enabled().set(false); });
       closewarn_shown = true;
@@ -707,7 +707,7 @@ Application::on_operation_mode_warning_timer()
     {
       toolkit->show_notification("operation_mode",
                                  "Workrave",
-                                 _("Workrave is in suspended mode.\n"
+                                 _("stopme is in suspended mode.\n"
                                    "Mouse and keyboard activity will not be monitored."),
                                  []() {});
     }
@@ -715,7 +715,7 @@ Application::on_operation_mode_warning_timer()
     {
       toolkit->show_notification("operation_mode",
                                  "Workrave",
-                                 _("Workrave is in quiet mode. "
+                                 _("stopme is in quiet mode. "
                                    "No break windows will appear."),
                                  []() {});
     }
@@ -743,7 +743,7 @@ Application::get_timers_tooltip()
     default:
 #if !defined(PLATFORM_OS_WINDOWS)
       // Win32 tip is limited in length
-      tip = "Workrave";
+      tip = "stopme";
 #endif
       break;
     }

@@ -18,9 +18,9 @@ Item {
 
         Repeater {
             model: [
-                { ringColor: tok.sage.toString(),     progress: 0.65 },
-                { ringColor: tok.clay.toString(),     progress: 0.30 },
-                { ringColor: tok.sageDeep.toString(), progress: 0.85 },
+                { ringColor: tok.accent.toString(),     progress: 0.65 },
+                { ringColor: tok.accent2.toString(),     progress: 0.30 },
+                { ringColor: tok.accentStrong.toString(), progress: 0.85 },
             ]
 
             Canvas {
@@ -55,9 +55,9 @@ Item {
 
         Repeater {
             model: [
-                { barColor: tok.sage.toString(),     pct: 0.65, time: "3:45"  },
-                { barColor: tok.clay.toString(),     pct: 0.30, time: "12:20" },
-                { barColor: tok.sageDeep.toString(), pct: 0.85, time: "1:05"  },
+                { barColor: tok.accent.toString(),     pct: 0.65, time: "3:45"  },
+                { barColor: tok.accent2.toString(),     pct: 0.30, time: "12:20" },
+                { barColor: tok.accentStrong.toString(), pct: 0.85, time: "1:05"  },
             ]
 
             Row {
@@ -86,7 +86,7 @@ Item {
 
                 Text {
                     text: modelData.time
-                    font.pixelSize: 8; font.family: tok.monoFamily
+                    font.pixelSize: 8; font.families: tok.monoFamilies
                     color: tok.ink2
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -102,9 +102,9 @@ Item {
 
         Repeater {
             model: [
-                { dotColor: tok.sage.toString(),     label: "3:45"  },
-                { dotColor: tok.clay.toString(),     label: "12:20" },
-                { dotColor: tok.sageDeep.toString(), label: "1:05"  },
+                { dotColor: tok.accent.toString(),     label: "3:45"  },
+                { dotColor: tok.accent2.toString(),     label: "12:20" },
+                { dotColor: tok.accentStrong.toString(), label: "1:05"  },
             ]
 
             Row {
@@ -119,7 +119,7 @@ Item {
 
                 Text {
                     text: modelData.label
-                    font.pixelSize: 9; font.family: tok.monoFamily
+                    font.pixelSize: 9; font.families: tok.monoFamilies
                     color: tok.ink
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -145,7 +145,7 @@ Item {
                 ctx.beginPath()
                 ctx.arc(23, 23, 18, 0, 2 * Math.PI)
                 ctx.stroke()
-                ctx.strokeStyle = tok.sage.toString()
+                ctx.strokeStyle = tok.accent.toString()
                 ctx.lineCap = "round"
                 ctx.beginPath()
                 ctx.arc(23, 23, 18, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * 0.65)
@@ -159,8 +159,8 @@ Item {
 
             Repeater {
                 model: [
-                    { chipColor: tok.clay.toString(),     time: "12:20" },
-                    { chipColor: tok.sageDeep.toString(), time: "1:05"  },
+                    { chipColor: tok.accent2.toString(),     time: "12:20" },
+                    { chipColor: tok.accentStrong.toString(), time: "1:05"  },
                 ]
 
                 Rectangle {
@@ -181,7 +181,7 @@ Item {
                         }
                         Text {
                             text: modelData.time
-                            font.pixelSize: 7; font.family: tok.monoFamily
+                            font.pixelSize: 7; font.families: tok.monoFamilies
                             color: tok.ink2
                             anchors.verticalCenter: parent.verticalCenter
                         }

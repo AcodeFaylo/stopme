@@ -330,9 +330,9 @@ on_menu_about(GtkMenuItem *item, WorkraveApplet *applet)
 
   gtk_show_about_dialog(NULL,
                         "name",
-                        "Workrave",
+                        "stopme",
                         "program-name",
-                        "Workrave",
+                        "stopme",
 #if defined(WORKRAVE_GIT_VERSION)
                         "version",
                         WORKRAVE_VERSION "\n(" WORKRAVE_GIT_VERSION ")",

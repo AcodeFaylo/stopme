@@ -7,6 +7,8 @@ Item {
 
     property var bridge: typeof dailyLimitPrefBridge !== "undefined" ? dailyLimitPrefBridge : null
 
+    PrefTokens { id: tok }
+
     implicitWidth:  parent ? parent.width : 500
     implicitHeight: col.implicitHeight
 
@@ -33,7 +35,7 @@ Item {
                 hint:  qsTr("When today's active time crosses this, the daily-limit window appears.")
                 value: root.bridge ? root.bridge.limitDisplay : "8:00"
                 sliderValue: root.bridge ? root.bridge.limitNorm : 0.6
-                sliderColor: "#44563F"
+                sliderColor: tok.accentStrong
                 ticks: [
                     { at: 0.000, label: "2h"  },
                     { at: 0.400, label: "6h"  },
@@ -50,10 +52,10 @@ Item {
             PrefTimeControl {
                 width: parent.width
                 label: qsTr("Postpone time")
-                hint:  qsTr("When postponed, Workrave reminds you again after this long.")
+                hint:  qsTr("When postponed, stopme reminds you again after this long.")
                 value: root.bridge ? root.bridge.snoozeDisplay : "3:00"
                 sliderValue: root.bridge ? root.bridge.snoozeNorm : 0.222
-                sliderColor: "#44563F"
+                sliderColor: tok.accentStrong
                 ticks: [
                     { at: 0.000, label: "1m"  },
                     { at: 0.222, label: "3m"  },
@@ -83,7 +85,7 @@ Item {
                 width: parent.width
                 visible: root.bridge ? root.bridge.preludeEnabled : true
                 label:   qsTr("Limit number of prompts")
-                hint:    qsTr("When off, Workrave keeps reminding you until the limit is enforced.")
+                hint:    qsTr("When off, stopme keeps reminding you until the limit is enforced.")
                 checked: root.bridge ? root.bridge.hasMaxPreludes : false
                 onToggled: (v) => { if (root.bridge) root.bridge.setHasMaxPreludes(v) }
             }

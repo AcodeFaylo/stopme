@@ -31,7 +31,7 @@ Item {
             spacing: 16
 
             Image {
-                source: "qrc:/sanctuary/workrave-sheep.svg"
+                source: "qrc:/sanctuary/stopme-panda.svg"
                 width: 80; height: 80
                 fillMode: Image.PreserveAspectFit
                 smooth: true
@@ -139,7 +139,7 @@ Item {
                 Rectangle {
                     width: parent.width * (updateBridge != null ? updateBridge.progressValue / 100.0 : 0)
                     height: parent.height; radius: parent.radius
-                    color: tok.sage
+                    color: tok.accent
                     Behavior on width { NumberAnimation { duration: 300 } }
                 }
             }
@@ -197,9 +197,9 @@ Item {
         width: Math.max(lbl.implicitWidth + 24, 100)
         radius: tok.actionRadius
         color: !enabled ? tok.track
-               : hovered ? (highlighted ? tok.sageDeep : tok.sageSoft)
-               : (highlighted ? tok.sage : tok.actionBg)
-        border.color: highlighted ? tok.sage : tok.actionEdge
+               : hovered ? (highlighted ? tok.accentStrong : tok.accentSoft)
+               : (highlighted ? tok.accent : tok.actionBg)
+        border.color: highlighted ? tok.accent : tok.actionEdge
         border.width: 1
 
         Text {

@@ -87,7 +87,7 @@ Item {
                         spacing: 0
 
                         Rectangle {
-                            width: 6; height: 6; radius: 999; color: tok.clay
+                            width: 6; height: 6; radius: 999; color: tok.accent2
                             anchors.verticalCenter: parent.verticalCenter
                         }
                         Item { width: 8; height: 1 }
@@ -176,7 +176,7 @@ Item {
                             Rectangle {
                                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                 width: Math.max(4, parent.width * root.lockProgress)
-                                radius: 2; color: tok.sage
+                                radius: 2; color: tok.accent
                                 Behavior on width { NumberAnimation { duration: 500 } }
                             }
                         }
@@ -203,7 +203,7 @@ Item {
                             spacing: 8
                             Repeater {
                                 model: root.exerciseCount
-                                Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.clay : tok.track }
+                                Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.accent2 : tok.track }
                             }
                         }
 
@@ -227,7 +227,7 @@ Item {
                                         fillMode: Image.PreserveAspectFit
                                     }
                                     Rectangle {
-                                        anchors.fill: parent; color: tok.sageSoft; radius: 16
+                                        anchors.fill: parent; color: tok.accentSoft; radius: 16
                                         visible: cardExImg.status !== Image.Ready || root.exerciseImage === ""
                                     }
                                 }
@@ -237,7 +237,7 @@ Item {
                                     Rectangle {
                                         width: parent.width * root.exerciseProgress
                                         height: parent.height; radius: parent.radius
-                                        color: root.isPaused ? tok.warn : tok.sage
+                                        color: root.isPaused ? tok.warn : tok.accent
                                         Behavior on width { NumberAnimation { duration: 500 } }
                                     }
                                 }
@@ -277,13 +277,13 @@ Item {
 
                             Rectangle {
                                 width: 36; height: 36; radius: tok.actionRadius
-                                color: root.isPaused ? tok.claySoft : tok.actionBg
-                                border.color: root.isPaused ? tok.clay : tok.actionEdge; border.width: 1
+                                color: root.isPaused ? tok.accent2Soft : tok.actionBg
+                                border.color: root.isPaused ? tok.accent2 : tok.actionEdge; border.width: 1
                                 Text {
                                     anchors.centerIn: parent
                                     text: root.isPaused ? "▶" : "‖"
                                     font.pixelSize: 13; font.weight: Font.Bold
-                                    color: root.isPaused ? tok.clay : tok.ink2
+                                    color: root.isPaused ? tok.accent2 : tok.ink2
                                 }
                                 Accessible.role: Accessible.Button
                                 Accessible.name: root.isPaused ? qsTr("Resume exercises") : qsTr("Pause exercises")
@@ -363,7 +363,7 @@ Item {
                                 ctx.beginPath();
                                 ctx.arc(cx, cy, r, -Math.PI / 2,
                                         -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001));
-                                ctx.strokeStyle = tok.sage.toString();
+                                ctx.strokeStyle = tok.accent.toString();
                                 ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
                             }
 
@@ -479,7 +479,7 @@ Item {
                             Rectangle {
                                 anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                                 width: parent.width * root.breakProgress
-                                radius: parent.radius; color: tok.sage
+                                radius: parent.radius; color: tok.accent
                                 Behavior on width { NumberAnimation { duration: 500 } }
                             }
                         }
@@ -570,7 +570,7 @@ Item {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 8
-                    Rectangle { width: 6; height: 6; radius: 999; color: tok.clay; anchors.verticalCenter: parent.verticalCenter }
+                    Rectangle { width: 6; height: 6; radius: 999; color: tok.accent2; anchors.verticalCenter: parent.verticalCenter }
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("Rest break").toUpperCase() + " · "
@@ -676,7 +676,7 @@ Item {
                         Rectangle {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
-                            radius: 2; color: tok.sage
+                            radius: 2; color: tok.accent
                             Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }
@@ -724,10 +724,10 @@ Item {
                                         spacing: 10
                                         Rectangle {
                                             width: 32; height: 32; radius: 8
-                                            color: exRow.isDone ? tok.sageSoft : (exRow.isCurrent ? tok.claySoft : "transparent")
+                                            color: exRow.isDone ? tok.accentSoft : (exRow.isCurrent ? tok.accent2Soft : "transparent")
                                             border.color: (!exRow.isDone && !exRow.isCurrent) ? tok.edge : "transparent"; border.width: 1
                                             anchors.verticalCenter: parent.verticalCenter
-                                            Text { anchors.centerIn: parent; text: exRow.isDone ? "✓" : (exRow.isCurrent ? "●" : "○"); font.pixelSize: 13; color: exRow.isDone ? tok.sage : (exRow.isCurrent ? tok.clay : tok.mute) }
+                                            Text { anchors.centerIn: parent; text: exRow.isDone ? "✓" : (exRow.isCurrent ? "●" : "○"); font.pixelSize: 13; color: exRow.isDone ? tok.accent : (exRow.isCurrent ? tok.accent2 : tok.mute) }
                                         }
                                         Text {
                                             anchors.verticalCenter: parent.verticalCenter
@@ -756,7 +756,7 @@ Item {
                             Text { anchors.right: parent.right; text: qsTr("of %1").arg(root.breakMaxStr); font.pixelSize: 11; font.weight: Font.DemiBold; font.letterSpacing: 1.4; color: tok.mute; topPadding: 4; bottomPadding: 10 }
                             Rectangle {
                                 anchors.right: parent.right; width: parent.width; height: 4; radius: 2; color: tok.track
-                                Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: Math.max(4, parent.width * root.breakProgress); radius: 2; color: tok.clay }
+                                Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: Math.max(4, parent.width * root.breakProgress); radius: 2; color: tok.accent2 }
                             }
                         }
                     }
@@ -788,7 +788,7 @@ Item {
                                     spacing: 8
                                     Repeater {
                                         model: root.exerciseCount
-                                        Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.clay : tok.track }
+                                        Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.accent2 : tok.track }
                                     }
                                 }
 
@@ -811,13 +811,13 @@ Item {
 
                                         Rectangle {
                                             width: 36; height: 36; radius: tok.actionRadius
-                                            color: root.isPaused ? tok.claySoft : tok.actionBg
-                                            border.color: root.isPaused ? tok.clay : tok.actionEdge; border.width: 1
+                                            color: root.isPaused ? tok.accent2Soft : tok.actionBg
+                                            border.color: root.isPaused ? tok.accent2 : tok.actionEdge; border.width: 1
                                             Text {
                                                 anchors.centerIn: parent
                                                 text: root.isPaused ? "▶" : "‖"
                                                 font.pixelSize: 13; font.weight: Font.Bold
-                                                color: root.isPaused ? tok.clay : tok.ink2
+                                                color: root.isPaused ? tok.accent2 : tok.ink2
                                             }
                                             Accessible.role: Accessible.Button
                                             Accessible.name: root.isPaused ? qsTr("Resume exercises") : qsTr("Pause exercises")
@@ -889,7 +889,7 @@ Item {
                                                 fillMode: Image.PreserveAspectFit
                                             }
                                             Rectangle {
-                                                anchors.fill: parent; color: tok.sageSoft; radius: 16
+                                                anchors.fill: parent; color: tok.accentSoft; radius: 16
                                                 visible: fsExImg.status !== Image.Ready || root.exerciseImage === ""
                                             }
                                         }
@@ -900,7 +900,7 @@ Item {
                                             Rectangle {
                                                 width: parent.width * root.exerciseProgress
                                                 height: parent.height; radius: parent.radius
-                                                color: root.isPaused ? tok.warn : tok.sage
+                                                color: root.isPaused ? tok.warn : tok.accent
                                                 Behavior on width { NumberAnimation { duration: 500 } }
                                             }
                                         }
@@ -934,7 +934,7 @@ Item {
                                         ctx.clearRect(0, 0, width, height);
                                         var cx = 160, cy = 160, r = 152, sw = 9;
                                         ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.strokeStyle = tok.track.toString(); ctx.lineWidth = sw; ctx.stroke();
-                                        ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = tok.sage.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
+                                        ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = tok.accent.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
                                     }
                                 }
 

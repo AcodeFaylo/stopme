@@ -31,7 +31,7 @@ static void workrave_timerbox_finalize(GObject *gobject);
 static void workrave_timerbox_set_property(GObject *gobject, guint property_id, const GValue *value, GParamSpec *pspec);
 static void workrave_timerbox_get_property(GObject *gobject, guint property_id, GValue *value, GParamSpec *pspec);
 
-static void workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr);
+static void workrave_timerbox_update_mascot(WorkraveTimerbox *self, cairo_t *cr);
 static void workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr);
 static void workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, int *height);
 static GdkPixbuf *workrave_load_image(WorkraveTimerbox *self, const char *name);
@@ -52,9 +52,9 @@ const int PADDING_Y = 2;
 struct _WorkraveTimerboxPrivate
 {
   gchar *name;
-  GdkPixbuf *normal_sheep_icon;
-  GdkPixbuf *quiet_sheep_icon;
-  GdkPixbuf *suspended_sheep_icon;
+  GdkPixbuf *normal_mascot_icon;
+  GdkPixbuf *quiet_mascot_icon;
+  GdkPixbuf *suspended_mascot_icon;
   WorkraveTimebar *slot_to_time_bar[BREAK_ID_SIZEOF];
   GdkPixbuf *break_to_icon[BREAK_ID_SIZEOF];
   WorkraveBreakId slot_to_break[BREAK_ID_SIZEOF];
@@ -120,9 +120,9 @@ workrave_timerbox_init(WorkraveTimerbox *self)
     }
 #endif
 
-  priv->normal_sheep_icon = NULL;
-  priv->quiet_sheep_icon = NULL;
-  priv->suspended_sheep_icon = NULL;
+  priv->normal_mascot_icon = NULL;
+  priv->quiet_mascot_icon = NULL;
+  priv->suspended_mascot_icon = NULL;
 
   workrave_timerbox_init_images(self);
 }
@@ -133,9 +133,9 @@ workrave_timerbox_dispose(GObject *gobject)
   WorkraveTimerbox *self = WORKRAVE_TIMERBOX(gobject);
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
-  g_clear_pointer(&priv->normal_sheep_icon, g_object_unref);
-  g_clear_pointer(&priv->quiet_sheep_icon, g_object_unref);
-  g_clear_pointer(&priv->suspended_sheep_icon, g_object_unref);
+  g_clear_pointer(&priv->normal_mascot_icon, g_object_unref);
+  g_clear_pointer(&priv->quiet_mascot_icon, g_object_unref);
+  g_clear_pointer(&priv->suspended_mascot_icon, g_object_unref);
 
   g_clear_pointer(&priv->mode, g_free);
   g_clear_pointer(&priv->settings, g_object_unref);
@@ -196,7 +196,7 @@ workrave_timerbox_get_property(GObject *gobject, guint property_id, GValue *valu
 }
 
 static void
-workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
+workrave_timerbox_update_mascot(WorkraveTimerbox *self, cairo_t *cr)
 {
   WorkraveTimerboxPrivate *priv = workrave_timerbox_get_instance_private(self);
 
@@ -208,15 +208,15 @@ workrave_timerbox_update_sheep(WorkraveTimerbox *self, cairo_t *cr)
       G_GNUC_BEGIN_IGNORE_DEPRECATIONS
       if (!priv->enabled || g_strcmp0("normal", priv->mode) == 0)
         {
-          gdk_cairo_set_source_pixbuf(cr, priv->normal_sheep_icon, 0, 0);
+          gdk_cairo_set_source_pixbuf(cr, priv->normal_mascot_icon, 0, 0);
         }
       else if (g_strcmp0("suspended", priv->mode) == 0)
         {
-          gdk_cairo_set_source_pixbuf(cr, priv->suspended_sheep_icon, 0, 0);
+          gdk_cairo_set_source_pixbuf(cr, priv->suspended_mascot_icon, 0, 0);
         }
       else if (g_strcmp0("quiet", priv->mode) == 0)
         {
-          gdk_cairo_set_source_pixbuf(cr, priv->quiet_sheep_icon, 0, 0);
+          gdk_cairo_set_source_pixbuf(cr, priv->quiet_mascot_icon, 0, 0);
         }
       G_GNUC_END_IGNORE_DEPRECATIONS
       cairo_paint(cr);
@@ -237,7 +237,7 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
 
       if (priv->force_icon)
         {
-          x += gdk_pixbuf_get_width(priv->normal_sheep_icon);
+          x += gdk_pixbuf_get_width(priv->normal_mascot_icon);
         }
 
       workrave_timebar_get_dimensions(priv->slot_to_time_bar[0], &bar_width, &bar_height);
@@ -271,7 +271,7 @@ workrave_timerbox_update_time_bars(WorkraveTimerbox *self, cairo_t *cr)
               workrave_timebar_draw(bar, cr);
               cairo_restore(cr);
 
-              // See the comment in workrave_timerbox_update_sheep() above.
+              // See the comment in workrave_timerbox_update_mascot() above.
               G_GNUC_BEGIN_IGNORE_DEPRECATIONS
               gdk_cairo_set_source_pixbuf(cr, priv->break_to_icon[bid], x, y + icon_dy);
               G_GNUC_END_IGNORE_DEPRECATIONS
@@ -303,13 +303,13 @@ workrave_timerbox_compute_dimensions(WorkraveTimerbox *self, int *width, int *he
 
       if (priv->force_icon)
         {
-          *width += gdk_pixbuf_get_width(priv->normal_sheep_icon) + PADDING_X;
+          *width += gdk_pixbuf_get_width(priv->normal_mascot_icon) + PADDING_X;
         }
     }
   else
     {
-      *width = gdk_pixbuf_get_width(priv->normal_sheep_icon);
-      *height = gdk_pixbuf_get_height(priv->normal_sheep_icon);
+      *width = gdk_pixbuf_get_width(priv->normal_mascot_icon);
+      *height = gdk_pixbuf_get_height(priv->normal_mascot_icon);
     }
 }
 
@@ -404,7 +404,7 @@ workrave_timerbox_draw(WorkraveTimerbox *self, cairo_t *cr)
   cairo_save(cr);
   cairo_scale(cr, priv->scale_factor, priv->scale_factor);
   workrave_timerbox_update_time_bars(self, cr);
-  workrave_timerbox_update_sheep(self, cr);
+  workrave_timerbox_update_mascot(self, cr);
   cairo_restore(cr);
 }
 
@@ -543,22 +543,22 @@ workrave_timerbox_init_images(WorkraveTimerbox *self)
 
   const char *icons[] = {"timer-micro-break.png", "timer-rest-break.png", "timer-daily.png"};
 
-  if (priv->normal_sheep_icon != NULL)
+  if (priv->normal_mascot_icon != NULL)
     {
-      g_object_unref(priv->normal_sheep_icon);
+      g_object_unref(priv->normal_mascot_icon);
     }
-  if (priv->quiet_sheep_icon != NULL)
+  if (priv->quiet_mascot_icon != NULL)
     {
-      g_object_unref(priv->quiet_sheep_icon);
+      g_object_unref(priv->quiet_mascot_icon);
     }
-  if (priv->suspended_sheep_icon != NULL)
+  if (priv->suspended_mascot_icon != NULL)
     {
-      g_object_unref(priv->suspended_sheep_icon);
+      g_object_unref(priv->suspended_mascot_icon);
     }
 
-  priv->normal_sheep_icon = workrave_load_image(self, "workrave-icon-medium.png");
-  priv->quiet_sheep_icon = workrave_load_image(self, "workrave-quiet-icon-medium.png");
-  priv->suspended_sheep_icon = workrave_load_image(self, "workrave-suspended-icon-medium.png");
+  priv->normal_mascot_icon = workrave_load_image(self, "workrave-icon-medium.png");
+  priv->quiet_mascot_icon = workrave_load_image(self, "workrave-quiet-icon-medium.png");
+  priv->suspended_mascot_icon = workrave_load_image(self, "workrave-suspended-icon-medium.png");
 
   for (int i = 0; i < BREAK_ID_SIZEOF; i++)
     {

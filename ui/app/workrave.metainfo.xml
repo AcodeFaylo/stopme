@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>org.workrave.workrave</id>
-  <name>Workrave</name>
-  <summary>Workrave assists in the recovery and prevention of Repetitive Strain Injury (RSI)</summary>
+  <name>stopme</name>
+  <summary>stopme assists in the recovery and prevention of Repetitive Strain Injury (RSI)</summary>
   <metadata_license>CC-BY-3.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <description>
-    <p>Workrave is a free program that assists in the recovery and prevention
+    <p>stopme is a free program that assists in the recovery and prevention
        of Repetitive Strain Injury (RSI). It frequently alerts you to take
       microbreaks, rest breaks and restricts you to your daily computer usage.
     </p>

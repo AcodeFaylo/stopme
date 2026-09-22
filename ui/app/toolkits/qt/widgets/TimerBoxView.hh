@@ -62,14 +62,14 @@ private:
   void update_widgets();
 
   auto get_number_of_timers() const -> int;
-  auto is_sheep_only() const -> bool;
-  void set_sheep_only(bool sheep_only);
+  auto is_mascot_only() const -> bool;
+  void set_mascot_only(bool mascot_only);
 
 private:
   QGridLayout *layout{nullptr};
   std::array<QWidget *, workrave::BREAK_ID_SIZEOF> labels{};
   std::array<TimeBar *, workrave::BREAK_ID_SIZEOF> bars{};
-  QLabel *sheep{nullptr};
+  QLabel *mascot{nullptr};
   bool reconfigure{true};
   int size{0};
   std::array<int, workrave::BREAK_ID_SIZEOF> current_content{};
@@ -77,7 +77,7 @@ private:
   std::shared_ptr<workrave::ICore> core;
   OperationModeIcon current_icon{OperationModeIcon::Normal};
   int visible_count{-1};
-  bool sheep_only{false};
+  bool mascot_only{false};
 };
 
 #endif // TIMERBOXVIEW_HH

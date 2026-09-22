@@ -138,7 +138,7 @@ MainWindow::init()
   set_resizable(false);
   set_gravity(Gdk::GRAVITY_NORTH_WEST);
   set_position(Gtk::WIN_POS_NONE);
-  set_title("Workrave");
+  set_title("stopme");
 
 #if GLIBMM_CHECK_VERSION(2, 68, 0)
   std::vector<Glib::RefPtr<Gdk::Pixbuf>> icons;

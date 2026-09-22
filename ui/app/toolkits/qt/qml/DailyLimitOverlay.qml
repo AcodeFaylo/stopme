@@ -75,7 +75,7 @@ Item {
                     height: 22
                     width: headerLabel.implicitWidth + 20
                     radius: 999
-                    color: tok.claySoft
+                    color: tok.accent2Soft
 
                     Text {
                         id: headerLabel
@@ -85,7 +85,7 @@ Item {
                         font.weight: Font.DemiBold
                         font.letterSpacing: 1.8
                         font.capitalization: Font.AllUppercase
-                        color: tok.clay
+                        color: tok.accent2
                     }
                 }
 
@@ -158,7 +158,7 @@ Item {
                 onPaint: {
                     var ctx = getContext("2d");
                     ctx.clearRect(0, 0, width, height);
-                    ctx.strokeStyle = tok.clay.toString();
+                    ctx.strokeStyle = tok.accent2.toString();
                     ctx.lineWidth = 1.4;
                     ctx.lineCap = "round";
 
@@ -230,7 +230,7 @@ Item {
                             anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
                             width: Math.max(4, parent.width * root.lockProgress)
                             radius: 2
-                            color: tok.sage
+                            color: tok.accent
                             Behavior on width { NumberAnimation { duration: 500 } }
                         }
                     }

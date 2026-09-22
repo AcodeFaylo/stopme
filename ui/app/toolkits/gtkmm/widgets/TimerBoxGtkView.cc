@@ -64,14 +64,14 @@ TimerBoxGtkView::~TimerBoxGtkView()
           bars[i]->unreference();
         }
     }
-  if (sheep != nullptr)
+  if (mascot != nullptr)
     {
-      sheep->unreference();
+      mascot->unreference();
     }
 
-  if (sheep_eventbox != nullptr)
+  if (mascot_eventbox != nullptr)
     {
-      sheep_eventbox->unreference();
+      mascot_eventbox->unreference();
     }
 }
 
@@ -94,28 +94,28 @@ void
 TimerBoxGtkView::init()
 {
   TRACE_ENTRY();
-  if (sheep != nullptr)
+  if (mascot != nullptr)
     {
-      sheep->unreference();
+      mascot->unreference();
     }
-  if (sheep_eventbox != nullptr)
+  if (mascot_eventbox != nullptr)
     {
-      sheep_eventbox->unreference();
+      mascot_eventbox->unreference();
     }
 
-  sheep_eventbox = new Gtk::EventBox;
-  sheep_eventbox->set_events(sheep_eventbox->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
+  mascot_eventbox = new Gtk::EventBox;
+  mascot_eventbox->set_events(mascot_eventbox->get_events() | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK);
 
-  sheep_eventbox->property_visible_window() = false;
+  mascot_eventbox->property_visible_window() = false;
 
-  string sheep_file = AssetPath::complete_directory("workrave-icon-medium.png", SearchPathId::Images);
-  sheep = Gtk::manage(new Gtk::Image(sheep_file));
-  sheep_eventbox->set_tooltip_text("Workrave");
+  string mascot_file = AssetPath::complete_directory("workrave-icon-medium.png", SearchPathId::Images);
+  mascot = Gtk::manage(new Gtk::Image(mascot_file));
+  mascot_eventbox->set_tooltip_text("stopme");
 
-  sheep_eventbox->add(*sheep);
+  mascot_eventbox->add(*mascot);
 
-  sheep->reference();
-  sheep_eventbox->reference();
+  mascot->reference();
+  mascot_eventbox->reference();
 
   init_widgets();
 
@@ -200,7 +200,7 @@ int
 TimerBoxGtkView::get_number_of_timers() const
 {
   int number_of_timers = 0;
-  if (!sheep_only)
+  if (!mascot_only)
     {
       for (int i = 0; i < BREAK_ID_SIZEOF; i++)
         {
@@ -302,11 +302,11 @@ TimerBoxGtkView::init_table()
         }
     }
 
-  // Remove sheep
+  // Remove mascot
   if ((number_of_timers > 0 || remove_all) && visible_count == 0)
     {
-      TRACE_MSG("remove sheep");
-      remove(*sheep_eventbox);
+      TRACE_MSG("remove mascot");
+      remove(*mascot_eventbox);
       visible_count = -1;
     }
 
@@ -320,11 +320,11 @@ TimerBoxGtkView::init_table()
     table_rows = rows;
   }
 
-  // Add sheep.
+  // Add mascot.
   if (number_of_timers == 0 && visible_count != 0)
     {
-      TRACE_MSG("add sheep");
-      attach(*sheep_eventbox, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
+      TRACE_MSG("add mascot");
+      attach(*mascot_eventbox, 0, 2, 0, 1, Gtk::FILL, Gtk::SHRINK);
     }
 
   // Fill table.
@@ -422,7 +422,7 @@ TimerBoxGtkView::set_icon(OperationModeIcon icon)
 
   if (!file.empty())
     {
-      sheep->set(file);
+      mascot->set(file);
     }
 }
 
@@ -448,21 +448,21 @@ TimerBoxGtkView::set_enabled(bool enabled)
 }
 
 void
-TimerBoxGtkView::set_sheep_only(bool sheep_only)
+TimerBoxGtkView::set_mascot_only(bool mascot_only)
 {
-  TRACE_ENTRY_PAR(sheep_only);
-  if (this->sheep_only != sheep_only)
+  TRACE_ENTRY_PAR(mascot_only);
+  if (this->mascot_only != mascot_only)
     {
-      this->sheep_only = sheep_only;
+      this->mascot_only = mascot_only;
       reconfigure = true;
       update_view();
     }
 }
 
 bool
-TimerBoxGtkView::is_sheep_only() const
+TimerBoxGtkView::is_mascot_only() const
 {
-  return sheep_only || get_number_of_timers() == 0;
+  return mascot_only || get_number_of_timers() == 0;
 }
 
 bool

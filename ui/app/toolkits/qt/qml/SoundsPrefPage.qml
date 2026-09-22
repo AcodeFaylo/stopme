@@ -86,7 +86,7 @@ Item {
                             Rectangle {
                                 width: volSlider.visualPosition * parent.width
                                 height: parent.height; radius: 2
-                                color: volSlider.enabled ? tok.sage : tok.mute
+                                color: volSlider.enabled ? tok.accent : tok.mute
                             }
                         }
                         handle: Rectangle {
@@ -94,7 +94,7 @@ Item {
                             y: volSlider.topPadding + volSlider.availableHeight / 2 - height / 2
                             width: 16; height: 16; radius: 8
                             color: "#FFFFFF"
-                            border.color: volSlider.enabled ? tok.sage : tok.track; border.width: 2
+                            border.color: volSlider.enabled ? tok.accent : tok.track; border.width: 2
                         }
                     }
                 }
@@ -273,7 +273,7 @@ Item {
 
                             Rectangle {
                                 anchors.fill: parent; radius: 999
-                                color: eventItem.modelData.enabled ? tok.sage : tok.track
+                                color: eventItem.modelData.enabled ? tok.accent : tok.track
                                 Behavior on color { ColorAnimation { duration: 150 } }
                             }
                             Rectangle {
@@ -317,7 +317,7 @@ Item {
 
                                 Rectangle {
                                     anchors.fill: parent; radius: tok.actionRadius
-                                    color: playMouse.containsMouse ? tok.sageSoft : tok.actionBg
+                                    color: playMouse.containsMouse ? tok.accentSoft : tok.actionBg
                                     border.color: tok.actionEdge; border.width: 1
                                     Behavior on color { ColorAnimation { duration: 120 } }
                                 }
@@ -343,7 +343,7 @@ Item {
 
                                 Rectangle {
                                     anchors.fill: parent; radius: tok.actionRadius
-                                    color: chooseMouse.containsMouse ? tok.sageSoft : tok.actionBg
+                                    color: chooseMouse.containsMouse ? tok.accentSoft : tok.actionBg
                                     border.color: tok.actionEdge; border.width: 1
                                     Behavior on color { ColorAnimation { duration: 120 } }
                                 }

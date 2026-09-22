@@ -131,20 +131,20 @@ W32InputMonitorFactory::create_monitor()
       if (!initialized)
         {
           MessageBoxA(NULL,
-                      "Workrave must be able to monitor certain system "
+                      "stopme must be able to monitor certain system "
                       "events in order to determine when you are idle.\n\n"
 
                       "Attempts were made to monitor your system, "
                       "but they were unsuccessful.\n\n"
 
-                      "Workrave has reset itself to use its default monitor."
-                      "Please run Workrave again. If you see this message "
+                      "stopme has reset itself to use its default monitor."
+                      "Please run stopme again. If you see this message "
                       "again, please file a bug report:\n\n"
 
                       "http://issues.workrave.org/\n\n"
 
-                      "Workrave must exit now.\n",
-                      "Workrave",
+                      "stopme must exit now.\n",
+                      "stopme",
                       MB_OK);
 
           config->set_value("advanced/monitor", "normal");

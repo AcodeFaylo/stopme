@@ -10,7 +10,7 @@ Item {
     property string value:         "0:00"
     property bool   sliderVisible: true
     property real   sliderValue:   0.5
-    property color  sliderColor:   tok.sage
+    property color  sliderColor:   tok.accent
     property var    ticks:         []
     property int    secondsStep:   1
 

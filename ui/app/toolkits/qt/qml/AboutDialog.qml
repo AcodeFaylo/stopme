@@ -1,4 +1,4 @@
-// AboutDialog.qml — About window for Workrave.
+// AboutDialog.qml — About window for stopme.
 // Loaded by QmlAboutDialog via QQuickView.
 // Context properties: aboutVersion, aboutCopyright, aboutAuthors, aboutTranslators.
 
@@ -15,7 +15,7 @@ Item {
         anchors.fill: parent
         color: tok.bg
 
-        // ── Header: sheep logo + app info ────────────────────────────────────
+        // ── Header: mascot logo + app info ────────────────────────────────────
         Row {
             id: headerRow
             anchors { top: parent.top; left: parent.left; right: parent.right }
@@ -23,8 +23,8 @@ Item {
             spacing: 18
 
             Image {
-                id: sheepImg
-                source: "qrc:/sanctuary/workrave-sheep.svg"
+                id: mascotImg
+                source: "qrc:/sanctuary/stopme-panda.svg"
                 width: 110; height: 110
                 fillMode: Image.PreserveAspectFit
                 smooth: true
@@ -32,12 +32,12 @@ Item {
             }
 
             Column {
-                width: parent.width - sheepImg.width - parent.spacing
+                width: parent.width - mascotImg.width - parent.spacing
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 5
 
                 Text {
-                    text: "Workrave " + aboutVersion
+                    text: "stopme " + aboutVersion
                     font.pixelSize: 18; font.bold: true
                     color: tok.ink
                 }
@@ -55,7 +55,7 @@ Item {
                 }
                 Text {
                     text: "www.workrave.org"
-                    font.pixelSize: 11; color: tok.sage
+                    font.pixelSize: 11; color: tok.accent
                     font.underline: siteArea.containsMouse
 
                     MouseArea {
@@ -128,7 +128,7 @@ Item {
                     id: creditsText
                     width: parent.width
                     text: tabBar.selected === 0 ? aboutAuthors : aboutTranslators
-                    font.pixelSize: 12; font.family: tok.monoFamily
+                    font.pixelSize: 12; font.families: tok.monoFamilies
                     color: tok.ink2
                     wrapMode: Text.WordWrap
                     lineHeight: 1.6
@@ -144,7 +144,7 @@ Item {
             Rectangle {
                 height: 30; width: 100; radius: tok.actionRadius
                 property bool hovered: false
-                color: hovered ? tok.sageSoft : tok.actionBg
+                color: hovered ? tok.accentSoft : tok.actionBg
                 border.color: tok.actionEdge; border.width: 1
 
                 Text {

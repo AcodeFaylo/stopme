@@ -122,7 +122,7 @@ EnumWindowsProc(HWND hwnd, LPARAM lParam)
     {
       kind = KIND_EGG;
     }
-  else if ((strcmp(className, "gdkWindowToplevel") == 0) && (strcmp(title, "Workrave") == 0))
+  else if ((strcmp(className, "gdkWindowToplevel") == 0) && (strcmp(title, "stopme") == 0))
     {
       kind = KIND_MENU;
     }

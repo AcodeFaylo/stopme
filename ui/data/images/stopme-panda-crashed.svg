@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- stopme tray icon — quiet mode (breaks held back). Brand art, GPL-3.0-or-later. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <g transform="translate(-24.68 -3.05) scale(0.3378)"
-     stroke="#241A14" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+<!-- stopme crash-reporter mascot. Brand art, GPL-3.0-or-later. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 144" width="200" height="144">
+  <g transform="translate(100 74) rotate(-12) scale(0.8) translate(-150 -86)"
+     stroke="#241A14" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
     <path d="M 108 78 C 90 58 84 32 93 22 C 102 13 124 23 139 44 Z" fill="#F4722B"/>
     <path d="M 110 70 C 98 54 94 34 100 28 C 107 21 122 33 133 50 Z" fill="#EFE3D8" stroke-width="5"/>
     <path d="M 192 78 C 210 58 216 32 207 22 C 198 13 176 23 161 44 Z" fill="#F4722B"/>
@@ -14,19 +14,13 @@
       <ellipse cx="181" cy="68" rx="11" ry="7.5" transform="rotate(18 181 68)"/>
     </g>
     <g fill="none" stroke="#1B1210" stroke-width="9">
-      <path d="M 109 94 C 115 104 127 104 133 94"/>
-      <path d="M 167 94 C 173 104 185 104 191 94"/>
+      <path d="M 112 87 L 130 105"/><path d="M 130 87 L 112 105"/>
+      <path d="M 170 87 L 188 105"/><path d="M 188 87 L 170 105"/>
     </g>
     <path d="M 140 117 C 140 113 144 111 150 111 C 156 111 160 113 160 117 C 160 123 155 129 150 129 C 145 129 140 123 140 117 Z" fill="#33211A" stroke="none"/>
     <g fill="none" stroke-width="5">
       <path d="M 150 129 L 150 134"/>
-      <path d="M 150 134 C 146 144 134 144 131 135"/>
-      <path d="M 150 134 C 154 144 166 144 169 135"/>
+      <path d="M 132 140 C 138 133 143 147 150 140 C 157 133 162 147 168 140"/>
     </g>
-  </g>
-  <g stroke="#241A14" stroke-width="2.6" stroke-linejoin="round">
-    <circle cx="48" cy="48" r="14" fill="#5566FF"/>
-    <path d="M 51.5 41 A 7.6 7.6 0 1 0 51.5 55 A 9.2 9.2 0 0 1 51.5 41 Z"
-          fill="#EEF1F8" stroke="none"/>
   </g>
 </svg>
