@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema path="/org/workrave/" id="org.workrave" gettext-domain="workrave">
+  <schema path="/org/stopme/" id="org.workrave" gettext-domain="workrave">
     <child schema="org.workrave.timers" name="timers"/>
     <child schema="org.workrave.breaks" name="breaks"/>
     <child schema="org.workrave.monitor" name="monitor"/>
@@ -9,7 +9,7 @@
     <child schema="org.workrave.state" name="state"/>
   </schema>
 
-  <schema path="/org/workrave/advanced/" id="org.workrave.advanced" gettext-domain="workrave">
+  <schema path="/org/stopme/advanced/" id="org.workrave.advanced" gettext-domain="workrave">
     <key type="s" name="monitor">
       <default>"default"</default>
       <summary></summary>
@@ -17,13 +17,13 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/timers/" id="org.workrave.timers" gettext-domain="workrave">
+  <schema path="/org/stopme/timers/" id="org.workrave.timers" gettext-domain="workrave">
     <child schema="org.workrave.timers.micro-pause" name="micro-pause"/>
     <child schema="org.workrave.timers.rest-break" name="rest-break"/>
     <child schema="org.workrave.timers.daily-limit" name="daily-limit"/>
   </schema>
 
-  <schema path="/org/workrave/timers/daily-limit/" id="org.workrave.timers.daily-limit" gettext-domain="workrave">
+  <schema path="/org/stopme/timers/daily-limit/" id="org.workrave.timers.daily-limit" gettext-domain="workrave">
     <key type="b" name="activity-sensitive">
       <default>true</default>
       <summary></summary>
@@ -61,7 +61,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/timers/micro-pause/" id="org.workrave.timers.micro-pause" gettext-domain="workrave">
+  <schema path="/org/stopme/timers/micro-pause/" id="org.workrave.timers.micro-pause" gettext-domain="workrave">
     <key type="i" name="auto-reset">
       <default>30</default>
       <summary></summary>
@@ -84,7 +84,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/timers/rest-break/" id="org.workrave.timers.rest-break" gettext-domain="workrave">
+  <schema path="/org/stopme/timers/rest-break/" id="org.workrave.timers.rest-break" gettext-domain="workrave">
     <key type="b" name="activity-sensitive">
       <default>true</default>
       <summary></summary>
@@ -112,13 +112,13 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/breaks/" id="org.workrave.breaks" gettext-domain="workrave">
+  <schema path="/org/stopme/breaks/" id="org.workrave.breaks" gettext-domain="workrave">
     <child schema="org.workrave.breaks.micro-pause" name="micro-pause"/>
     <child schema="org.workrave.breaks.rest-break" name="rest-break"/>
     <child schema="org.workrave.breaks.daily-limit" name="daily-limit"/>
   </schema>
 
-  <schema path="/org/workrave/breaks/daily-limit/" id="org.workrave.breaks.daily-limit" gettext-domain="workrave">
+  <schema path="/org/stopme/breaks/daily-limit/" id="org.workrave.breaks.daily-limit" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
       <summary></summary>
@@ -136,7 +136,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/breaks/micro-pause/" id="org.workrave.breaks.micro-pause" gettext-domain="workrave">
+  <schema path="/org/stopme/breaks/micro-pause/" id="org.workrave.breaks.micro-pause" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
       <summary></summary>
@@ -154,7 +154,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/breaks/rest-break/" id="org.workrave.breaks.rest-break" gettext-domain="workrave">
+  <schema path="/org/stopme/breaks/rest-break/" id="org.workrave.breaks.rest-break" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
       <summary></summary>
@@ -172,7 +172,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/monitor/" id="org.workrave.monitor" gettext-domain="workrave">
+  <schema path="/org/stopme/monitor/" id="org.workrave.monitor" gettext-domain="workrave">
     <key type="i" name="activity">
       <default>1000</default>
       <summary></summary>
@@ -195,7 +195,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/general/" id="org.workrave.general" gettext-domain="workrave">
+  <schema path="/org/stopme/general/" id="org.workrave.general" gettext-domain="workrave">
     <child schema="org.workrave.general.grpc" name="grpc"/>
 
     <key type="s" name="datadir">
@@ -230,7 +230,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/general/grpc/" id="org.workrave.general.grpc" gettext-domain="workrave">
+  <schema path="/org/stopme/general/grpc/" id="org.workrave.general.grpc" gettext-domain="workrave">
     <key type="b" name="enabled">
       <default>true</default>
       <summary>Enable the gRPC server</summary>
@@ -253,7 +253,7 @@
     </key>
   </schema>
 
-  <schema path="/org/workrave/state/" id="org.workrave.state" gettext-domain="workrave">
+  <schema path="/org/stopme/state/" id="org.workrave.state" gettext-domain="workrave">
   </schema>
 
 </schemalist>

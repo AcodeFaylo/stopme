@@ -56,8 +56,10 @@ private:
   static void on_settings_changed(GSettings *settings, const gchar *key, void *user_data);
 
 private:
+  // The schema ids stay org.workrave.*; their dconf paths are stopme's own,
+  // so stopme and an installed Workrave do not share settings.
   std::string schema_base{"org.workrave"};
-  std::string path_base{"/org/workrave/"};
+  std::string path_base{"/org/stopme/"};
 
   workrave::config::IConfiguratorListener *listener{nullptr};
   std::map<std::string, GSettings *> settings;

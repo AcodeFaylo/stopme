@@ -29,7 +29,8 @@
 
 W32Configurator::W32Configurator()
 {
-  key_root = "Software/Workrave";
+  // Not Workrave's key: stopme keeps its settings apart from an installed Workrave.
+  key_root = "Software/stopme";
 }
 
 bool

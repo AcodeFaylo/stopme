@@ -355,9 +355,9 @@ namespace helper
   template<>
   void init<QtSettingsConfigurator>(Fixture *fixture)
   {
-    QCoreApplication::setOrganizationName("Workrave");
+    QCoreApplication::setOrganizationName("stopme");
     QCoreApplication::setOrganizationDomain("workrave.org");
-    QCoreApplication::setApplicationName("WorkraveConfigTest");
+    QCoreApplication::setApplicationName("stopmeConfigTest");
 
     QSettings settings;
     settings.clear();
@@ -381,7 +381,7 @@ namespace helper
   template<>
   void init<W32Configurator>(Fixture *fixture)
   {
-    RegDeleteTree(HKEY_CURRENT_USER, TEXT("Software\\Workrave\\test"));
+    RegDeleteTree(HKEY_CURRENT_USER, TEXT("Software\\stopme\\test"));
   }
 #endif
 

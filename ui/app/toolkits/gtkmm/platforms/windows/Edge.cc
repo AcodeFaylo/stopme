@@ -106,7 +106,7 @@ Edge::on_realize()
 void
 Edge::init()
 {
-  auto appdata = get_special_folder(FOLDERID_LocalAppData) / "Workrave";
+  auto appdata = get_special_folder(FOLDERID_LocalAppData) / "stopme";
 
   HRESULT hr = ::CreateCoreWebView2EnvironmentWithOptions(
     nullptr,
