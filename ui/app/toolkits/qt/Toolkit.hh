@@ -29,7 +29,6 @@
 
 #include "DebugDialog.hh"
 #include "QmlAboutDialog.hh"
-#include "QmlExercisesDialog.hh"
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
 #include "QmlPrefsDialog.hh"
@@ -98,7 +97,6 @@ protected:
 private:
   void show_about();
   void show_debug();
-  void show_exercises();
   void show_main_window();
   void show_preferences();
   void show_statistics();
@@ -120,7 +118,6 @@ private:
   std::unique_ptr<QmlStatisticsDialog> statistics_dialog;
   std::unique_ptr<QmlPrefsDialog> preferences_dialog;
   QPointer<DebugDialog> debug_dialog;
-  std::unique_ptr<QmlExercisesDialog> exercises_dialog;
   std::unique_ptr<QmlAboutDialog> about_dialog;
   std::unique_ptr<StatusIcon> status_icon;
   int hold_count{0};

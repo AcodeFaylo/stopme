@@ -13,7 +13,8 @@
 #   INSTALL_PATH     CMAKE_INSTALL_PREFIX of the build to package
 #   DIST_SOURCE_DIR  this dist/windows source directory (Workrave.lnk, workrave.ini)
 #   STAGING_DIR      scratch directory to assemble the portable tree in
-#   PORTABLE_NAME    name of the top-level folder inside the zip (e.g. Workrave)
+#   PORTABLE_NAME    name of the top-level folder inside the zip (e.g. stopme),
+#                    also used for the launcher shortcut
 #   OUTPUT_ZIP       path of the zip file to produce
 #   WITH_SIGN        whether to sigstore-sign OUTPUT_ZIP (mirrors the top-level WITH_SIGN option)
 #   SIGNCOSIGNSH     path to the sigstore-signing script (only required when WITH_SIGN is ON)
@@ -60,7 +61,7 @@ if(txt_files)
   file(COPY ${txt_files} DESTINATION "${app_dir}")
 endif()
 
-file(COPY "${DIST_SOURCE_DIR}/Workrave.lnk" DESTINATION "${app_dir}")
+file(COPY_FILE "${DIST_SOURCE_DIR}/Workrave.lnk" "${app_dir}/${PORTABLE_NAME}.lnk")
 file(COPY "${DIST_SOURCE_DIR}/workrave.ini" DESTINATION "${app_dir}/etc")
 
 # The staged executables were already authenticode-signed at `ninja install`

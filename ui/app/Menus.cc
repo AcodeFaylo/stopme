@@ -77,9 +77,6 @@ Menus::init()
   item = menus::ActionNode::create(REST_BREAK, N_("_Rest break"), [this] { on_menu_restbreak_now(); });
   section_main->add(item);
 
-  item = menus::ActionNode::create(EXERCISES, N_("_Exercises"), [this] { on_menu_exercises(); });
-  section_main->add(item);
-
   item = menus::ActionNode::create(STATISTICS, N_("S_tatistics"), [this] { on_menu_statistics(); });
   section_main->add(item);
 
@@ -234,12 +231,6 @@ void
 Menus::on_menu_preferences()
 {
   toolkit->show_window(IToolkit::WindowType::Preferences);
-}
-
-void
-Menus::on_menu_exercises()
-{
-  toolkit->show_window(IToolkit::WindowType::Exercises);
 }
 
 void

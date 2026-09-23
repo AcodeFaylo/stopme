@@ -45,8 +45,6 @@ public:
   void on_menu_reading(bool on);
   // @rpc(name="Statistics")
   void on_menu_statistics();
-  // @rpc(name="Exercises")
-  void on_menu_exercises();
   // @rpc(name="RestBreak")
   void on_menu_restbreak_now();
   // @rpc(name="Quit")
@@ -56,7 +54,6 @@ public:
 
   using sv = std::string_view;
   static constexpr std::string_view PREFERENCES = sv("workrave.preferences");
-  static constexpr std::string_view EXERCISES = sv("workrave.exercises");
   static constexpr std::string_view REST_BREAK = sv("workrave.restbreak");
   static constexpr std::string_view MODE_MENU = sv("workrave.mode_menu");
   static constexpr std::string_view MODE = sv("workrave.mode");

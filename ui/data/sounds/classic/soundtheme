@@ -21,12 +21,3 @@ file=break-prelude.wav
 
 [daily_limit]
 file=daily-limit.wav
-
-[exercise_ended]
-file=exercise-ended.wav
-
-[exercise_step]
-file=exercise-step.wav
-
-[exercises_ended]
-file=exercises-ended.wav

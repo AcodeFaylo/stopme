@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- stopme break-warning icon, after the warning was ignored: the tray icon's
+     panda with a frown and a tear. Brand art, GPL-3.0-or-later. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <g transform="translate(-28.81 -2.86) scale(0.4054)"
+     stroke="#241A14" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M 108 78 C 90 58 84 32 93 22 C 102 13 124 23 139 44 Z" fill="#F4722B"/>
+    <path d="M 110 70 C 98 54 94 34 100 28 C 107 21 122 33 133 50 Z" fill="#EFE3D8" stroke-width="5"/>
+    <path d="M 192 78 C 210 58 216 32 207 22 C 198 13 176 23 161 44 Z" fill="#F4722B"/>
+    <path d="M 190 70 C 202 54 206 34 200 28 C 193 21 178 33 167 50 Z" fill="#EFE3D8" stroke-width="5"/>
+    <path d="M 150 34 C 198 34 220 67 220 104 C 220 137 191 157 150 157 C 109 157 80 137 80 104 C 80 67 102 34 150 34 Z" fill="#F4722B"/>
+    <path d="M 104 103 C 118 99 131 105 138 116 C 142 110 158 110 162 116 C 169 105 182 99 196 103 C 211 108 217 126 209 138 C 201 150 183 157 150 157 C 117 157 99 150 91 138 C 83 126 89 108 104 103 Z" fill="#FFFFFF" stroke-width="5"/>
+    <!-- Brow marks tilted up towards the middle: worried. -->
+    <g stroke="none" fill="#FFFFFF">
+      <ellipse cx="117" cy="71" rx="11" ry="7" transform="rotate(-30 117 71)"/>
+      <ellipse cx="183" cy="71" rx="11" ry="7" transform="rotate(30 183 71)"/>
+    </g>
+    <g stroke="none">
+      <ellipse cx="121" cy="98" rx="15" ry="15.5" fill="#1B1210"/>
+      <ellipse cx="179" cy="98" rx="15" ry="15.5" fill="#1B1210"/>
+      <circle cx="126" cy="92" r="4.5" fill="#FFFFFF"/>
+      <circle cx="184" cy="92" r="4.5" fill="#FFFFFF"/>
+    </g>
+    <!-- Tear, in the brand's electric blue. -->
+    <path d="M 104 108 C 104 108 96 119 96 124 C 96 129 100 132 104 132 C 108 132 112 129 112 124 C 112 119 104 108 104 108 Z" fill="#5566FF" stroke-width="4"/>
+    <path d="M 140 117 C 140 113 144 111 150 111 C 156 111 160 113 160 117 C 160 123 155 129 150 129 C 145 129 140 123 140 117 Z" fill="#33211A" stroke="none"/>
+    <g fill="none" stroke-width="5">
+      <path d="M 150 129 L 150 136"/>
+      <path d="M 135 146 C 139 137 161 137 165 146"/>
+    </g>
+  </g>
+</svg>

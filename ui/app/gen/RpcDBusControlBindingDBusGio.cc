@@ -67,10 +67,6 @@ org_workrave_ControlInterface::introspection() const noexcept
 
   "    </method>\n"
 
-  "    <method name=\"Exercises\">\n"
-
-  "    </method>\n"
-
   "    <method name=\"RestBreak\">\n"
 
   "    </method>\n"
@@ -93,7 +89,7 @@ org_workrave_ControlInterface::dispatch(std::string_view method, GVariant *param
 {
   using Method = void (org_workrave_ControlInterface::*)(GVariant *, GDBusMethodInvocation *);
   struct Entry { std::string_view name; Method method; };
-  static constexpr std::array<Entry, 8> methods = { {
+  static constexpr std::array<Entry, 7> methods = { {
 
     {.name = "OpenMain", .method = &org_workrave_ControlInterface::dispatch_OpenMain},
 
@@ -102,8 +98,6 @@ org_workrave_ControlInterface::dispatch(std::string_view method, GVariant *param
     {.name = "ReadingMode", .method = &org_workrave_ControlInterface::dispatch_ReadingMode},
 
     {.name = "Statistics", .method = &org_workrave_ControlInterface::dispatch_Statistics},
-
-    {.name = "Exercises", .method = &org_workrave_ControlInterface::dispatch_Exercises},
 
     {.name = "RestBreak", .method = &org_workrave_ControlInterface::dispatch_RestBreak},
 
@@ -221,31 +215,6 @@ org_workrave_ControlInterface::dispatch_Statistics(GVariant *parameters, GDBusMe
 
 
   implementation_.on_menu_statistics();
-
-
-  std::vector<GVariant *> reply_values;
-  ::workrave::rpc::dbus::GioUnixFdList reply_fd_list;
-
-
-  GVariant *reply = g_variant_new_tuple(
-    reply_values.empty() ? nullptr : reply_values.data(), reply_values.size());
-  ::workrave::rpc::dbus::gio_return_method_value(invocation, reply, reply_fd_list.get());
-}
-
-
-void
-org_workrave_ControlInterface::dispatch_Exercises(GVariant *parameters, GDBusMethodInvocation *invocation)
-{
-  if (parameters == nullptr || !g_variant_is_of_type(parameters, G_VARIANT_TYPE_TUPLE)
-      || g_variant_n_children(parameters) != 0)
-    {
-      throw ::workrave::rpc::dbus::Error(
-        std::string(::workrave::rpc::dbus::error_names::invalid_args),
-        "Incorrect number of input parameters for org.workrave.ControlInterface.Exercises");
-    }
-
-
-  implementation_.on_menu_exercises();
 
 
   std::vector<GVariant *> reply_values;

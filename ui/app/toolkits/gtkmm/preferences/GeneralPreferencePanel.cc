@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <array>
 #include <memory>
 #ifdef HAVE_CONFIG_H
 #  include "config.h"
@@ -196,7 +197,7 @@ GeneralPreferencePanel::create_panel()
       connector->connect(GUIConfig::autostart_enabled(), dc::wrap(autostart_cb));
 
 #if defined(PLATFORM_OS_WINDOWS)
-      auto value = Platform::registry_get_value(RUNKEY, "Workrave");
+      auto value = Platform::registry_get_value(RUNKEY, "stopme");
       autostart_cb->set_active(value.has_value());
 #endif
     }
@@ -378,13 +379,16 @@ GeneralPreferencePanel::on_autostart_toggled()
 
   if (on)
     {
-      auto exe = Paths::get_application_directory() / "bin" / "workrave.exe";
+      // The running exe, whatever its name: the installer calls it
+      // stopme.exe, a portable copy keeps workrave.exe.
+      std::array<char, MAX_PATH> exe{};
+      GetModuleFileNameA(nullptr, exe.data(), static_cast<DWORD>(exe.size()));
 
-      Platform::registry_set_value(RUNKEY, "Workrave", exe.string().c_str());
+      Platform::registry_set_value(RUNKEY, "stopme", exe.data());
     }
   else
     {
-      Platform::registry_set_value(RUNKEY, "Workrave", nullptr);
+      Platform::registry_set_value(RUNKEY, "stopme", nullptr);
     }
 #endif
 }

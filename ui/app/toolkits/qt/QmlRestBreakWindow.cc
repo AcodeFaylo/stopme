@@ -20,11 +20,8 @@
 
 #include "QmlRestBreakWindow.hh"
 
-#include <random>
-
 #include <QQmlContext>
 #include <QScreen>
-#include <QStringList>
 #include <QGuiApplication>
 #include <QTimer>
 #include <QUrl>
@@ -33,7 +30,6 @@
 #include "core/IBreak.hh"
 #include "core/CoreTypes.hh"
 #include "session/System.hh"
-#include "utils/AssetPath.hh"
 #include "debug.hh"
 #include "UiUtil.hh"
 #include <fmt/format.h>
@@ -108,18 +104,6 @@ RestBreakBridge::isNatural() const
 }
 
 bool
-RestBreakBridge::hasExercises() const
-{
-  return !shuffled_exercises.empty() && ex_count > 0;
-}
-
-int
-RestBreakBridge::exerciseCount() const
-{
-  return ex_count;
-}
-
-bool
 RestBreakBridge::canPostpone() const
 {
   return (break_flags & BREAK_FLAGS_POSTPONABLE) != 0 && !postpone_locked;
@@ -175,119 +159,6 @@ RestBreakBridge::breakMaxStr() const
   return UiUtil::time_to_string(static_cast<time_t>(break_max));
 }
 
-QStringList
-RestBreakBridge::exerciseNames() const
-{
-  QStringList list;
-  list.reserve(ex_count);
-  for (int i = 0; i < ex_count; i++)
-    {
-      list << QString::fromStdString(shuffled_exercises[i].title);
-    }
-  return list;
-}
-
-int
-RestBreakBridge::exerciseIndex() const
-{
-  return ex_index;
-}
-
-QString
-RestBreakBridge::exerciseName() const
-{
-  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
-    {
-      return {};
-    }
-  return QString::fromStdString(shuffled_exercises[ex_index].title);
-}
-
-QString
-RestBreakBridge::exerciseDescription() const
-{
-  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
-    {
-      return {};
-    }
-  return QString::fromStdString(shuffled_exercises[ex_index].description);
-}
-
-bool
-RestBreakBridge::exercisesDone() const
-{
-  return ex_done;
-}
-
-QString
-RestBreakBridge::exerciseImage() const
-{
-  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
-    {
-      return {};
-    }
-  const auto &seq = shuffled_exercises[ex_index].sequence;
-  if (seq.empty() || ex_image_it == seq.end())
-    {
-      return {};
-    }
-  std::string path = AssetPath::complete_directory(ex_image_it->image, SearchPathId::Exercises);
-  if (path.empty())
-    {
-      return {};
-    }
-  return QUrl::fromLocalFile(QString::fromStdString(path)).toString();
-}
-
-bool
-RestBreakBridge::exerciseImageMirror() const
-{
-  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
-    {
-      return false;
-    }
-  const auto &seq = shuffled_exercises[ex_index].sequence;
-  if (seq.empty() || ex_image_it == seq.end())
-    {
-      return false;
-    }
-  return ex_image_it->mirror_x;
-}
-
-double
-RestBreakBridge::exerciseProgress() const
-{
-  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
-    {
-      return 1.0;
-    }
-  const Exercise &ex = shuffled_exercises[ex_index];
-  if (ex.duration <= 0)
-    {
-      return 1.0;
-    }
-  double remaining = static_cast<double>(ex.duration - ex_time) / ex.duration;
-  return qBound(0.0, remaining, 1.0);
-}
-
-QString
-RestBreakBridge::exerciseTimeStr() const
-{
-  if (shuffled_exercises.empty() || ex_done || ex_index >= ex_count)
-    {
-      return {};
-    }
-  const Exercise &ex = shuffled_exercises[ex_index];
-  int t = std::max(0, ex.duration - ex_time);
-  return UiUtil::time_to_string(static_cast<time_t>(t));
-}
-
-bool
-RestBreakBridge::isPaused() const
-{
-  return ex_paused;
-}
-
 void
 RestBreakBridge::setProgress(int value, int max_value)
 {
@@ -307,110 +178,6 @@ RestBreakBridge::setBreakButtonState(const BreakButtonState &state)
   if (changed)
     {
       Q_EMIT lockStateChanged();
-    }
-}
-
-void
-RestBreakBridge::initExercises()
-{
-  bool can_show = (break_flags & BREAK_FLAGS_NO_EXERCISES) == 0;
-  auto exercises_obj = app->get_exercises();
-  can_show = can_show && exercises_obj->has_exercises();
-  int cfg_count = can_show ? GUIConfig::break_exercises(BREAK_ID_REST_BREAK)() : 0;
-  can_show = can_show && (cfg_count > 0);
-
-  if (!can_show)
-    {
-      app->get_core()->set_insist_policy(InsistPolicy::Halt);
-      return;
-    }
-
-  auto list = exercises_obj->get_exercises();
-  for (auto &e: list)
-    {
-      shuffled_exercises.push_back(e);
-    }
-
-  std::random_device rd;
-  std::mt19937 g(rd());
-  std::shuffle(shuffled_exercises.begin(), shuffled_exercises.end(), g);
-
-  ex_count = std::min(cfg_count, static_cast<int>(shuffled_exercises.size()));
-  ex_index = 0;
-
-  app->get_core()->set_insist_policy(InsistPolicy::Ignore);
-
-  ex_timer = new QTimer(this);
-  ex_timer->setInterval(1000);
-  connect(ex_timer, &QTimer::timeout, this, &RestBreakBridge::onExerciseTick);
-  ex_timer->start();
-  startExercise();
-}
-
-void
-RestBreakBridge::startExercise()
-{
-  ex_time = 0;
-  ex_seq_time = 0;
-  const auto &seq = shuffled_exercises[ex_index].sequence;
-  ex_image_it = seq.end();
-  advanceImage();
-  Q_EMIT exerciseChanged();
-  Q_EMIT exerciseTimerChanged();
-}
-
-void
-RestBreakBridge::advanceImage()
-{
-  const auto &seq = shuffled_exercises[ex_index].sequence;
-  if (seq.empty())
-    {
-      return;
-    }
-  if (ex_image_it == seq.end())
-    {
-      ex_image_it = seq.begin();
-    }
-  else
-    {
-      ++ex_image_it;
-      if (ex_image_it == seq.end())
-        {
-          ex_image_it = seq.begin();
-        }
-    }
-  ex_seq_time += ex_image_it->duration;
-  Q_EMIT exerciseImageChanged();
-}
-
-void
-RestBreakBridge::onExerciseTick()
-{
-  if (ex_paused || ex_done || shuffled_exercises.empty())
-    {
-      return;
-    }
-  const Exercise &ex = shuffled_exercises[ex_index];
-  ex_time++;
-  if (ex_time >= ex_seq_time)
-    {
-      advanceImage();
-    }
-  Q_EMIT exerciseTimerChanged();
-  if (ex_time >= ex.duration)
-    {
-      ex_index++;
-      if (ex_index >= ex_count)
-        {
-          ex_done = true;
-          ex_timer->stop();
-          app->get_core()->set_insist_policy(InsistPolicy::Halt);
-          Q_EMIT exerciseChanged();
-        }
-      else
-        {
-          startExercise();
-        }
     }
 }
 
@@ -486,69 +253,6 @@ RestBreakBridge::requestSleep()
     }
 }
 
-void
-RestBreakBridge::nextExercise()
-{
-  if (shuffled_exercises.empty())
-    {
-      return;
-    }
-  ex_index++;
-  if (ex_index >= ex_count)
-    {
-      ex_done = true;
-      if (ex_timer != nullptr)
-        {
-          ex_timer->stop();
-        }
-      app->get_core()->set_insist_policy(InsistPolicy::Halt);
-      Q_EMIT exerciseChanged();
-    }
-  else
-    {
-      startExercise();
-    }
-}
-
-void
-RestBreakBridge::prevExercise()
-{
-  if (shuffled_exercises.empty())
-    {
-      return;
-    }
-  if (ex_index > 0)
-    {
-      ex_index--;
-    }
-  ex_done = false;
-  if (ex_timer != nullptr && !ex_timer->isActive())
-    {
-      ex_timer->start();
-    }
-  app->get_core()->set_insist_policy(InsistPolicy::Ignore);
-  startExercise();
-}
-
-void
-RestBreakBridge::togglePause()
-{
-  ex_paused = !ex_paused;
-  Q_EMIT pauseStateChanged();
-}
-
-void
-RestBreakBridge::endExercises()
-{
-  ex_done = true;
-  if (ex_timer != nullptr)
-    {
-      ex_timer->stop();
-    }
-  app->get_core()->set_insist_policy(InsistPolicy::Halt);
-  Q_EMIT exerciseChanged();
-}
-
 // ── QmlRestBreakWindow ────────────────────────────────────────────────────────
 
 QmlRestBreakWindow::QmlRestBreakWindow(std::shared_ptr<IApplicationContext> app, QScreen *screen, BreakFlags break_flags)
@@ -585,7 +289,8 @@ QmlRestBreakWindow::init()
     if (*alive)
       stop();
   });
-  bridge->initExercises();
+  // User activity halts the break until the user rests again.
+  app->get_core()->set_insist_policy(InsistPolicy::Halt);
 
   topmost_timer_ = new QTimer();
   topmost_timer_->setInterval(100);

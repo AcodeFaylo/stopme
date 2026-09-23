@@ -140,7 +140,6 @@ class RestBreakPrefBridge : public QObject
   Q_PROPERTY(QString snoozeDisplay   READ snoozeDisplay   NOTIFY timingChanged)
   Q_PROPERTY(double  snoozeNorm      READ snoozeNorm      NOTIFY timingChanged)
 
-  Q_PROPERTY(int  exercises     READ exercises     NOTIFY optionsChanged)
   Q_PROPERTY(bool autoNatural   READ autoNatural   WRITE setAutoNatural   NOTIFY optionsChanged)
   Q_PROPERTY(bool enableShutdown READ enableShutdown WRITE setEnableShutdown NOTIFY optionsChanged)
   Q_PROPERTY(bool showPostpone  READ showPostpone  WRITE setShowPostpone  NOTIFY optionsChanged)
@@ -162,7 +161,6 @@ public:
   QString snoozeDisplay() const;
   double  snoozeNorm() const;
 
-  int  exercises() const;
   bool autoNatural() const;
   Q_INVOKABLE void setAutoNatural(bool v);
   bool enableShutdown() const;
@@ -192,8 +190,6 @@ public:
   Q_INVOKABLE void setSnoozeNorm(double norm);
   Q_INVOKABLE void setSnoozeSeconds(int seconds);
 
-  Q_INVOKABLE void incrementExercises();
-  Q_INVOKABLE void decrementExercises();
 
   Q_INVOKABLE void incrementMaxPreludes();
   Q_INVOKABLE void decrementMaxPreludes();

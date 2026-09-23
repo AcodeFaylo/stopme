@@ -28,8 +28,9 @@ set(PLATFORM_PLUGINS QMinimalIntegrationPlugin QWindowsIntegrationPlugin)
 # endforeach()
 
 
-install(FILES WizModernImage.bmp DESTINATION dist)
-install(FILES WizModernSmall.bmp DESTINATION dist)
+install(FILES WizModernImage.bmp WizModernImage-328x604.bmp DESTINATION dist)
+install(FILES WizModernSmall.bmp WizModernSmall-110x106.bmp DESTINATION dist)
+install(FILES ${CMAKE_SOURCE_DIR}/ui/data/images/windows/workrave-normal.ico DESTINATION dist RENAME stopme.ico)
 
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/WindeployQt.cmake.in"
@@ -126,7 +127,7 @@ add_custom_command(OUTPUT ${INSTALLER_TARGET}
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
 
-set(PORTABLE_NAME "WorkraveQt")
+set(PORTABLE_NAME "stopme Qt")
 set(PORTABLE_ZIP "${CMAKE_INSTALL_PREFIX}/workrave-qt-portable.zip")
 
 add_custom_command(OUTPUT "${PORTABLE_ZIP}"

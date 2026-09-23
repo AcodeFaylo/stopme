@@ -42,7 +42,7 @@
 		     :image-width {workrave_button_icon_width}
 		     :image-height {workrave_button_icon_height}))
 	    (wr_timer
-	     :icon_file "micro-break.png"
+	     :icon_file "timer-micro-break-large.png"
 	     :enabled {workrave.microbreak_enabled}
 	     :timer_state {workrave.microbreak_state}
 	     :left_str {workrave.microbreak_left_str}
@@ -50,7 +50,7 @@
 	     :left_in_seconds {workrave.microbreak_left_in_seconds}
 	     :limit_in_seconds {workrave.microbreak_limit_in_seconds})
 	    (wr_timer
-	     :icon_file "rest-break.png"
+	     :icon_file "timer-rest-break-large.png"
 	     :enabled {workrave.restbreak_enabled}
 	     :timer_state {workrave.restbreak_state}
 	     :left_str {workrave.restbreak_left_str}
@@ -58,7 +58,7 @@
 	     :left_in_seconds {workrave.restbreak_left_in_seconds}
 	     :limit_in_seconds {workrave.restbreak_limit_in_seconds})
 	    (wr_timer
-	     :icon_file "daily-limit.png"
+	     :icon_file "timer-daily-large.png"
 	     :enabled {workrave.dailylimit_enabled}
 	     :timer_state {workrave.dailylimit_state}
 	     :left_str {workrave.dailylimit_left_str}
@@ -77,7 +77,7 @@
 		     :image-width {workrave_button_icon_width}
 		     :image-height {workrave_button_icon_height}))
 	    (wr_timer_compact
-	     :icon_file "micro-break.png"
+	     :icon_file "timer-micro-break-large.png"
 	     :enabled {workrave.microbreak_enabled}
 	     :timer_state {workrave.microbreak_state}
 	     :left_str {workrave.microbreak_left_str}
@@ -85,7 +85,7 @@
 	     :left_in_seconds {workrave.microbreak_left_in_seconds}
 	     :limit_in_seconds {workrave.microbreak_limit_in_seconds})
 	    (wr_timer_compact
-	     :icon_file "rest-break.png"
+	     :icon_file "timer-rest-break-large.png"
 	     :enabled {workrave.restbreak_enabled}
 	     :timer_state {workrave.restbreak_state}
 	     :left_str {workrave.restbreak_left_str}
@@ -93,7 +93,7 @@
 	     :left_in_seconds {workrave.restbreak_left_in_seconds}
 	     :limit_in_seconds {workrave.restbreak_limit_in_seconds})
 	    (wr_timer_compact
-	     :icon_file "daily-limit.png"
+	     :icon_file "timer-daily-large.png"
 	     :enabled {workrave.dailylimit_enabled}
 	     :timer_state {workrave.dailylimit_state}
 	     :left_str {workrave.dailylimit_left_str}

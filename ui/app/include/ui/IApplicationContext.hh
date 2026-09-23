@@ -28,7 +28,6 @@ namespace workrave::core
 
 #include "ui/SoundTheme.hh"
 #include "commonui/MenuModel.hh"
-#include "commonui/Exercise.hh"
 #include "ui/IToolkit.hh"
 #include "ui/IPreferencesRegistryInternal.hh"
 
@@ -43,7 +42,6 @@ public:
   virtual workrave::config::IConfigurator::Ptr get_configurator() const = 0;
   virtual IToolkit::Ptr get_toolkit() const = 0;
   virtual SoundTheme::Ptr get_sound_theme() const = 0;
-  virtual ExerciseCollection::Ptr get_exercises() const = 0;
   virtual MenuModel::Ptr get_menu_model() const = 0;
   virtual IPreferencesRegistryInternal::Ptr get_internal_preferences_registry() const = 0;
 };

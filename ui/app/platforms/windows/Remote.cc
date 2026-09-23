@@ -98,7 +98,9 @@ Remote::enum_windows_cb(HWND hwnd, LPARAM lParam)
           auto base = process_name.substr(process_name.find_last_of("/\\") + 1);
           boost::algorithm::to_lower(base);
 
-          if (base == "workrave.exe" || base == "workraveqt.exe")
+          // The installers name the exe stopme.exe or stopmeqt.exe; a
+          // portable copy still runs the build's own workrave.exe.
+          if (base == "stopme.exe" || base == "stopmeqt.exe" || base == "workrave.exe")
             {
               self->hwnd = hwnd;
               return FALSE;

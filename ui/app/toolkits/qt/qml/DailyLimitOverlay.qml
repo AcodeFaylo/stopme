@@ -149,42 +149,14 @@ Item {
                 }
             }
 
-            // ── Sun icon ─────────────────────────────────────────────────────
-            Canvas {
-                id: sunCanvas
-                width: 54; height: 54
+            // ── Panda ────────────────────────────────────────────────────────
+            Image {
                 anchors.horizontalCenter: parent.horizontalCenter
-
-                onPaint: {
-                    var ctx = getContext("2d");
-                    ctx.clearRect(0, 0, width, height);
-                    ctx.strokeStyle = tok.accent2.toString();
-                    ctx.lineWidth = 1.4;
-                    ctx.lineCap = "round";
-
-                    var cx = width / 2, cy = height / 2;
-                    var rInner = 11;
-                    var rOuter = 22;
-                    var nRays = 8;
-
-                    // Center circle
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, rInner, 0, 2 * Math.PI);
-                    ctx.stroke();
-
-                    // Radiating rays
-                    for (var i = 0; i < nRays; i++) {
-                        var angle = (i / nRays) * 2 * Math.PI;
-                        var x1 = cx + Math.cos(angle) * (rInner + 4);
-                        var y1 = cy + Math.sin(angle) * (rInner + 4);
-                        var x2 = cx + Math.cos(angle) * rOuter;
-                        var y2 = cy + Math.sin(angle) * rOuter;
-                        ctx.beginPath();
-                        ctx.moveTo(x1, y1);
-                        ctx.lineTo(x2, y2);
-                        ctx.stroke();
-                    }
-                }
+                source: "qrc:/sanctuary/stopme-panda-face.svg"
+                width: 72; height: 72
+                sourceSize: Qt.size(144, 144)
+                fillMode: Image.PreserveAspectFit
+                smooth: true
             }
 
             // ── Body text ────────────────────────────────────────────────────

@@ -35,13 +35,11 @@
 #endif
 
 #include "DebugDialog.hh"
-#include "ExercisesDialog.hh"
 #include "HeadInfo.hh"
 #include "IToolkitPrivate.hh"
 #include "MainWindow.hh"
 #include "PreferencesDialog.hh"
 #include "StatisticsDialog.hh"
-#include "commonui/Exercise.hh"
 #include "utils/Logging.hh"
 
 #include <gdkmm/monitor.h>
@@ -116,7 +114,6 @@ protected:
 private:
   void show_about();
   void show_debug();
-  void show_exercises();
   void show_main_window();
   void show_preferences();
   void show_statistics();
@@ -145,7 +142,6 @@ private:
   StatisticsDialog *statistics_dialog{nullptr};
   PreferencesDialog *preferences_dialog{nullptr};
   DebugDialog *debug_dialog{nullptr};
-  ExercisesDialog *exercises_dialog{nullptr};
   Gtk::AboutDialog *about_dialog{nullptr};
   int hold_count{0};
 #if defined(HAVE_STATUSICON)
@@ -153,8 +149,6 @@ private:
 #endif
 
   std::shared_ptr<MenuModel> menu_model;
-  std::shared_ptr<SoundTheme> sound_theme;
-  std::shared_ptr<ExerciseCollection> exercises;
 
   std::map<std::string, std::function<void()>> notifiers;
 

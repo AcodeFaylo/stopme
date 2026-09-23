@@ -33,20 +33,17 @@ namespace workrave::utils
     Images,
     Sounds,
     Config,
-    Exercises,
   };
 
   template<>
   struct enum_traits<SearchPathId>
   {
     static constexpr auto min = SearchPathId::Images;
-    static constexpr auto max = SearchPathId::Exercises;
+    static constexpr auto max = SearchPathId::Config;
     static constexpr auto linear = true;
 
-    static constexpr std::array<std::pair<std::string_view, SearchPathId>, 4> names{{{"images", SearchPathId::Images},
-                                                                                     {"sounds", SearchPathId::Sounds},
-                                                                                     {"config", SearchPathId::Config},
-                                                                                     {"exercises", SearchPathId::Exercises}}};
+    static constexpr std::array<std::pair<std::string_view, SearchPathId>, 3> names{
+      {{"images", SearchPathId::Images}, {"sounds", SearchPathId::Sounds}, {"config", SearchPathId::Config}}};
   };
 
   class AssetPath

@@ -56,7 +56,6 @@ Toolkit::~Toolkit()
   delete statistics_dialog;
   delete preferences_dialog;
   delete debug_dialog;
-  delete exercises_dialog;
   delete about_dialog;
 }
 
@@ -77,8 +76,6 @@ Toolkit::init(std::shared_ptr<IApplicationContext> app)
   init_css();
 
   menu_model = app->get_menu_model();
-  sound_theme = app->get_sound_theme();
-  exercises = app->get_exercises();
 
   main_window = new MainWindow(app);
 
@@ -264,10 +261,6 @@ Toolkit::show_window(WindowType type)
       show_about();
       break;
 
-    case WindowType::Exercises:
-      show_exercises();
-      break;
-
     case WindowType::Debug:
       show_debug();
       break;
@@ -329,25 +322,6 @@ Toolkit::show_debug()
   else
     {
       debug_dialog->present();
-    }
-}
-
-void
-Toolkit::show_exercises()
-{
-  if (exercises_dialog == nullptr)
-    {
-      exercises_dialog = new ExercisesDialog(sound_theme, exercises);
-      exercises_dialog->signal_response().connect([this](int reponse) {
-        exercises_dialog->hide();
-        delete exercises_dialog;
-        exercises_dialog = nullptr;
-      });
-      exercises_dialog->run();
-    }
-  else
-    {
-      exercises_dialog->present();
     }
 }
 

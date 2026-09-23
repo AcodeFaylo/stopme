@@ -19,20 +19,29 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;
 
+; Builds with the auto-updater ("ON") offer to switch it on; others don't.
+#define AutoUpdate "@HAVE_UNFOLD_AUTO_UPDATE@"
+
 [Setup]
-AppName=Workrave
+; stopme is its own product: its AppId, folder, shortcuts and registry
+; entries differ from Workrave's, so the two install side by side and
+; neither setup touches the other.
+AppId=stopme
+AppName=stopme
 AppVersion=@WORKRAVE_VERSION@
-AppVerName=Workrave @WORKRAVE_VERSION@
-AppPublisher=Rob Caelers & Raymond Penners
-AppPublisherURL=https://www.workrave.org
-AppSupportURL=https://www.workrave.org
-AppUpdatesURL=https://www.workrave.org
-DefaultDirName={autopf}\Workrave
-DefaultGroupName=Workrave
+AppVerName=stopme @WORKRAVE_VERSION@
+AppPublisher=stopme contributors
+AppPublisherURL=https://github.com/AcodeFaylo/stopme
+AppSupportURL=https://github.com/AcodeFaylo/stopme
+AppUpdatesURL=https://github.com/AcodeFaylo/stopme
+DefaultDirName={autopf}\stopme
+DefaultGroupName=stopme
 LicenseFile=@INSTALL_WIN_PATH@\COPYING.txt
 ;AppMutex=WorkraveMutex
-WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
-WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
+SetupIconFile=@INSTALL_WIN_PATH@\dist\stopme.ico
+UninstallDisplayIcon={app}\bin\stopme.exe
+WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp,@INSTALL_WIN_PATH@\dist\WizModernImage-328x604.bmp
+WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp,@INSTALL_WIN_PATH@\dist\WizModernSmall-110x106.bmp
 PrivilegesRequired=admin
 PrivilegesRequiredOverridesAllowed=dialog
 CloseApplications=no
@@ -44,15 +53,17 @@ SignedUninstaller=yes
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"
-Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"
+Name: "startupmenu"; Description: "Start stopme when Windows starts"; GroupDescription: "Additional tasks:"
+#if AutoUpdate == "ON"
 Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescription: "Additional tasks:"
-Name: "gdbus"; Description: "Install D-Bus utility (allows other applications to control Workrave)"; GroupDescription: "Additional tasks:"; Flags: unchecked
+#endif
+Name: "gdbus"; Description: "Install D-Bus utility (allows other applications to control stopme)"; GroupDescription: "Additional tasks:"; Flags: unchecked
 
 [Files]
 Source: "@INSTALL_WIN_PATH@\dist\libzapper-0.dll"; DestDir: "{app}";
 Source: "@INSTALL_WIN_PATH@\etc\*.*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs;
 Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "Workrave.exe"; Flags: ignoreversion;
+Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "stopme.exe"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\bin\gdbus.exe"; DestDir: "{app}\bin"; Flags: ignoreversion; Tasks: gdbus
 Source: "@INSTALL_WIN_PATH@\lib\*.*"; DestDir: "{app}\lib"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\images\*.png"; DestDir: "{app}\share\images\"; Flags: ignoreversion recursesubdirs
@@ -62,7 +73,6 @@ Source: "@INSTALL_WIN_PATH@\share\glib-2.0\*.*"; DestDir: "{app}\share\glib-2.0"
 Source: "@INSTALL_WIN_PATH@\share\themes\*.*"; DestDir: "{app}\share\themes"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\sounds\*.*"; DestDir: "{app}\share\sounds"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\locale\*.*"; DestDir: "{app}\share\locale"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALL_WIN_PATH@\share\exercises\*.*"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
 Source: "@INSTALL_WIN_PATH@\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;
@@ -71,24 +81,24 @@ Source: "@INSTALL_WIN_PATH@\README.txt"; DestDir: "{app}"; DestName: "README.txt
 #include "libraries.iss"
 
 [Registry]
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueType: string; ValueData: "{app}\bin\Workrave.exe"; Flags: uninsdeletekeyifempty
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Workrave.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
-Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "Workrave"; ValueData: "{app}\bin\Workrave.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\stopme.exe"; ValueType: string; ValueData: "{app}\bin\stopme.exe"; Flags: uninsdeletekeyifempty
+Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\stopme.exe"; ValueName: "Path"; ValueType: string; ValueData: "{code:GetAppPath}"; Flags: uninsdeletekeyifempty
+; The value name matches what stopme's own "Start stopme on logon" setting writes.
+Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "stopme"; ValueData: "{app}\bin\stopme.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
 
 [Icons]
-Name: "{group}\Workrave"; Filename: "{app}\bin\Workrave.exe"
+Name: "{group}\stopme"; Filename: "{app}\bin\stopme.exe"
 Name: "{group}\News"; Filename: "{app}\NEWS.txt"
 Name: "{group}\Read me"; Filename: "{app}\README.txt"
 Name: "{group}\License"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\Workrave"; Filename: "{app}\bin\Workrave.exe"; MinVersion: 4,4; Tasks: desktopicon
-Name: "{app}\Workrave"; Filename: "{app}\bin\Workrave.exe"
+Name: "{autodesktop}\stopme"; Filename: "{app}\bin\stopme.exe"; MinVersion: 4,4; Tasks: desktopicon
+Name: "{app}\stopme"; Filename: "{app}\bin\stopme.exe"
 
 [Run]
-Filename: "{app}\bin\Workrave.exe"; Description: "Launch Workrave"; Flags: nowait postinstall shellexec;
+Filename: "{app}\bin\stopme.exe"; Description: "Launch stopme"; Flags: nowait postinstall shellexec;
 
 [InstallDelete]
-Type: files; Name: "{autostartup}\Workrave.lnk"
 Type: files; Name: "{app}\share\sounds\*.wav"
 
 [Code]
@@ -111,7 +121,6 @@ function KillWorkraveProcesses(name : String): Boolean;
 external 'KillWorkraveProcesses@{tmp}\libzapper-0.dll cdecl delayload';
 
 function GetInstallLocation(): String; forward;
-function GetLegacyInstallLocation(): String; forward;
 
 Function FindWorkraveWithRetries() : Boolean;
 var retVal : Boolean;
@@ -178,7 +187,7 @@ begin
     begin
       if not silent then
       begin
-        Result := MsgBox('Workrave is still running. Setup must close Workrave before continuing. Please click OK to continue, or Cancel to exit',
+        Result := MsgBox('stopme is still running. Setup must close stopme before continuing. Please click OK to continue, or Cancel to exit',
                           mbConfirmation, MB_OKCANCEL) = IDOK
       end;
 
@@ -197,46 +206,11 @@ begin
 
         if not IsWorkraveTerminated() then
         begin
-          MsgBox('Failed to close Workrave. Please close Workrave manually.', mbError, MB_OK);
+          MsgBox('Failed to close stopme. Please close stopme manually.', mbError, MB_OK);
           Result := False;
         end;
       end;
     end;
-end;
-
-function ShouldUninstall(): Boolean;
-var
-  versionMS, versionLS: Cardinal;
-  major, minor: Integer;
-  directories: array[0..1] of String;
-  i: Integer;
-  executablePath: String;
-  installLocation: String;
-begin
-  directories[0] := 'lib';
-  directories[1] := 'bin';
-  installLocation := GetLegacyInstallLocation();
-
-  if installLocation <> '' then
-  begin
-    for i := 0 to High(directories) do
-    begin
-      executablePath := ExpandConstant(installLocation + directories[i] + '\workrave.exe');
-      if FileExists(executablePath) and GetVersionNumbers(executablePath, versionMS, versionLS) then
-      begin
-        major := versionMS shr 16;
-        minor := versionMS and $FFFF;
-
-        if (major < 1) or ((major = 1) and (minor < 11)) then
-          Result := True
-        else
-          Result := False;
-        Exit;
-      end;
-    end;
-  end;
-
-  Result := False;
 end;
 
 procedure InitializeWizard();
@@ -276,6 +250,7 @@ begin
   Result := (ProcessorArchitecture = paX64);
 end;
 
+#if AutoUpdate == "ON"
 Procedure UpdateAutoInstallTask();
 var
   success: boolean;
@@ -313,13 +288,14 @@ begin
   RegWriteStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'channel', '{#Channel}');
 #endif
 end;
+#endif
 
 function GetInstallLocation(): String;
 var
   uninstallPath: String;
   installLocation: String;
 begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\stopme_is1');
   installLocation := '';
 
   if not RegQueryStringValue(HKLM, uninstallPath, 'InstallLocation', installLocation) then
@@ -329,51 +305,7 @@ begin
   Result := installLocation;
 end;
 
-// Workrave 1.11 and up is always installed in 64-bit (native) mode, so any
-// pre-1.11 install can only be registered in the 32-bit registry view. Unlike
-// GetInstallLocation (which is used to find whichever Workrave is currently
-// installed/running), these must not fall back to the native view: on a
-// machine that already has 1.11+ installed, that fallback would just find
-// the current install again and hide a leftover legacy one.
-function GetLegacyUninstallCommand(): String;
-var
-  uninstallPath: String;
-  uninstallCommand: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
-  uninstallCommand := '';
-
-  if not RegQueryStringValue(HKLM32, uninstallPath, 'UninstallString', uninstallCommand) then
-    RegQueryStringValue(HKCU32, uninstallPath, 'UninstallString', uninstallCommand);
-  Result := uninstallCommand;
-end;
-
-function GetLegacyInstallLocation(): String;
-var
-  uninstallPath: String;
-  installLocation: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
-  installLocation := '';
-
-  if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
-    RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
-  Result := installLocation;
-end;
-
-Procedure UninstallPreviousVersion();
-var
-  uninstallCommand: String;
-  iResultCode: Integer;
-begin
-  uninstallCommand := GetLegacyUninstallCommand();
-
-  if uninstallCommand <> '' then begin
-    uninstallCommand := RemoveQuotes(uninstallCommand);
-    Exec(uninstallCommand, '/VERYSILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
-  end
-end;
-
+#if AutoUpdate == "ON"
 Procedure CurPageChanged(CurPageID: Integer);
 begin
   if (CurPageID = wpSelectTasks) and not taskPageShown then
@@ -385,17 +317,9 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
-  case CurStep of
-    ssInstall:
-      begin
-         if ShouldUninstall() then
-         begin
-           UninstallPreviousVersion();
-         end;
-      end;
-    ssDone:
-      begin
-        UpdateAutoInstallSetting();
-      end
+  if CurStep = ssDone then
+  begin
+    UpdateAutoInstallSetting();
   end;
 end;
+#endif

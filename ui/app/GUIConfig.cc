@@ -32,7 +32,6 @@ const std::string GUIConfig::CFG_KEY_BREAK_ENABLE_SHUTDOWN = "gui/breaks/%b/enab
 const std::string GUIConfig::CFG_KEY_PREFERRED_LOCK_METHOD = "gui/preferred_lock_method";
 const std::string GUIConfig::CFG_KEY_PREFERRED_SLEEP_OPERATION = "gui/preferred_sleep_operation";
 const std::string GUIConfig::CFG_KEY_CUSTOM_LOCK_COMMAND = "gui/custom_lock_command";
-const std::string GUIConfig::CFG_KEY_BREAK_EXERCISES = "gui/breaks/%b/exercises";
 const std::string GUIConfig::CFG_KEY_BREAK_AUTO_NATURAL = "gui/breaks/%b/auto_natural";
 const std::string GUIConfig::CFG_KEY_BLOCK_MODE = "gui/breaks/block_mode";
 const std::string GUIConfig::CFG_KEY_FOCUS_MODE = "gui/breaks/focus_mode";
@@ -87,7 +86,6 @@ GUIConfig::init(std::shared_ptr<workrave::config::IConfigurator> config)
       auto breakId = static_cast<workrave::BreakId>(i);
 
       config->set_value(break_ignorable(breakId).key(), true, CONFIG_FLAG_INITIAL);
-      config->set_value(break_exercises(breakId).key(), i == workrave::BREAK_ID_REST_BREAK ? 3 : 0, CONFIG_FLAG_INITIAL);
       config->set_value(break_auto_natural(breakId).key(), false, CONFIG_FLAG_INITIAL);
 
       // for backward compatibility with settings of older versions, we set the default
@@ -174,12 +172,6 @@ auto
 GUIConfig::custom_lock_command() -> Setting<std::string> &
 {
   return SettingCache::get<std::string>(config, CFG_KEY_CUSTOM_LOCK_COMMAND, std::string{});
-}
-
-auto
-GUIConfig::break_exercises(workrave::BreakId break_id) -> Setting<int> &
-{
-  return SettingCache::get<int>(config, expand(CFG_KEY_BREAK_EXERCISES, break_id), 0);
 }
 
 auto

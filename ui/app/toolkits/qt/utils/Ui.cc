@@ -119,15 +119,6 @@ Ui::get_sound_event_name(SoundEvent event) -> QString
     case SoundEvent::DailyLimit:
       return tr("Daily limit");
 
-    case SoundEvent::ExerciseEnded:
-      return tr("Exercise ended");
-
-    case SoundEvent::ExercisesEnded:
-      return tr("Exercises ended");
-
-    case SoundEvent::ExerciseStep:
-      return tr("Exercise change");
-
     default:
       return tr("?");
     }

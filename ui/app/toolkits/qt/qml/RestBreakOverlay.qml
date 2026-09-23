@@ -3,7 +3,7 @@
 // All data comes from the C++ "bridge" context property (RestBreakBridge).
 //
 // Two visual modes:
-//   blockMode 2 (All)   — warm full-screen background, three-column exercise layout
+//   blockMode 2 (All)   — warm full-screen background, centred break card
 //   blockMode 0/1       — transparent full-screen view, floating white card (centered)
 
 import QtQuick
@@ -22,17 +22,6 @@ Item {
 
     // ── Bridge bindings ──────────────────────────────────────────────────────
     readonly property int        blockMode:       bridge != null ? bridge.blockMode          : 1
-    readonly property bool       hasExercises:    bridge != null ? bridge.hasExercises       : false
-    readonly property bool       exercisesDone:   bridge != null ? bridge.exercisesDone      : false
-    readonly property int        exerciseCount:   bridge != null ? bridge.exerciseCount      : 4
-    readonly property int        exerciseIndex:   bridge != null ? bridge.exerciseIndex      : 0
-    readonly property var        exerciseNames:   bridge != null ? bridge.exerciseNames      : []
-    readonly property string     exerciseName:    bridge != null ? bridge.exerciseName       : ""
-    readonly property string     exerciseDesc:    bridge != null ? bridge.exerciseDescription : ""
-    readonly property string     exerciseImage:   bridge != null ? bridge.exerciseImage      : ""
-    readonly property bool       exerciseMirror:  bridge != null ? bridge.exerciseImageMirror : false
-    readonly property string     exerciseTimeStr: bridge != null ? bridge.exerciseTimeStr    : "0:45"
-    readonly property bool       isPaused:        bridge != null ? bridge.isPaused           : false
     readonly property bool       canPostpone:     bridge != null ? bridge.canPostpone        : true
     readonly property bool       canSkip:         bridge != null ? bridge.canSkip            : true
     readonly property bool       lockable:        bridge != null ? bridge.lockable           : false
@@ -41,14 +30,8 @@ Item {
     readonly property bool       isLocked:        bridge != null ? bridge.isLocked           : false
     readonly property double     lockProgress:     bridge != null ? bridge.lockProgress      : 0.0
     readonly property double     breakProgress:   bridge != null ? bridge.breakProgress      : 1.0
-    readonly property double     exerciseProgress: bridge != null ? bridge.exerciseProgress  : 1.0
     readonly property string     breakTimeShort:  bridge != null ? bridge.breakTimeShort     : "5:00"
-    readonly property string     breakMaxStr:     bridge != null ? bridge.breakMaxStr        : "10:00"
 
-    readonly property bool showExercises: root.hasExercises && !root.exercisesDone
-    readonly property var exerciseTimeParts: root.exerciseTimeStr.split(":")
-    readonly property string exerciseTimeMinutes: root.exerciseTimeParts.length > 1 ? root.exerciseTimeParts[0] : "0"
-    readonly property string exerciseTimeSeconds: root.exerciseTimeParts.length > 1 ? root.exerciseTimeParts[1] : root.exerciseTimeParts[0]
     readonly property int breakTimeColonIndex: root.breakTimeShort.lastIndexOf(":")
     readonly property string breakTimeBeforeColon: root.breakTimeColonIndex >= 0 ? root.breakTimeShort.slice(0, root.breakTimeColonIndex) : "0"
     readonly property string breakTimeAfterColon: root.breakTimeColonIndex >= 0 ? root.breakTimeShort.slice(root.breakTimeColonIndex + 1) : root.breakTimeShort
@@ -93,9 +76,7 @@ Item {
                         Item { width: 8; height: 1 }
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
-                            text: qsTr("Rest break").toUpperCase() + " · "
-                                  + qsTr("Exercise").toUpperCase() + " "
-                                  + qsTr("%1 of %2").arg(root.exerciseIndex + 1).arg(root.exerciseCount)
+                            text: qsTr("Rest break").toUpperCase()
                             font.pixelSize: 11; font.weight: Font.DemiBold
                             font.letterSpacing: 0.5; color: tok.mute
                         }
@@ -183,165 +164,27 @@ Item {
                     }
                 }
 
-                // ── Body — exercise or ring ──────────────────────────────────
+                // ── Body — countdown ring ────────────────────────────────────
                 Item {
                     id: cardBody
                     width: parent.width
-                    height: root.showExercises ? cardExCol.implicitHeight : cardRingCol.implicitHeight
+                    height: cardRingCol.implicitHeight
 
-                    // Exercise content
-                    Column {
-                        id: cardExCol
-                        visible: root.showExercises
-                        width: parent.width - 56
-                        x: 28
-                        topPadding: 24; bottomPadding: 28; spacing: 20
-
-                        // Progress dots
-                        Row {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            spacing: 8
-                            Repeater {
-                                model: root.exerciseCount
-                                Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.accent2 : tok.track }
-                            }
-                        }
-
-                        // Image + title / description
-                        Row {
-                            width: parent.width; spacing: 28
-
-                            Column {
-                                id: cardImgContainer
-                                width: 200
-                                spacing: 8
-
-                                Item {
-                                    width: 200; height: 200
-
-                                    Image {
-                                        id: cardExImg
-                                        anchors.fill: parent
-                                        source: root.exerciseImage
-                                        mirror: root.exerciseMirror
-                                        fillMode: Image.PreserveAspectFit
-                                    }
-                                    Rectangle {
-                                        anchors.fill: parent; color: tok.accentSoft; radius: 16
-                                        visible: cardExImg.status !== Image.Ready || root.exerciseImage === ""
-                                    }
-                                }
-
-                                Rectangle {
-                                    width: 200; height: 8; radius: 4; color: tok.track
-                                    Rectangle {
-                                        width: parent.width * root.exerciseProgress
-                                        height: parent.height; radius: parent.radius
-                                        color: root.isPaused ? tok.warn : tok.accent
-                                        Behavior on width { NumberAnimation { duration: 500 } }
-                                    }
-                                }
-                            }
-
-                            Column {
-                                width: parent.width - cardImgContainer.width - 28
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: 14
-                                Text {
-                                    width: parent.width
-                                    text: root.exerciseName
-                                    font.pixelSize: 36; font.family: tok.displayFamily; color: tok.ink
-                                    wrapMode: Text.Wrap; lineHeight: 1.1
-                                }
-                                Text {
-                                    width: parent.width
-                                    text: root.exerciseDesc
-                                    font.pixelSize: 15; color: tok.ink2
-                                    wrapMode: Text.WordWrap; lineHeight: 1.6
-                                }
-                            }
-                        }
-
-                        // Navigation
-                        Row {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            spacing: 16
-
-                            Rectangle {
-                                width: 36; height: 36; radius: tok.actionRadius
-                                color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                                Text { anchors.centerIn: parent; text: "◄"; font.pixelSize: 12; color: tok.ink2 }
-                                Accessible.role: Accessible.Button; Accessible.name: qsTr("Previous exercise")
-                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.prevExercise() } }
-                            }
-
-                            Rectangle {
-                                width: 36; height: 36; radius: tok.actionRadius
-                                color: root.isPaused ? tok.accent2Soft : tok.actionBg
-                                border.color: root.isPaused ? tok.accent2 : tok.actionEdge; border.width: 1
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: root.isPaused ? "▶" : "‖"
-                                    font.pixelSize: 13; font.weight: Font.Bold
-                                    color: root.isPaused ? tok.accent2 : tok.ink2
-                                }
-                                Accessible.role: Accessible.Button
-                                Accessible.name: root.isPaused ? qsTr("Resume exercises") : qsTr("Pause exercises")
-                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.togglePause() } }
-                            }
-
-                            Item {
-                                width: 92; height: 36
-
-                                Text {
-                                    anchors { right: parent.horizontalCenter; rightMargin: 5; verticalCenter: parent.verticalCenter }
-                                    width: 34
-                                    text: root.exerciseTimeMinutes
-                                    font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
-                                    horizontalAlignment: Text.AlignRight
-                                    font.features: {"tnum": 1}
-                                }
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: ":"
-                                    font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
-                                    horizontalAlignment: Text.AlignHCenter
-                                    font.features: {"tnum": 1}
-                                }
-                                Text {
-                                    anchors { left: parent.horizontalCenter; leftMargin: 5; verticalCenter: parent.verticalCenter }
-                                    width: 34
-                                    text: root.exerciseTimeSeconds
-                                    font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
-                                    horizontalAlignment: Text.AlignLeft
-                                    font.features: {"tnum": 1}
-                                }
-                            }
-
-                            Rectangle {
-                                width: 36; height: 36; radius: tok.actionRadius
-                                color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                                Text { anchors.centerIn: parent; text: "►"; font.pixelSize: 12; color: tok.ink2 }
-                                Accessible.role: Accessible.Button; Accessible.name: qsTr("Next exercise")
-                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.nextExercise() } }
-                            }
-
-                            Rectangle {
-                                width: 36; height: 36; radius: tok.actionRadius
-                                color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                                Text { anchors.centerIn: parent; text: "■"; font.pixelSize: 11; color: tok.ink2 }
-                                Accessible.role: Accessible.Button; Accessible.name: qsTr("Stop exercises")
-                                MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.endExercises() } }
-                            }
-                        }
-                    }
-
-                    // Ring view (no exercises or all done)
                     Column {
                         id: cardRingCol
-                        visible: !root.showExercises
                         width: parent.width
                         topPadding: 32; bottomPadding: 36; spacing: 4
+
+                        Image {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            source: "qrc:/sanctuary/stopme-panda-face.svg"
+                            width: 64; height: 64
+                            sourceSize: Qt.size(128, 128)
+                            fillMode: Image.PreserveAspectFit
+                            smooth: true
+                        }
+
+                        Item { width: 1; height: 12 }
 
                         Canvas {
                             id: cardRingCanvas
@@ -398,13 +241,6 @@ Item {
 
                         Text {
                             anchors.horizontalCenter: parent.horizontalCenter
-                            visible: root.exercisesDone
-                            text: qsTr("Exercises complete — please relax")
-                            font.pixelSize: 13; color: tok.mute
-                        }
-                        Text {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            visible: !root.hasExercises
                             text: qsTr("Please stand up and walk away from your computer")
                             font.pixelSize: 13; color: tok.mute
                         }
@@ -446,86 +282,6 @@ Item {
                         }
                     }
                 }
-
-                // ── Exercise footer: total break time and actions ─────────────
-                Column {
-                    visible: root.showExercises
-                    width: parent.width - 56
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    bottomPadding: 28
-                    spacing: 16
-
-                    Column {
-                        width: parent.width
-                        spacing: 8
-
-                        Row {
-                            width: parent.width
-
-                            Item { width: parent.width - breakBarTime.implicitWidth; height: 1 }
-
-                            Text {
-                                id: breakBarTime
-                                text: qsTr("%1 of %2").arg(root.breakTimeShort).arg(root.breakMaxStr)
-                                font.pixelSize: 15; font.family: tok.displayFamily; color: tok.ink
-                                font.features: {"tnum": 1}
-                            }
-                        }
-
-                        Rectangle {
-                            width: parent.width; height: 8; radius: 4; color: tok.track
-                            clip: true
-
-                            Rectangle {
-                                anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
-                                width: parent.width * root.breakProgress
-                                radius: parent.radius; color: tok.accent
-                                Behavior on width { NumberAnimation { duration: 500 } }
-                            }
-                        }
-                    }
-
-                    Row {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 8
-
-                        Rectangle {
-                            visible: root.canSkip
-                            enabled: root.canSkip
-                            height: 34; width: footerSkipLabel.implicitWidth + 28
-                            radius: tok.actionRadius; color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                            opacity: enabled ? 1.0 : 0.4
-                            Text {
-                                id: footerSkipLabel; anchors.centerIn: parent
-                                text: root.txtSkip; font.pixelSize: 13; font.weight: Font.Medium
-                                font.letterSpacing: 0.12; color: tok.ink2
-                            }
-                            Accessible.role: Accessible.Button; Accessible.name: root.txtSkip
-                            MouseArea {
-                                anchors.fill: parent; cursorShape: Qt.PointingHandCursor
-                                onClicked: { if (bridge != null) bridge.requestSkip() }
-                            }
-                        }
-
-                        Rectangle {
-                            visible: root.canPostpone
-                            enabled: root.canPostpone
-                            height: 34; width: footerPostponeLabel.implicitWidth + 28
-                            radius: tok.actionRadius; color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                            opacity: enabled ? 1.0 : 0.4
-                            Text {
-                                id: footerPostponeLabel; anchors.centerIn: parent
-                                text: root.txtPostpone; font.pixelSize: 13; font.weight: Font.Medium
-                                font.letterSpacing: 0.12; color: tok.ink2
-                            }
-                            Accessible.role: Accessible.Button; Accessible.name: root.txtPostpone
-                            MouseArea {
-                                anchors.fill: parent; cursorShape: Qt.PointingHandCursor
-                                onClicked: { if (bridge != null) bridge.requestPostpone() }
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -546,7 +302,7 @@ Item {
 
     // ════════════════════════════════════════════════════════════════════════
     // FULL-SCREEN LAYOUT  (blockMode 2 = Block input + screen)
-    // Warm background fills the screen; three-column exercise layout.
+    // Warm background fills the screen; the break card sits in the middle.
     // ════════════════════════════════════════════════════════════════════════
     Item {
         id: fullScreenLayout
@@ -573,9 +329,7 @@ Item {
                     Rectangle { width: 6; height: 6; radius: 999; color: tok.accent2; anchors.verticalCenter: parent.verticalCenter }
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("Rest break").toUpperCase() + " · "
-                              + qsTr("Exercise").toUpperCase() + " "
-                              + qsTr("%1 of %2").arg(root.exerciseIndex + 1).arg(root.exerciseCount)
+                        text: qsTr("Rest break").toUpperCase()
                         font.pixelSize: 12; font.weight: Font.DemiBold; font.letterSpacing: 0.5; color: tok.mute
                     }
                 }
@@ -689,295 +443,92 @@ Item {
                 anchors { top: lockStrip.bottom; topMargin: 20; left: parent.left; right: parent.right; bottom: parent.bottom }
 
                 Item {
-                    id: threeCol
+                    id: centerCol
                     anchors { horizontalCenter: parent.horizontalCenter; top: parent.top; bottom: parent.bottom }
                     width: Math.min(parent.width, 1060)
 
-                    // Left column: exercise sequence list
-                    Item {
-                        id: seqPanel
-                        visible: root.showExercises
-                        anchors { top: parent.top; left: parent.left; bottom: parent.bottom }
-                        width: root.showExercises ? 220 : 0
+                    Rectangle {
+                        id: breakCard
+                        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
+                        height: Math.min(parent.height - 24, 680)
+                        radius: 24; color: tok.panel; border.color: tok.edge; border.width: 0.5
 
-                        Column {
-                            anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right }
-                            spacing: 2
+                        // Ring view
+                        Item {
+                            anchors.fill: parent
 
-                            Text { text: qsTr("Exercises"); font.pixelSize: 14; font.italic: true; font.family: tok.displayFamily; color: tok.mute; bottomPadding: 10 }
+                            Canvas {
+                                id: ringCanvas
+                                anchors.centerIn: parent
+                                width: 320; height: 320
 
-                            Repeater {
-                                model: root.exerciseNames
-                                delegate: Item {
-                                    id: exRow
-                                    width: seqPanel.width; height: 52
-                                    property bool isDone:    root.exercisesDone || index < root.exerciseIndex
-                                    property bool isCurrent: !root.exercisesDone && index === root.exerciseIndex
+                                property double prog: root.breakProgress
+                                onProgChanged: requestPaint()
+                                Component.onCompleted: requestPaint()
 
-                                    Rectangle {
-                                        anchors { fill: parent; leftMargin: -4; rightMargin: -4 }
-                                        radius: 10; color: tok.panel; border.color: tok.edge; border.width: 0.5
-                                        visible: exRow.isCurrent
-                                    }
-                                    Row {
-                                        anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter; leftMargin: 8; rightMargin: 8 }
-                                        spacing: 10
-                                        Rectangle {
-                                            width: 32; height: 32; radius: 8
-                                            color: exRow.isDone ? tok.accentSoft : (exRow.isCurrent ? tok.accent2Soft : "transparent")
-                                            border.color: (!exRow.isDone && !exRow.isCurrent) ? tok.edge : "transparent"; border.width: 1
-                                            anchors.verticalCenter: parent.verticalCenter
-                                            Text { anchors.centerIn: parent; text: exRow.isDone ? "✓" : (exRow.isCurrent ? "●" : "○"); font.pixelSize: 13; color: exRow.isDone ? tok.accent : (exRow.isCurrent ? tok.accent2 : tok.mute) }
-                                        }
-                                        Text {
-                                            anchors.verticalCenter: parent.verticalCenter
-                                            width: parent.width - 32 - 10
-                                            text: modelData; font.pixelSize: 13; font.weight: exRow.isCurrent ? Font.Medium : Font.Normal
-                                            font.strikeout: exRow.isDone; color: exRow.isDone ? tok.mute : (exRow.isCurrent ? tok.ink : tok.ink2); elide: Text.ElideRight
-                                        }
-                                    }
+                                onPaint: {
+                                    var ctx = getContext("2d");
+                                    ctx.clearRect(0, 0, width, height);
+                                    var cx = 160, cy = 160, r = 152, sw = 9;
+                                    ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.strokeStyle = tok.track.toString(); ctx.lineWidth = sw; ctx.stroke();
+                                    ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = tok.accent.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
                                 }
                             }
-                        }
-                    }
 
-                    // Right column: total-break timer
-                    Item {
-                        id: timerPanel
-                        visible: root.showExercises
-                        anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
-                        width: root.showExercises ? 160 : 0
-
-                        Column {
-                            anchors { right: parent.right; verticalCenter: parent.verticalCenter }
-                            spacing: 0
-                            Text { anchors.right: parent.right; text: qsTr("Total left"); font.pixelSize: 13; font.italic: true; font.family: tok.displayFamily; color: tok.mute; bottomPadding: 4 }
-                            Text { anchors.right: parent.right; text: root.breakTimeShort; font.pixelSize: 58; font.family: tok.displayFamily; color: tok.ink; lineHeight: 1.0 }
-                            Text { anchors.right: parent.right; text: qsTr("of %1").arg(root.breakMaxStr); font.pixelSize: 11; font.weight: Font.DemiBold; font.letterSpacing: 1.4; color: tok.mute; topPadding: 4; bottomPadding: 10 }
-                            Rectangle {
-                                anchors.right: parent.right; width: parent.width; height: 4; radius: 2; color: tok.track
-                                Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: Math.max(4, parent.width * root.breakProgress); radius: 2; color: tok.accent2 }
+                            // The ring is full inside, so the panda sits on top of it
+                            Image {
+                                anchors { horizontalCenter: parent.horizontalCenter; bottom: ringCanvas.top; bottomMargin: 20 }
+                                source: "qrc:/sanctuary/stopme-panda-face.svg"
+                                width: 72; height: 72
+                                sourceSize: Qt.size(144, 144)
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true
                             }
-                        }
-                    }
 
-                    // Center column: exercise card or ring
-                    Item {
-                        id: centerCol
-                        anchors {
-                            top: parent.top; bottom: parent.bottom
-                            left: root.showExercises ? seqPanel.right : parent.left; leftMargin: root.showExercises ? 12 : 0
-                            right: timerPanel.left; rightMargin: 20
-                        }
-
-                        // Exercise card
-                        Rectangle {
-                            id: exerciseCard
-                            anchors { left: parent.left; right: parent.right; verticalCenter: parent.verticalCenter }
-                            height: Math.min(parent.height - 24, 680)
-                            radius: 24; color: tok.panel; border.color: tok.edge; border.width: 0.5
-
-                            Item {
-                                id: activeView
-                                anchors { fill: parent; topMargin: 32; leftMargin: 40; rightMargin: 40; bottomMargin: 32 }
-                                visible: root.showExercises
-
-                                Row {
-                                    id: dotRow
-                                    anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
-                                    spacing: 8
-                                    Repeater {
-                                        model: root.exerciseCount
-                                        Rectangle { width: 8; height: 8; radius: 999; color: index <= root.exerciseIndex ? tok.accent2 : tok.track }
-                                    }
-                                }
-
+                            Column {
+                                anchors.centerIn: parent
+                                spacing: 4
                                 Item {
-                                    id: navRow
-                                    anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-                                    height: 48
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    width: 280; height: 96
 
-                                    Row {
+                                    Text {
+                                        anchors { right: parent.horizontalCenter; rightMargin: 11; verticalCenter: parent.verticalCenter }
+                                        width: 118
+                                        text: root.breakTimeBeforeColon
+                                        font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
+                                        horizontalAlignment: Text.AlignRight
+                                        font.features: {"tnum": 1}
+                                    }
+                                    Text {
                                         anchors.centerIn: parent
-                                        spacing: 16
-
-                                        Rectangle {
-                                            width: 36; height: 36; radius: tok.actionRadius
-                                            color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                                            Text { anchors.centerIn: parent; text: "◄"; font.pixelSize: 12; color: tok.ink2 }
-                                            Accessible.role: Accessible.Button; Accessible.name: qsTr("Previous exercise")
-                                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.prevExercise() } }
-                                        }
-
-                                        Rectangle {
-                                            width: 36; height: 36; radius: tok.actionRadius
-                                            color: root.isPaused ? tok.accent2Soft : tok.actionBg
-                                            border.color: root.isPaused ? tok.accent2 : tok.actionEdge; border.width: 1
-                                            Text {
-                                                anchors.centerIn: parent
-                                                text: root.isPaused ? "▶" : "‖"
-                                                font.pixelSize: 13; font.weight: Font.Bold
-                                                color: root.isPaused ? tok.accent2 : tok.ink2
-                                            }
-                                            Accessible.role: Accessible.Button
-                                            Accessible.name: root.isPaused ? qsTr("Resume exercises") : qsTr("Pause exercises")
-                                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.togglePause() } }
-                                        }
-
-                                        Item {
-                                            width: 92; height: 36
-
-                                            Text {
-                                                anchors { right: parent.horizontalCenter; rightMargin: 5; verticalCenter: parent.verticalCenter }
-                                                width: 34
-                                                text: root.exerciseTimeMinutes
-                                                font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
-                                                horizontalAlignment: Text.AlignRight
-                                                font.features: {"tnum": 1}
-                                            }
-                                            Text {
-                                                anchors.centerIn: parent
-                                                text: ":"
-                                                font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
-                                                horizontalAlignment: Text.AlignHCenter
-                                                font.features: {"tnum": 1}
-                                            }
-                                            Text {
-                                                anchors { left: parent.horizontalCenter; leftMargin: 5; verticalCenter: parent.verticalCenter }
-                                                width: 34
-                                                text: root.exerciseTimeSeconds
-                                                font.pixelSize: 34; font.family: tok.displayFamily; color: tok.ink
-                                                horizontalAlignment: Text.AlignLeft
-                                                font.features: {"tnum": 1}
-                                            }
-                                        }
-
-                                        Rectangle {
-                                            width: 36; height: 36; radius: tok.actionRadius
-                                            color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                                            Text { anchors.centerIn: parent; text: "►"; font.pixelSize: 12; color: tok.ink2 }
-                                            Accessible.role: Accessible.Button; Accessible.name: qsTr("Next exercise")
-                                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.nextExercise() } }
-                                        }
-
-                                        Rectangle {
-                                            width: 36; height: 36; radius: tok.actionRadius
-                                            color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                                            Text { anchors.centerIn: parent; text: "■"; font.pixelSize: 11; color: tok.ink2 }
-                                            Accessible.role: Accessible.Button; Accessible.name: qsTr("Stop exercises")
-                                            MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.endExercises() } }
-                                        }
+                                        text: ":"
+                                        font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
+                                        font.features: {"tnum": 1}
                                     }
-                                }
-
-                                Item {
-                                    anchors { top: dotRow.bottom; topMargin: 20; bottom: navRow.top; bottomMargin: 16; left: parent.left; right: parent.right }
-
-                                    Item {
-                                        id: fsImgContainer
-                                        anchors { left: parent.left; verticalCenter: parent.verticalCenter }
-                                        width: Math.min(260, parent.height)
-                                        height: width + 16
-
-                                        Item {
-                                            width: parent.width; height: parent.width
-                                            anchors.top: parent.top
-
-                                            Image {
-                                                id: fsExImg; anchors.fill: parent
-                                                source: root.exerciseImage; mirror: root.exerciseMirror
-                                                fillMode: Image.PreserveAspectFit
-                                            }
-                                            Rectangle {
-                                                anchors.fill: parent; color: tok.accentSoft; radius: 16
-                                                visible: fsExImg.status !== Image.Ready || root.exerciseImage === ""
-                                            }
-                                        }
-
-                                        Rectangle {
-                                            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
-                                            height: 8; radius: 4; color: tok.track
-                                            Rectangle {
-                                                width: parent.width * root.exerciseProgress
-                                                height: parent.height; radius: parent.radius
-                                                color: root.isPaused ? tok.warn : tok.accent
-                                                Behavior on width { NumberAnimation { duration: 500 } }
-                                            }
-                                        }
-                                    }
-
-                                    Column {
-                                        anchors { left: fsImgContainer.right; leftMargin: 32; right: parent.right; verticalCenter: parent.verticalCenter }
-                                        spacing: 14
-                                        Text { width: parent.width; text: root.exerciseName; font.pixelSize: 36; font.family: tok.displayFamily; color: tok.ink; wrapMode: Text.Wrap; lineHeight: 1.1 }
-                                        Text { width: parent.width; text: root.exerciseDesc; font.pixelSize: 15; color: tok.ink2; wrapMode: Text.WordWrap; lineHeight: 1.6 }
+                                    Text {
+                                        anchors { left: parent.horizontalCenter; leftMargin: 11; verticalCenter: parent.verticalCenter }
+                                        width: 118
+                                        text: root.breakTimeAfterColon
+                                        font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
+                                        horizontalAlignment: Text.AlignLeft
+                                        font.features: {"tnum": 1}
                                     }
                                 }
                             }
 
-                            // Ring view
-                            Item {
-                                anchors.fill: parent
-                                visible: !root.showExercises
-
-                                Canvas {
-                                    id: ringCanvas
-                                    anchors.centerIn: parent
-                                    width: 320; height: 320
-
-                                    property double prog: root.breakProgress
-                                    onProgChanged: requestPaint()
-                                    Component.onCompleted: requestPaint()
-
-                                    onPaint: {
-                                        var ctx = getContext("2d");
-                                        ctx.clearRect(0, 0, width, height);
-                                        var cx = 160, cy = 160, r = 152, sw = 9;
-                                        ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * Math.PI); ctx.strokeStyle = tok.track.toString(); ctx.lineWidth = sw; ctx.stroke();
-                                        ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI * Math.max(prog, 0.001)); ctx.strokeStyle = tok.accent.toString(); ctx.lineWidth = sw; ctx.lineCap = "round"; ctx.stroke();
-                                    }
-                                }
-
-                                Column {
-                                    anchors.centerIn: parent
-                                    spacing: 4
-                                    Item {
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        width: 280; height: 96
-
-                                        Text {
-                                            anchors { right: parent.horizontalCenter; rightMargin: 11; verticalCenter: parent.verticalCenter }
-                                            width: 118
-                                            text: root.breakTimeBeforeColon
-                                            font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
-                                            horizontalAlignment: Text.AlignRight
-                                            font.features: {"tnum": 1}
-                                        }
-                                        Text {
-                                            anchors.centerIn: parent
-                                            text: ":"
-                                            font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
-                                            font.features: {"tnum": 1}
-                                        }
-                                        Text {
-                                            anchors { left: parent.horizontalCenter; leftMargin: 11; verticalCenter: parent.verticalCenter }
-                                            width: 118
-                                            text: root.breakTimeAfterColon
-                                            font.pixelSize: 80; font.family: tok.displayFamily; color: tok.ink
-                                            horizontalAlignment: Text.AlignLeft
-                                            font.features: {"tnum": 1}
-                                        }
-                                    }
-                                    Text { anchors.horizontalCenter: parent.horizontalCenter; visible: root.exercisesDone; text: qsTr("Exercises complete — please relax"); font.pixelSize: 13; color: tok.mute }
-                                    Text { anchors.horizontalCenter: parent.horizontalCenter; visible: !root.hasExercises; text: qsTr("Please stand up and walk away from your computer"); font.pixelSize: 13; color: tok.mute }
-                                    Item { width: 1; height: 16 }
-                                    Rectangle {
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        visible: root.canSkip; height: 36; width: fsSkipLabel.implicitWidth + 28
-                                        radius: tok.actionRadius; color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
-                                        Text { id: fsSkipLabel; anchors.centerIn: parent; text: qsTr("End break early"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2 }
-                                        MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSkip() } }
-                                    }
+                            // Below the ring, where the text has the room it needs
+                            Column {
+                                anchors { horizontalCenter: parent.horizontalCenter; top: ringCanvas.bottom; topMargin: 20 }
+                                spacing: 4
+                                Text { anchors.horizontalCenter: parent.horizontalCenter; text: qsTr("Please stand up and walk away from your computer"); font.pixelSize: 13; color: tok.mute }
+                                Item { width: 1; height: 16 }
+                                Rectangle {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    visible: root.canSkip; height: 36; width: fsSkipLabel.implicitWidth + 28
+                                    radius: tok.actionRadius; color: tok.actionBg; border.color: tok.actionEdge; border.width: 1
+                                    Text { id: fsSkipLabel; anchors.centerIn: parent; text: qsTr("End break early"); font.pixelSize: 13; font.weight: Font.Medium; color: tok.ink2 }
+                                    MouseArea { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: { if (bridge != null) bridge.requestSkip() } }
                                 }
                             }
                         }

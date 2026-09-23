@@ -89,14 +89,6 @@ org_workrave_ControlInterface::introspection() const noexcept
 
   "\n"
 
-  "    <method name=\"Exercises\">\n"
-
-  "\n"
-
-  "    </method>\n"
-
-  "\n"
-
   "    <method name=\"RestBreak\">\n"
 
   "\n"
@@ -136,7 +128,7 @@ org_workrave_ControlInterface::dispatch(const QDBusMessage &message, const QDBus
     std::string_view name;
     Method method;
   };
-  static constexpr std::array<Entry, 8> methods =
+  static constexpr std::array<Entry, 7> methods =
   { {
 
       {.name = "OpenMain", .method = &org_workrave_ControlInterface::dispatch_OpenMain},
@@ -146,8 +138,6 @@ org_workrave_ControlInterface::dispatch(const QDBusMessage &message, const QDBus
       {.name = "ReadingMode", .method = &org_workrave_ControlInterface::dispatch_ReadingMode},
 
       {.name = "Statistics", .method = &org_workrave_ControlInterface::dispatch_Statistics},
-
-      {.name = "Exercises", .method = &org_workrave_ControlInterface::dispatch_Exercises},
 
       {.name = "RestBreak", .method = &org_workrave_ControlInterface::dispatch_RestBreak},
 
@@ -306,39 +296,6 @@ org_workrave_ControlInterface::dispatch_Statistics(const QDBusMessage &message, 
       throw ::workrave::rpc::dbus::Error(
         std::string(::workrave::rpc::dbus::error_names::failed),
         "Failed to send reply for org.workrave.ControlInterface.Statistics");
-    }
-}
-
-
-void
-org_workrave_ControlInterface::dispatch_Exercises(const QDBusMessage &message, const QDBusConnection &connection)
-{
-
-
-
-  const auto num_in_args = message.arguments().size();
-  if (num_in_args != 0)
-    {
-      throw ::workrave::rpc::dbus::Error(
-        std::string(::workrave::rpc::dbus::error_names::invalid_args),
-        "Incorrect number of input parameters for org.workrave.ControlInterface.Exercises");
-    }
-
-
-
-
-  implementation_.on_menu_exercises();
-
-
-  QDBusMessage reply = message.createReply();
-
-
-
-  if (!connection.send(reply))
-    {
-      throw ::workrave::rpc::dbus::Error(
-        std::string(::workrave::rpc::dbus::error_names::failed),
-        "Failed to send reply for org.workrave.ControlInterface.Exercises");
     }
 }
 

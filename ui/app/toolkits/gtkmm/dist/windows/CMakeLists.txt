@@ -1,5 +1,6 @@
-install(FILES WizModernImage.bmp DESTINATION dist)
-install(FILES WizModernSmall.bmp DESTINATION dist)
+install(FILES WizModernImage.bmp WizModernImage-328x604.bmp DESTINATION dist)
+install(FILES WizModernSmall.bmp WizModernSmall-110x106.bmp DESTINATION dist)
+install(FILES ${CMAKE_SOURCE_DIR}/ui/data/images/windows/workrave-normal.ico DESTINATION dist RENAME stopme.ico)
 
 if(MINGW OR VCPKG_TOOLCHAIN)
   file(GLOB POFILES ${CMAKE_SOURCE_DIR}/po/*.po)
@@ -188,7 +189,7 @@ add_custom_command(OUTPUT ${INSTALLER_TARGET}
 
 add_custom_target(installer DEPENDS ${INSTALLER_TARGET})
 
-set(PORTABLE_NAME "Workrave")
+set(PORTABLE_NAME "stopme")
 set(PORTABLE_ZIP "${CMAKE_INSTALL_PREFIX}/workrave-portable.zip")
 
 add_custom_command(OUTPUT "${PORTABLE_ZIP}"

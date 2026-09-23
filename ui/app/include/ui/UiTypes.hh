@@ -25,7 +25,6 @@ using BreakFlags = unsigned int;
 const static unsigned int BREAK_FLAGS_NONE = 0;
 const static unsigned int BREAK_FLAGS_POSTPONABLE = 1U << 0U;
 const static unsigned int BREAK_FLAGS_SKIPPABLE = 1U << 1U;
-const static unsigned int BREAK_FLAGS_NO_EXERCISES = 1U << 2U;
 const static unsigned int BREAK_FLAGS_NATURAL = 1U << 3U;
 const static unsigned int BREAK_FLAGS_USER_INITIATED = 1U << 4U;
 

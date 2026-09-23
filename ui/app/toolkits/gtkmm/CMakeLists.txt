@@ -5,8 +5,6 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   DailyLimitWindow.cc
   DataConnector.cc
   DebugDialog.cc
-  ExercisesDialog.cc
-  ExercisesPanel.cc
   GnomeSession.cc
   GtkUtil.cc
   HeadInfo.cc

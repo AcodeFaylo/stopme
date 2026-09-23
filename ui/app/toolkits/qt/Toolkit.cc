@@ -190,10 +190,6 @@ Toolkit::show_window(WindowType type)
       show_about();
       break;
 
-    case WindowType::Exercises:
-      show_exercises();
-      break;
-
     case WindowType::Debug:
       show_debug();
       break;
@@ -219,16 +215,6 @@ Toolkit::show_debug()
       debug_dialog->setAttribute(Qt::WA_DeleteOnClose);
     }
   debug_dialog->show();
-}
-
-void
-Toolkit::show_exercises()
-{
-  if (!exercises_dialog)
-    {
-      exercises_dialog = std::make_unique<QmlExercisesDialog>(app);
-    }
-  exercises_dialog->show();
 }
 
 void

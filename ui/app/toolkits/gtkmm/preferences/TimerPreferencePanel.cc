@@ -134,7 +134,6 @@ TimerPreferencePanel::create_options_panel()
   hig->add_widget(*skippable_cb);
 
   // Break specific options
-  exercises_spin = nullptr;
   monitor_cb = nullptr;
   auto_natural_cb = nullptr;
   allow_shutdown_cb = nullptr;
@@ -146,12 +145,6 @@ TimerPreferencePanel::create_options_panel()
       hig->add_widget(*monitor_cb);
 
       connector->connect(CoreConfig::timer_daily_limit_use_micro_break_activity(), dc::wrap(monitor_cb));
-    }
-
-  if (break_id == BREAK_ID_REST_BREAK)
-    {
-      exercises_spin = Gtk::manage(new Gtk::SpinButton(exercises_adjustment));
-      hig->add_label(std::string(_("Number of exercises")) + ":", *exercises_spin);
     }
 
   if (break_id == BREAK_ID_REST_BREAK)
@@ -178,11 +171,6 @@ TimerPreferencePanel::create_options_panel()
   connector->connect(GUIConfig::break_ignorable(break_id), dc::wrap(ignorable_cb));
 
   connector->connect(GUIConfig::break_skippable(break_id), dc::wrap(skippable_cb));
-
-  if (break_id == BREAK_ID_REST_BREAK)
-    {
-      connector->connect(GUIConfig::break_exercises(break_id), dc::wrap(exercises_spin));
-    }
 
   return hig;
 }
@@ -327,11 +315,6 @@ TimerPreferencePanel::enable_buttons()
     }
 
   snooze_tim->set_sensitive(on);
-
-  if (exercises_spin != nullptr)
-    {
-      exercises_spin->set_sensitive(on);
-    }
 
   if (auto_natural_cb != nullptr)
     {

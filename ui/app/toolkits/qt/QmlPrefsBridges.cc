@@ -412,12 +412,6 @@ RestBreakPrefBridge::snoozeNorm() const
   return PrefUtils::normalize(CoreConfig::timer_snooze(BREAK_ID_REST_BREAK)(), SNOOZE_MIN, SNOOZE_MAX);
 }
 
-int
-RestBreakPrefBridge::exercises() const
-{
-  return GUIConfig::break_exercises(BREAK_ID_REST_BREAK)();
-}
-
 bool
 RestBreakPrefBridge::autoNatural() const
 {
@@ -581,22 +575,6 @@ RestBreakPrefBridge::setSnoozeSeconds(int seconds)
 {
   CoreConfig::timer_snooze(BREAK_ID_REST_BREAK).set(std::clamp(seconds, 1, 86400));
   Q_EMIT timingChanged();
-}
-
-void
-RestBreakPrefBridge::incrementExercises()
-{
-  int v = std::min(GUIConfig::break_exercises(BREAK_ID_REST_BREAK)() + 1, 10);
-  GUIConfig::break_exercises(BREAK_ID_REST_BREAK).set(v);
-  Q_EMIT optionsChanged();
-}
-
-void
-RestBreakPrefBridge::decrementExercises()
-{
-  int v = std::max(GUIConfig::break_exercises(BREAK_ID_REST_BREAK)() - 1, 0);
-  GUIConfig::break_exercises(BREAK_ID_REST_BREAK).set(v);
-  Q_EMIT optionsChanged();
 }
 
 bool

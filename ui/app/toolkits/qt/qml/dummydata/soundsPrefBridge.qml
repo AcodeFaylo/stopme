@@ -27,11 +27,8 @@ QtObject {
     property QtObject ev5:  QtObject { property string id: "rest-break-started"; property string name: "Rest break started"; property bool enabled: true;  property string filename: "" }
     property QtObject ev6:  QtObject { property string id: "rest-break-ended";  property string name: "Rest break ended";   property bool enabled: true;  property string filename: "/custom/sound.wav" }
     property QtObject ev7:  QtObject { property string id: "daily-limit";       property string name: "Daily limit";         property bool enabled: false; property string filename: "" }
-    property QtObject ev8:  QtObject { property string id: "exercise-ended";    property string name: "Exercise ended";      property bool enabled: true;  property string filename: "" }
-    property QtObject ev9:  QtObject { property string id: "exercises-ended";   property string name: "Exercises ended";     property bool enabled: true;  property string filename: "" }
-    property QtObject ev10: QtObject { property string id: "exercise-step";     property string name: "Exercise step";       property bool enabled: false; property string filename: "" }
 
-    property var events: [ev1, ev2, ev3, ev4, ev5, ev6, ev7, ev8, ev9, ev10]
+    property var events: [ev1, ev2, ev3, ev4, ev5, ev6, ev7]
 
     function setEnabled(v)                      { console.log("setEnabled", v) }
     function setVolume(v)                       { console.log("setVolume", v) }

@@ -19,7 +19,6 @@ target_sources(workrave-toolkit-qt PRIVATE
   QmlRestBreakWindow.cc
   QmlTimerBoxView.cc
   DebugDialog.cc
-  QmlExercisesDialog.cc
   QmlStatisticsDialog.cc
   MainWindow.cc
   Toolkit.cc
@@ -118,7 +117,6 @@ set(MOC_SOURCES
   QmlRestBreakWindow.hh
   QmlTimerBoxView.hh
   DebugDialog.hh
-  QmlExercisesDialog.hh
   QmlStatisticsDialog.hh
   MainWindow.hh
   Toolkit.hh

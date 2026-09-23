@@ -1,7 +1,6 @@
 add_library(workrave-libs-commonui STATIC)
 
 target_sources(workrave-libs-commonui PRIVATE
-  Exercise.cc
   Locale.cc
   MenuHelper.cc
   MenuModel.cc

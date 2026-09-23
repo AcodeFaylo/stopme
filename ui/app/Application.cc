@@ -145,7 +145,6 @@ Application::main()
   init_core();
   init_nls();
   init_sound_player();
-  init_exercises();
 
   preferences_registry = std::make_shared<PreferencesRegistry>();
   context->set_preferences_registry(preferences_registry);
@@ -310,7 +309,6 @@ Application::init_nls()
   GUIConfig::locale().connect(this, [&](const std::string &locale) {
     Locale::set_locale(locale);
     menu_model->update();
-    exercises->load();
   });
 #endif
 
@@ -385,14 +383,6 @@ Application::init_sound_player()
     {
       TRACE_MSG("No sound");
     }
-}
-
-void
-Application::init_exercises()
-{
-  TRACE_ENTRY();
-  exercises = std::make_shared<ExerciseCollection>();
-  context->set_exercises(exercises);
 }
 
 #if defined(HAVE_CORE_NEXT)
@@ -525,7 +515,7 @@ Application::create_break_window(BreakId break_id, workrave::utils::Flags<BreakH
 
   if (break_hint & BreakHint::NaturalBreak)
     {
-      break_flags |= (BREAK_FLAGS_NO_EXERCISES | BREAK_FLAGS_NATURAL | BREAK_FLAGS_POSTPONABLE);
+      break_flags |= (BREAK_FLAGS_NATURAL | BREAK_FLAGS_POSTPONABLE);
     }
 
   active_break_id = break_id;

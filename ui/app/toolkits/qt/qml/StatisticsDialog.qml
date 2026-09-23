@@ -309,9 +309,9 @@ Item {
 
                                     Repeater {
                                         model: [
-                                            "qrc:/sanctuary/micro-break.png",
-                                            "qrc:/sanctuary/rest-break.png",
-                                            "qrc:/sanctuary/daily-limit.png"
+                                            "qrc:/sanctuary/timer-micro-break-large.png",
+                                            "qrc:/sanctuary/timer-rest-break-large.png",
+                                            "qrc:/sanctuary/timer-daily-large.png"
                                         ]
                                         delegate: Item {
                                             required property string modelData

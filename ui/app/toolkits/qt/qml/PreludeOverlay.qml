@@ -11,7 +11,6 @@ Item {
 
     // ── Bridge bindings ───────────────────────────────────────────────────────
     readonly property int    stage:    bridge != null ? bridge.stage    : 0
-    readonly property int    breakType: bridge != null ? bridge.breakType : 0
     readonly property string heading:  bridge != null ? bridge.heading  : qsTr("Time for a micro-break?")
     readonly property string countdown: bridge != null ? bridge.countdownText : qsTr("Break in {}")
 
@@ -19,9 +18,6 @@ Item {
     readonly property color stageAccent: stage === 1 ? tok.warn
                                        : stage === 2 ? tok.danger
                                        :               tok.accent
-
-    // ── Icon per break type ───────────────────────────────────────────────────
-    function breakIcon(t) { return t === 0 ? "✋" : (t === 1 ? "☕" : "☀") }
 
     // ── Card ──────────────────────────────────────────────────────────────────
     Rectangle {
@@ -72,10 +68,15 @@ Item {
                 radius: 999
                 color: tok.accentSoft
 
-                Text {
+                // Happy at first, sad once the warning has been ignored
+                Image {
                     anchors.centerIn: parent
-                    text: root.breakIcon(root.breakType)
-                    font.pixelSize: 20
+                    source: root.stage >= 1 ? "qrc:/sanctuary/stopme-panda-sad.svg"
+                                            : "qrc:/sanctuary/stopme-panda-face.svg"
+                    width: 34; height: 34
+                    sourceSize: Qt.size(68, 68)
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
                 }
             }
 

@@ -72,7 +72,6 @@ public:
   static workrave::config::Setting<std::string> &preferred_lock_method();
   static workrave::config::Setting<std::string> &preferred_sleep_operation();
   static workrave::config::Setting<std::string> &custom_lock_command();
-  static workrave::config::Setting<int> &break_exercises(workrave::BreakId break_id);
   static workrave::config::Setting<int, BlockMode> &block_mode();
   static workrave::config::Setting<bool> &follow_focus_assist_enabled();
   static workrave::config::Setting<int, FocusMode> &focus_mode();
@@ -115,7 +114,6 @@ private:
   static const std::string CFG_KEY_BREAK_AUTO_NATURAL;
   static const std::string CFG_KEY_BREAK_IGNORABLE;
   static const std::string CFG_KEY_BREAK_SKIPPABLE;
-  static const std::string CFG_KEY_BREAK_EXERCISES;
   static const std::string CFG_KEY_BREAK_ENABLE_SHUTDOWN;
   static const std::string CFG_KEY_PREFERRED_LOCK_METHOD;
   static const std::string CFG_KEY_PREFERRED_SLEEP_OPERATION;

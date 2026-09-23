@@ -28,7 +28,7 @@ enum MenuCommand
   // Note: Do NOT remove/change any of the commands.
   // Append new items only at the end.
   MENU_COMMAND_PREFERENCES,
-  MENU_COMMAND_EXERCISES,
+  MENU_COMMAND_REMOVED_6,
   MENU_COMMAND_REST_BREAK,
   MENU_COMMAND_MODE_NORMAL,
   MENU_COMMAND_MODE_QUIET,
@@ -54,7 +54,6 @@ class MenuId
 public:
   using sv = std::string_view;
   static constexpr std::string_view PREFERENCES = sv("workrave.preferences");
-  static constexpr std::string_view EXERCISES = sv("workrave.exercises");
   static constexpr std::string_view REST_BREAK = sv("workrave.restbreak");
   static constexpr std::string_view MODE_MENU = sv("workrave.mode_menu");
   static constexpr std::string_view MODE = sv("workrave.mode");
@@ -73,7 +72,6 @@ public:
 enum class MenuAction
 {
   Preferences = MENU_COMMAND_PREFERENCES,
-  Exercises = MENU_COMMAND_EXERCISES,
   Restbreak = MENU_COMMAND_REST_BREAK,
   ModeNormal = MENU_COMMAND_MODE_NORMAL,
   ModeQuiet = MENU_COMMAND_MODE_QUIET,

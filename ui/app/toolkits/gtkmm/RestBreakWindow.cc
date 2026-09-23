@@ -41,7 +41,6 @@
 #include "TimeBar.hh"
 #include "GtkUtil.hh"
 #include "Frame.hh"
-#include "ExercisesPanel.hh"
 
 using namespace std;
 using namespace workrave;
@@ -87,14 +86,7 @@ RestBreakWindow::start()
 {
   TRACE_ENTRY();
   init_gui();
-  if (get_exercise_count() > 0)
-    {
-      install_exercises_panel();
-    }
-  else
-    {
-      install_info_panel();
-    }
+  install_info_panel();
 
   update_break_window();
 
@@ -188,39 +180,6 @@ RestBreakWindow::clear_pluggable_panel()
       TRACE_MSG("Clearing");
       pluggable_panel->remove(*(*(children.begin())));
     }
-}
-
-int
-RestBreakWindow::get_exercise_count()
-{
-  int ret = 0;
-
-  if (app->get_exercises()->has_exercises())
-    {
-      ret = GUIConfig::break_exercises(BREAK_ID_REST_BREAK)();
-    }
-  return ret;
-}
-
-void
-RestBreakWindow::install_exercises_panel()
-{
-  if (!head.is_primary() || ((break_flags & BREAK_FLAGS_NO_EXERCISES) != 0))
-    {
-      install_info_panel();
-    }
-  else
-    {
-      set_ignore_activity(true);
-      clear_pluggable_panel();
-      ExercisesPanel *exercises_panel = Gtk::manage(new ExercisesPanel(app->get_sound_theme(), app->get_exercises(), nullptr));
-      pluggable_panel->pack_start(*exercises_panel, false, false, 0);
-      exercises_panel->set_exercise_count(get_exercise_count());
-      exercises_panel->signal_stop().connect(sigc::mem_fun(*this, &RestBreakWindow::install_info_panel));
-      pluggable_panel->show_all();
-      pluggable_panel->queue_resize();
-    }
-  center();
 }
 
 void
