@@ -156,7 +156,7 @@ else
     echo "Tag build : $WORKRAVE_RELEASE"
     baseFilenamePostfix=${WORKRAVE_VERSION}${EXTRA}
 fi
-baseFilename=workrave-${baseFilenamePostfix}
+baseFilename=stopme-${baseFilenamePostfix}
 mkdir -p ${DEPLOY_DIR}
 
 if [ -n "$CONF_SBOM" ]; then
@@ -187,7 +187,7 @@ if [[ $DOCKER_IMAGE =~ "ubuntu" ]]; then
             echo "error: 'ninja appimage' produced no stopme*.AppImage in ${BUILD_DIR}" >&2
             exit 1
         fi
-        baseLinuxFilename=workrave-linux-${baseFilenamePostfix}
+        baseLinuxFilename=stopme-linux-${baseFilenamePostfix}
         filename=${baseLinuxFilename}.AppImage
 
         cp "$appImageFile" ${DEPLOY_DIR}/${filename}
@@ -197,17 +197,19 @@ fi
 
 if [[ $MSYSTEM == "CLANG64" ]]; then
     echo Deploying
-    baseWindowsFilename=workrave-windows-${baseFilenamePostfix}
 
     # The gtkmm and Qt toolkits' dist/windows/CMakeLists.txt name their
     # installer/portable targets differently (workrave-installer.exe vs
     # workrave-qt-installer.exe, etc.) so the same build can carry both
     # side by side; pick the names matching whichever toolkit this build
     # was configured with (CONF_UI, defaults to Gtk+3 like WITH_UI itself).
+    # The deployed names differ too, so both land in all-artifacts.
     if [[ "$CONF_UI" == "Qt" ]]; then
+        baseWindowsFilename=stopme-qt-windows-${baseFilenamePostfix}
         installerBaseName=workrave-qt-installer
         portableBaseName=workrave-qt-portable
     else
+        baseWindowsFilename=stopme-windows-${baseFilenamePostfix}
         installerBaseName=workrave-installer
         portableBaseName=workrave-portable
     fi

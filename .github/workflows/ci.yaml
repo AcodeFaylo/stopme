@@ -149,23 +149,27 @@ jobs:
     needs: prep
     strategy:
       matrix:
+        # No AUTO_UPDATE: the updater follows Workrave's release feed and
+        # would offer to install Workrave, which stopme's installers now
+        # keep separate from stopme.
         config:
           - configuration: Release
             ui: Gtk+3
-            enable: TESTS, CRASHPAD, AUTO_UPDATE, SBOM
+            enable: TESTS, CRASHPAD, SBOM
             upload: windows-gtk3-release
 
           - configuration: Debug
-            enable: TESTS, TRACING, CRASHPAD, AUTO_UPDATE, SBOM
+            enable: TESTS, TRACING, CRASHPAD, SBOM
             ui: Gtk+3
             upload: windows-gtk3-debug
 
           - configuration: Release
             ui: Qt
-            enable: TESTS, AUTO_UPDATE
+            enable: TESTS
+            upload: windows-qt-release
 
           - configuration: Debug
-            enable: TESTS, TRACING, AUTO_UPDATE
+            enable: TESTS, TRACING
             ui: Qt
     steps:
       - uses: actions/checkout@v6
