@@ -88,6 +88,8 @@ INSTALL(CODE "
         file(WRITE  \"${_deploy_stamp}\"            \"\${_mdt_hash}\")
     else()
         message(\"-- Qt frameworks up to date, skipping macdeployqt.\")
+        # A bundle deployed before the SQL drivers were left out still has them.
+        file(REMOVE_RECURSE \"${_deploy_app}/Contents/PlugIns/sqldrivers\")
     endif()
     ")
 
