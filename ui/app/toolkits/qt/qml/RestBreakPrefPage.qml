@@ -151,20 +151,5 @@ Item {
                 onToggled: (v) => { if (root.bridge) root.bridge.setEnableShutdown(v) }
             }
         }
-
-        PrefGroup {
-            width: parent.width
-            title: qsTr("Exercises")
-
-            PrefSpinRow {
-                width: parent.width
-                label: qsTr("Number of exercises")
-                hint:  qsTr("stopme picks this many at random from its library each rest break.")
-                display: root.bridge ? root.bridge.exercises.toString() : "4"
-                narrow: true
-                onIncrement: { if (root.bridge) root.bridge.incrementExercises() }
-                onDecrement: { if (root.bridge) root.bridge.decrementExercises() }
-            }
-        }
     }
 }

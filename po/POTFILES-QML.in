@@ -4,7 +4,6 @@ ui/app/toolkits/qt/qml/AppletPrefPage.qml
 ui/app/toolkits/qt/qml/DailyLimitClassic.qml
 ui/app/toolkits/qt/qml/DailyLimitOverlay.qml
 ui/app/toolkits/qt/qml/DailyLimitPrefPage.qml
-ui/app/toolkits/qt/qml/ExercisesDialog.qml
 ui/app/toolkits/qt/qml/GeneralPrefPage.qml
 ui/app/toolkits/qt/qml/MicroBreakClassic.qml
 ui/app/toolkits/qt/qml/MicroBreakOverlay.qml

@@ -120,8 +120,6 @@ ui/app/toolkits/gtkmm/DebugDialog.cc
 ui/app/toolkits/gtkmm/dist/windows/src/ChangeAutorun.c
 ui/app/toolkits/gtkmm/dist/windows/src/zap.c
 ui/app/toolkits/gtkmm/dist/windows/src/zapper.c
-ui/app/toolkits/gtkmm/ExercisesDialog.cc
-ui/app/toolkits/gtkmm/ExercisesPanel.cc
 ui/app/toolkits/gtkmm/GnomeSession.cc
 ui/app/toolkits/gtkmm/GtkUtil.cc
 ui/app/toolkits/gtkmm/HeadInfo.cc
@@ -178,7 +176,6 @@ ui/app/toolkits/qt/DebugDialog.cc
 ui/app/toolkits/qt/dist/macos/Info.plist.in
 ui/app/toolkits/qt/dist/windows/CreateInstaller.cmake.in
 ui/app/toolkits/qt/dist/windows/setup.iss.in
-ui/app/toolkits/qt/QmlExercisesDialog.cc
 ui/app/toolkits/qt/MainWindow.cc
 ui/app/toolkits/qt/platforms/macos/MacOSDesktopWindow.cc
 ui/app/toolkits/qt/platforms/macos/MouseMonitor.cc
@@ -200,8 +197,6 @@ ui/app/toolkits/qt/utils/UiUtil.cc
 ui/app/toolkits/qt/widgets/StatusIcon.cc
 ui/app/toolkits/qt/widgets/TimeBar.cc
 ui/app/toolkits/qt/widgets/TimerBoxView.cc
-ui/data/exercises/exercises.xml.in
-ui/libs/commonui/src/Exercise.cc
 ui/libs/commonui/src/Locale.cc
 ui/libs/commonui/src/MenuHelper.cc
 ui/libs/commonui/src/MenuModel.cc

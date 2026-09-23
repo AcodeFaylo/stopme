@@ -45,7 +45,7 @@ using namespace workrave::config;
 using namespace workrave::audio;
 using namespace workrave::utils;
 
-const std::array<SoundTheme::SoundRegistry, 10> SoundTheme::sound_registry = {{
+const std::array<SoundTheme::SoundRegistry, 7> SoundTheme::sound_registry = {{
   {
     .event = SoundEvent::BreakPrelude,
     .id = "break_prelude",
@@ -73,18 +73,6 @@ const std::array<SoundTheme::SoundRegistry, 10> SoundTheme::sound_registry = {{
   {
     .event = SoundEvent::DailyLimit,
     .id = "daily_limit",
-  },
-  {
-    .event = SoundEvent::ExerciseEnded,
-    .id = "exercise_ended",
-  },
-  {
-    .event = SoundEvent::ExercisesEnded,
-    .id = "exercises_ended",
-  },
-  {
-    .event = SoundEvent::ExerciseStep,
-    .id = "exercise_step",
   },
 }};
 

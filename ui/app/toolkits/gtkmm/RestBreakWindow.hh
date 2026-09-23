@@ -49,10 +49,8 @@ private:
   Gtk::Widget *create_info_panel();
   void set_ignore_activity(bool i);
 
-  void install_exercises_panel();
   void install_info_panel();
   void clear_pluggable_panel();
-  int get_exercise_count();
 
 private:
   TimeBar *timebar{nullptr};

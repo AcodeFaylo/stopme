@@ -54,7 +54,6 @@ struct Menuitems
 
 static struct Menuitems menu_data[] = {{MENU_COMMAND_OPEN, TRUE, TRUE, "Open", "OpenMain"},
                                        {MENU_COMMAND_PREFERENCES, FALSE, FALSE, "Preferences", "Preferences"},
-                                       {MENU_COMMAND_EXERCISES, FALSE, FALSE, "Exercises", "Exercises"},
                                        {MENU_COMMAND_REST_BREAK, FALSE, FALSE, "Restbreak", "RestBreak"},
                                        {MENU_COMMAND_MODE_NORMAL, FALSE, FALSE, "Normal", NULL},
                                        {MENU_COMMAND_MODE_QUIET, FALSE, FALSE, "Quiet", NULL},
@@ -362,8 +361,6 @@ static const GtkActionEntry menu_actions[] = {
   {"Statistics", NULL, N_("_Statistics"), NULL, NULL, G_CALLBACK(on_menu_command)},
 
   {"Preferences", GTK_STOCK_PREFERENCES, N_("_Preferences"), NULL, NULL, G_CALLBACK(on_menu_command)},
-
-  {"Exercises", NULL, N_("_Exercises"), NULL, NULL, G_CALLBACK(on_menu_command)},
 
   {"Restbreak", NULL, N_("_Restbreak"), NULL, NULL, G_CALLBACK(on_menu_command)},
 

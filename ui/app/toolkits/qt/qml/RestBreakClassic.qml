@@ -28,9 +28,6 @@ Item {
     // ── Bridge bindings ──────────────────────────────────────────────────────
     readonly property int    blockMode:    bridge != null ? bridge.blockMode        : 1
     readonly property bool   userActive:   bridge != null ? bridge.userActive       : false
-    readonly property bool   hasExercises: bridge != null ? bridge.hasExercises     : false
-    readonly property bool   exDone:       bridge != null ? bridge.exercisesDone    : false
-    readonly property bool   showEx:       root.hasExercises && !root.exDone
     readonly property bool   isNatural:    bridge != null ? bridge.isNatural        : false
     readonly property bool   canPostpone:  bridge != null ? bridge.canPostpone      : true
     readonly property bool   canSkip:      bridge != null ? bridge.canSkip          : true
@@ -42,8 +39,6 @@ Item {
     // barProgress = elapsed fraction (0→1); timebar fills left-to-right
     readonly property double barProgress:  bridge != null ? bridge.breakProgress    : 0.0
     readonly property string timeLeft:     bridge != null ? bridge.breakTimeShort   : "5:00"
-    // exProgress = remaining fraction (1.0=start → 0.0=end)
-    readonly property double exProgress:   bridge != null ? bridge.exerciseProgress : 1.0
 
     // ── Flashing border ──────────────────────────────────────────────────────
     property bool flashState: false
@@ -68,8 +63,7 @@ Item {
     Rectangle {
         id: card
         z: 1
-        width: root.showEx ? Math.min(parent.width - 48, 600)
-                           : Math.min(parent.width - 48, 440)
+        width: Math.min(parent.width - 48, 440)
         color: colBg
         radius: 0
         border.color: root.borderCol
@@ -87,119 +81,14 @@ Item {
             padding: 12
             spacing: 0
 
-            // ── Body: exercise panel OR info panel ───────────────────────────
+            // ── Body: info panel ─────────────────────────────────────────────
             Item {
                 width: parent.width - 24
-                height: root.showEx ? exercisePanel.height : infoPanel.height
+                height: infoPanel.height
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                // ── Exercise panel ───────────────────────────────────────────
-                // Layout: [image 250×250][vert-bar 8×250][title+desc+controls]
-                Row {
-                    id: exercisePanel
-                    visible: root.showEx
-                    width: parent.width
-                    spacing: 0
-
-                    // Exercise image
-                    Rectangle {
-                        width: 250; height: 250
-                        color: "#D0D0D0"
-
-                        Image {
-                            id: exImg
-                            anchors.fill: parent
-                            source: bridge != null ? bridge.exerciseImage : ""
-                            mirror: bridge != null ? bridge.exerciseImageMirror : false
-                            fillMode: Image.PreserveAspectFit
-                        }
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "#D0D0D0"
-                            visible: exImg.status !== Image.Ready
-                                     || (bridge != null && bridge.exerciseImage === "")
-                        }
-                    }
-
-                    // Vertical countdown bar — remaining fraction fills from top, shrinks downward
-                    Rectangle {
-                        width: 8; height: 250
-                        color: "#C0C0C0"
-
-                        Rectangle {
-                            width: parent.width
-                            height: parent.height * root.exProgress
-                            anchors.top: parent.top
-                            color: colBar
-                            Behavior on height { NumberAnimation { duration: 500 } }
-                        }
-                    }
-
-                    // Title, description, and exercise player controls
-                    Item {
-                        id: textCol
-                        width: parent.width - 258
-                        // Grow tall enough for text + controls; never less than the image height
-                        height: Math.max(textBlock.implicitHeight + 8 + exControls.height + 8, 250)
-
-                        Column {
-                            id: textBlock
-                            anchors { top: parent.top; left: parent.left; right: parent.right }
-                            topPadding: 4; leftPadding: 8; rightPadding: 8
-                            spacing: 6
-
-                            Text {
-                                width: parent.width - 16
-                                text: bridge != null ? bridge.exerciseName : ""
-                                font.pixelSize: 15; font.bold: true
-                                color: colInk; wrapMode: Text.Wrap
-                            }
-
-                            Text {
-                                width: parent.width - 16
-                                text: bridge != null ? bridge.exerciseDescription : ""
-                                font.pixelSize: 12; color: colInk2
-                                wrapMode: Text.WordWrap; lineHeight: 1.4
-                            }
-                        }
-
-                        // "Exercises player: |◄ ‖ ►| ×" — anchored to bottom-left
-                        Row {
-                            id: exControls
-                            anchors { bottom: parent.bottom; left: parent.left
-                                      leftMargin: 8; bottomMargin: 4 }
-                            spacing: 3
-
-                            Text {
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Exercises player") + ":"
-                                font.pixelSize: 11; color: colInk2
-                            }
-
-                            SmallButton {
-                                label: "|◄"
-                                onClicked: { if (bridge != null) bridge.prevExercise() }
-                            }
-                            SmallButton {
-                                label: (bridge != null && bridge.isPaused) ? "▶" : "‖"
-                                onClicked: { if (bridge != null) bridge.togglePause() }
-                            }
-                            SmallButton {
-                                label: "►|"
-                                onClicked: { if (bridge != null) bridge.nextExercise() }
-                            }
-                            SmallButton {
-                                label: "×"
-                                onClicked: { if (bridge != null) bridge.endExercises() }
-                            }
-                        }
-                    }
-                }
-
-                // ── Info panel ───────────────────────────────────────────────
                 Row {
                     id: infoPanel
-                    visible: !root.showEx
                     width: parent.width
                     spacing: 12
 
@@ -336,36 +225,6 @@ Item {
         onConfirmed: (action) => {
             if (action === "shutdown") { if (bridge != null) bridge.requestShutdown() }
             else if (action === "sleep")    { if (bridge != null) bridge.requestSleep() }
-        }
-    }
-
-    // ── Small button for exercise player controls ─────────────────────────────
-    component SmallButton: Rectangle {
-        property string label: ""
-        signal clicked()
-        property bool hovered: false
-
-        height: 22
-        width: Math.max(lbl.implicitWidth + 10, 30)
-        radius: 0
-        color: hovered ? "#C0BBAF" : colBtn
-        border.color: "#888888"; border.width: 1
-
-        Text {
-            id: lbl
-            anchors.centerIn: parent
-            text: parent.label
-            font.pixelSize: 11
-            color: colBtnTxt
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            hoverEnabled: true
-            onEntered: parent.hovered = true
-            onExited:  parent.hovered = false
-            onClicked: parent.clicked()
         }
     }
 

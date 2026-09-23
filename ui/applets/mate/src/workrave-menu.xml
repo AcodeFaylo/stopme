@@ -1,7 +1,6 @@
 <menuitem name="Open" action="Open"/>
 <separator/>
 <menuitem name="Restbreak" action="Restbreak"/>
-<menuitem name="Exercises" action="Exercises"/>
 <menuitem name="Statistics" action="Statistics"/>
 <menu name="Mode" action="Mode">
    <menuitem name="Normal" action="Normal"/>

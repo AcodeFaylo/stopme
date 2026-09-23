@@ -9,9 +9,6 @@
         <file alias="stopme-panda.svg">../../../../data/images/stopme-panda.svg</file>
         <file>AboutDialog.qml</file>
         <file>AutoUpdateDialog.qml</file>
-        <file>ExercisesDialog.qml</file>
-        <file>ExercisesShell.qml</file>
-        <file>ExercisesClassic.qml</file>
         <file>DailyLimitClassic.qml</file>
         <file>DailyLimitOverlay.qml</file>
         <file>DailyLimitShell.qml</file>

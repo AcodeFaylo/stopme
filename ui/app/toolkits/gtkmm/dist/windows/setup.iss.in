@@ -62,7 +62,6 @@ Source: "@INSTALL_WIN_PATH@\share\glib-2.0\*.*"; DestDir: "{app}\share\glib-2.0"
 Source: "@INSTALL_WIN_PATH@\share\themes\*.*"; DestDir: "{app}\share\themes"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\sounds\*.*"; DestDir: "{app}\share\sounds"; Flags: ignoreversion recursesubdirs
 Source: "@INSTALL_WIN_PATH@\share\locale\*.*"; DestDir: "{app}\share\locale"; Flags: ignoreversion recursesubdirs
-Source: "@INSTALL_WIN_PATH@\share\exercises\*.*"; DestDir: "{app}\share\exercises\"; Flags: ignoreversion
 Source: "@INSTALL_WIN_PATH@\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\NEWS.txt"; DestDir: "{app}"; DestName: "NEWS.txt"; Flags: ignoreversion;

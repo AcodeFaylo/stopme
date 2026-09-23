@@ -41,8 +41,7 @@ public:
     Debug,
     Statistics,
     Preferences,
-    About,
-    Exercises
+    About
   };
 
   virtual ~IToolkit() = default;
@@ -99,9 +98,6 @@ operator<<(std::ostream &stream, IToolkit::WindowType type)
       break;
     case IToolkit::WindowType::About:
       stream << "about";
-      break;
-    case IToolkit::WindowType::Exercises:
-      stream << "exercises";
       break;
     }
   return stream;

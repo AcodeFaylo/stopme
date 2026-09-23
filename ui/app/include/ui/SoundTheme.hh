@@ -36,25 +36,19 @@ enum class SoundEvent
   MicroBreakStarted,
   MicroBreakEnded,
   DailyLimit,
-  ExerciseEnded,
-  ExercisesEnded,
-  ExerciseStep,
 };
 
 template<>
 struct workrave::utils::enum_traits<SoundEvent>
 {
-  static constexpr std::array<std::pair<std::string_view, SoundEvent>, 10> names{
+  static constexpr std::array<std::pair<std::string_view, SoundEvent>, 7> names{
     {{"break-prelude", SoundEvent::BreakPrelude},
      {"break-ignored", SoundEvent::BreakIgnored},
      {"rest-break-started", SoundEvent::RestBreakStarted},
      {"rest-break-ended", SoundEvent::RestBreakEnded},
      {"micro-break-started", SoundEvent::MicroBreakStarted},
      {"micro-break-ended", SoundEvent::MicroBreakEnded},
-     {"daily-limit", SoundEvent::DailyLimit},
-     {"exercise-ended", SoundEvent::ExerciseEnded},
-     {"exercises-ended", SoundEvent::ExercisesEnded},
-     {"exercise-step", SoundEvent::ExerciseStep}}};
+     {"daily-limit", SoundEvent::DailyLimit}}};
 };
 
 class SoundTheme
@@ -79,10 +73,7 @@ public:
                                  SoundEvent::MicroBreakEnded,
                                  SoundEvent::RestBreakStarted,
                                  SoundEvent::RestBreakEnded,
-                                 SoundEvent::DailyLimit,
-                                 SoundEvent::ExerciseEnded,
-                                 SoundEvent::ExercisesEnded,
-                                 SoundEvent::ExerciseStep};
+                                 SoundEvent::DailyLimit};
   }
 
   class SoundInfo
@@ -146,7 +137,7 @@ private:
     std::string id;
   };
 
-  static const std::array<SoundRegistry, 10> sound_registry;
+  static const std::array<SoundRegistry, 7> sound_registry;
 
   static const std::string CFG_KEY_SOUND_ENABLED;
   static const std::string CFG_KEY_SOUND_OUTPUT_DEVICE;

@@ -83,19 +83,6 @@ AssetPath::get_search_path(SearchPathId type)
           search_path.push_back(directory);
         }
     }
-  else if (type == Exercises)
-    {
-      for (const auto &directory: data_directories)
-        {
-#if defined(PLATFORM_OS_UNIX)
-          search_path.push_back(directory / "workrave/exercises");
-#elif defined(PLATFORM_OS_WINDOWS)
-          search_path.push_back(directory / "exercises");
-#elif defined(PLATFORM_OS_MACOS)
-          search_path.push_back(directory / "exercises");
-#endif
-        }
-    }
 
 #if defined(HAVE_TRACING)
   TRACE_MSG("Search path for {}", workrave::utils::enum_to_string<SearchPathId>(type));

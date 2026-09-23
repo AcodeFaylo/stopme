@@ -39,8 +39,6 @@ private:
 
   void dispatch_Statistics(GVariant *parameters, GDBusMethodInvocation *invocation);
 
-  void dispatch_Exercises(GVariant *parameters, GDBusMethodInvocation *invocation);
-
   void dispatch_RestBreak(GVariant *parameters, GDBusMethodInvocation *invocation);
 
   void dispatch_Quit(GVariant *parameters, GDBusMethodInvocation *invocation);

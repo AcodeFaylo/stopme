@@ -48,7 +48,6 @@ public:
 
 private:
   bool on_preludes_changed(const std::string &key, bool write);
-  void on_exercises_changed();
 
   Gtk::Widget *create_prelude_panel();
   Gtk::Widget *create_options_panel();
@@ -73,8 +72,6 @@ private:
   Gtk::CheckButton *enabled_cb{nullptr};
   Gtk::CheckButton *auto_natural_cb{nullptr};
   Gtk::CheckButton *quiet_cb{nullptr};
-  Gtk::SpinButton *exercises_spin{nullptr};
-  Glib::RefPtr<Gtk::Adjustment> exercises_adjustment{Gtk::Adjustment::create(0, 0, 10)};
 };
 
 #endif // TIMERPREFERENCEPANEL_HH

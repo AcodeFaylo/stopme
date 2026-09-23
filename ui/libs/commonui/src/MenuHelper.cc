@@ -28,7 +28,6 @@ namespace
 {
   const std::map<std::string_view, MenuAction> legacyMapping = {
     {MenuId::PREFERENCES, MenuAction::Preferences},
-    {MenuId::EXERCISES, MenuAction::Exercises},
     {MenuId::REST_BREAK, MenuAction::Restbreak},
     {MenuId::MODE_MENU, MenuAction::ModeMenu},
     {MenuId::MODE, MenuAction::Mode},

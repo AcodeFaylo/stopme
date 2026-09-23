@@ -18,9 +18,7 @@
 #define QMLRESTBREAKWINDOW_HH
 
 #include <functional>
-#include <list>
 #include <memory>
-#include <vector>
 
 #include <QObject>
 #include <QScreen>
@@ -28,8 +26,6 @@
 #include <QString>
 #include <QTimer>
 
-#include <QStringList>
-#include "commonui/Exercise.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/GUIConfig.hh"
 #include "ui/UiTypes.hh"
@@ -54,9 +50,6 @@ class RestBreakBridge
   Q_PROPERTY(bool shutdownable READ shutdownable CONSTANT)
   Q_PROPERTY(bool sleepable READ sleepable CONSTANT)
   Q_PROPERTY(bool isNatural READ isNatural CONSTANT)
-  Q_PROPERTY(bool hasExercises READ hasExercises CONSTANT)
-  Q_PROPERTY(int exerciseCount READ exerciseCount CONSTANT)
-  Q_PROPERTY(QStringList exerciseNames READ exerciseNames CONSTANT)
 
   // Notified via lockStateChanged
   Q_PROPERTY(bool canPostpone READ canPostpone NOTIFY lockStateChanged)
@@ -69,23 +62,6 @@ class RestBreakBridge
   Q_PROPERTY(QString breakTime READ breakTime NOTIFY breakProgressChanged)
   Q_PROPERTY(QString breakTimeShort READ breakTimeShort NOTIFY breakProgressChanged)
   Q_PROPERTY(QString breakMaxStr READ breakMaxStr NOTIFY breakProgressChanged)
-
-  // Notified via exerciseChanged
-  Q_PROPERTY(int exerciseIndex READ exerciseIndex NOTIFY exerciseChanged)
-  Q_PROPERTY(QString exerciseName READ exerciseName NOTIFY exerciseChanged)
-  Q_PROPERTY(QString exerciseDescription READ exerciseDescription NOTIFY exerciseChanged)
-  Q_PROPERTY(bool exercisesDone READ exercisesDone NOTIFY exerciseChanged)
-
-  // Notified via exerciseImageChanged
-  Q_PROPERTY(QString exerciseImage READ exerciseImage NOTIFY exerciseImageChanged)
-  Q_PROPERTY(bool exerciseImageMirror READ exerciseImageMirror NOTIFY exerciseImageChanged)
-
-  // Notified via exerciseTimerChanged
-  Q_PROPERTY(double exerciseProgress READ exerciseProgress NOTIFY exerciseTimerChanged)
-  Q_PROPERTY(QString exerciseTimeStr READ exerciseTimeStr NOTIFY exerciseTimerChanged)
-
-  // Notified via pauseStateChanged
-  Q_PROPERTY(bool isPaused READ isPaused NOTIFY pauseStateChanged)
 
   // Notified via userActivityChanged
   Q_PROPERTY(bool userActive READ userActive NOTIFY userActivityChanged)
@@ -105,9 +81,6 @@ public:
   bool shutdownable() const;
   bool sleepable() const;
   bool isNatural() const;
-  bool hasExercises() const;
-  int exerciseCount() const;
-  QStringList exerciseNames() const;
 
   // Lock state
   bool canPostpone() const;
@@ -122,23 +95,6 @@ public:
   // Break progress
   double breakProgress() const;
   QString breakTime() const;
-
-  // Exercise state
-  int exerciseIndex() const;
-  QString exerciseName() const;
-  QString exerciseDescription() const;
-  bool exercisesDone() const;
-
-  // Exercise image
-  QString exerciseImage() const;
-  bool exerciseImageMirror() const;
-
-  // Exercise timer
-  double exerciseProgress() const;
-  QString exerciseTimeStr() const;
-
-  // Pause
-  bool isPaused() const;
 
   // User activity
   bool userActive() const
@@ -157,16 +113,11 @@ public:
   {
     on_dismiss_ = std::move(fn);
   }
-  void initExercises();
   void updateUserActivity();
 
 Q_SIGNALS:
   void lockStateChanged();
   void breakProgressChanged();
-  void exerciseChanged();
-  void exerciseImageChanged();
-  void exerciseTimerChanged();
-  void pauseStateChanged();
   void userActivityChanged();
   void classicChanged();
 
@@ -176,18 +127,8 @@ public Q_SLOTS:
   void requestLock();
   void requestShutdown();
   void requestSleep();
-  void nextExercise();
-  void prevExercise();
-  void togglePause();
-  void endExercises();
-
-private Q_SLOTS:
-  void onExerciseTick();
 
 private:
-  void startExercise();
-  void advanceImage();
-
   std::shared_ptr<IApplicationContext> app;
   BlockMode block_mode;
   BreakFlags break_flags;
@@ -199,16 +140,6 @@ private:
   bool postpone_locked{false};
   bool skip_locked{false};
   double lock_progress_val{0.0};
-
-  std::vector<Exercise> shuffled_exercises;
-  int ex_index{0};
-  int ex_count{0};
-  int ex_time{0};
-  int ex_seq_time{0};
-  bool ex_done{false};
-  bool ex_paused{false};
-  std::list<Exercise::Image>::const_iterator ex_image_it;
-  QTimer *ex_timer{nullptr};
 
   bool user_active_{false};
   bool classic_{false};

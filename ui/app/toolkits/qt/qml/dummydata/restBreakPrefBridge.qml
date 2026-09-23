@@ -8,7 +8,6 @@ QtObject {
     property double durationNorm:    0.35
     property string snoozeDisplay:   "2:00"
     property double snoozeNorm:      0.18
-    property int    exercises:       3
     property bool   autoNatural:     true
     property bool   enableShutdown:  false
     property bool   showPostpone:    true
@@ -27,8 +26,6 @@ QtObject {
     function incrementSnooze() {}
     function decrementSnooze() {}
     function setSnoozeNorm(v) {}
-    function incrementExercises() {}
-    function decrementExercises() {}
     function setAutoNatural(v) {}
     function setEnableShutdown(v) {}
     function setShowPostpone(v) {}

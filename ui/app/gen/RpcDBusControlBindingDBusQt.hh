@@ -37,8 +37,6 @@ private:
 
   void dispatch_Statistics(const QDBusMessage &message, const QDBusConnection &connection);
 
-  void dispatch_Exercises(const QDBusMessage &message, const QDBusConnection &connection);
-
   void dispatch_RestBreak(const QDBusMessage &message, const QDBusConnection &connection);
 
   void dispatch_Quit(const QDBusMessage &message, const QDBusConnection &connection);

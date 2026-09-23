@@ -188,11 +188,6 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="exercises">
-      <default>3</default>
-      <summary></summary>
-      <description></description>
-    </key>
     <key type="b" name="ignorable-break">
       <default>true</default>
       <summary></summary>
@@ -216,11 +211,6 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="i" name="exercises">
-      <default>0</default>
-      <summary></summary>
-      <description></description>
-    </key>
     <key type="b" name="ignorable-break">
       <default>true</default>
       <summary></summary>
@@ -241,11 +231,6 @@
   <schema path="/org/workrave/gui/breaks/rest-break/" id="org.workrave.gui.breaks.rest-break" gettext-domain="workrave">
     <key type="b" name="auto-natural">
       <default>false</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="i" name="exercises">
-      <default>0</default>
       <summary></summary>
       <description></description>
     </key>
@@ -420,36 +405,6 @@
       <description></description>
     </key>
     <key type="b" name="daily-limit-enabled">
-      <default>true</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="exercise-ended">
-      <default>""</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="b" name="exercise-ended-enabled">
-      <default>true</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="exercise-step">
-      <default>""</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="b" name="exercise-step-enabled">
-      <default>true</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="s" name="exercises-ended">
-      <default>""</default>
-      <summary></summary>
-      <description></description>
-    </key>
-    <key type="b" name="exercises-ended-enabled">
       <default>true</default>
       <summary></summary>
       <description></description>

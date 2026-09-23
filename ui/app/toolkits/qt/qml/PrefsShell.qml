@@ -63,7 +63,7 @@ Item {
             }
             if (pg === "restbreak") return {
                 title: qsTr("Rest break"),
-                lede:  qsTr("A longer break with guided exercises. stopme suggests one every 30–60 minutes of activity."),
+                lede:  qsTr("A longer break to get up and step away from the screen. stopme suggests one every 30–60 minutes of activity."),
                 url:   "RestBreakPrefPage.qml"
             }
             if (pg === "daily") return {
