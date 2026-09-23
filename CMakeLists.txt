@@ -352,7 +352,12 @@ if (UNIX AND NOT APPLE)
   set (XDGAUTOSTARTDIR "${XDGCONFDIR}/autostart")
 elseif (APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "Minimum macOS deployment target")
-  set (BUNDLEDIR Workrave.app/Contents)
+  # stopme's own bundle name and identifier. The identifier is also the
+  # NSUserDefaults domain MacOSConfigurator stores the settings in, so it
+  # keeps them apart from an installed Workrave.
+  set (MACOS_APP_NAME stopme)
+  set (MACOS_BUNDLE_ID io.github.acodefaylo.stopme)
+  set (BUNDLEDIR ${MACOS_APP_NAME}.app/Contents)
   set (BINDIR ${BUNDLEDIR}/MacOS)
   set (RESOURCESDIR ${BUNDLEDIR}/Resources)
   set (DATADIR ${RESOURCESDIR}/share                        CACHE PATH "datadir")
@@ -974,7 +979,11 @@ if (CMAKE_COMPILER_IS_GNUCXX AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUA
   set (BOOST_MIN_VERSION "1.73.0") #https://github.com/boostorg/signals2/commit/15fcf213563718d2378b6b83a1614680a4fa8cec
 endif()
 
-set(Boost_USE_STATIC_LIBS OFF)
+# Shared by default; the macOS release build passes -DBoost_USE_STATIC_LIBS=ON
+# so its app bundle does not have to carry Boost's dylibs.
+if (NOT DEFINED Boost_USE_STATIC_LIBS)
+  set(Boost_USE_STATIC_LIBS OFF)
+endif()
 set(Boost_USE_SHARED_LIBS ON)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 

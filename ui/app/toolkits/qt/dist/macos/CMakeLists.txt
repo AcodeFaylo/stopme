@@ -5,11 +5,11 @@ list(APPEND CPACK_GENERATOR "DragNDrop")
 set(CPACK_PACKAGE_ICON ${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns)
 
 set(CPACK_BUNDLE_ICON ${CMAKE_PACKAGE_ICON})
-set(CPACK_BUNDLE_NAME "${PROJECT_NAME}_${VERSION}")
+set(CPACK_BUNDLE_NAME "${MACOS_APP_NAME}_${VERSION}")
 set(CPACK_BUNDLE_PLIST "${CMAKE_BINARY_DIR}/Info.plist")
 set(CPACK_SYSTEM_NAME "OSX")
 
-install(FILES "${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns" DESTINATION ${RESOURCESDIR} RENAME "Workrave.icns")
+install(FILES "${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns" DESTINATION ${RESOURCESDIR} RENAME "${MACOS_APP_NAME}.icns")
 
 if (CMAKE_BUILD_TYPE MATCHES "Debug")
     set(NO_STRIP "-no-strip")
@@ -28,7 +28,7 @@ get_filename_component(BOOST_PATH "${BOOST_PATH}" DIRECTORY)
 # Compute paths at configure time so they can be embedded as literal strings
 # in the install script — avoiding the ${var} vs \${var} escaping trap where
 # install-time-only variables expand to empty string at configure time.
-set(_deploy_app    "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app")
+set(_deploy_app    "${CMAKE_INSTALL_PREFIX}/${MACOS_APP_NAME}.app")
 # Stamp is keyed on the macdeployqt executable (a reliable Qt-version proxy).
 # macdeployqt only needs to re-run when Qt itself changes, not on every binary
 # relink.  Binary-only updates are handled by the fast rpath-fixup block below.
@@ -76,7 +76,7 @@ INSTALL(CODE "
         # symbolic links\").
         execute_process(COMMAND ln -sf ./Frameworks \"${_deploy_app}/Contents/lib\")
 	    if(NOT \"${WORKRAVE_SIGN_IDENTITY}\")
-            set(_app ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}.app)
+            set(_app ${CMAKE_INSTALL_PREFIX}/${MACOS_APP_NAME}.app)
             message(\"-- Ad-hoc signing app bundle...\")
             execute_process(COMMAND codesign --force --deep --sign - \${_app})
 	    endif()
@@ -105,7 +105,7 @@ endif()
 # when Qt frameworks are unchanged macdeployqt is skipped and the binary is left
 # with raw build-tree rpaths.  Fix this every install run — it is fast.
 INSTALL(CODE "
-    set(_bin \"${_deploy_app}/Contents/MacOS/${PROJECT_NAME}\")
+    set(_bin \"${_deploy_app}/Contents/MacOS/${MACOS_APP_NAME}\")
     set(_fwdir \"${_deploy_app}/Contents/Frameworks\")
 
     # 1. Ensure @executable_path/../Frameworks is in the binary's rpath so that
@@ -149,9 +149,23 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug")
             message(WARNING \"codesign failed with exit code \${_sign_result}\")
         endif()
     ")
+elseif (NOT WORKRAVE_SIGN_IDENTITY)
+    # The install steps above still change the bundle after macdeployqt's
+    # ad-hoc signature: the binary is copied again on every install, and the
+    # fix-ups may rewrite it. Gatekeeper reports a bundle that no longer
+    # matches its signature as damaged, so sign it again as the last step.
+    INSTALL(CODE "
+        message(\"-- Ad-hoc signing ${MACOS_APP_NAME}.app...\")
+        execute_process(
+            COMMAND codesign --force --deep --sign - \"${_deploy_app}\"
+            RESULT_VARIABLE _sign_result)
+        if(NOT \${_sign_result} EQUAL 0)
+            message(FATAL_ERROR \"codesign failed with exit code \${_sign_result}\")
+        endif()
+    ")
 endif()
 
-# Sign ${PROJECT_NAME}.app with a Developer ID identity and submit it to Apple's
+# Sign ${MACOS_APP_NAME}.app with a Developer ID identity and submit it to Apple's
 # notary service. Deliberately kept out of "all" / the default install — it needs
 # a Developer ID identity and notarytool credentials that most builds don't have,
 # and it talks to Apple's servers, so it must be invoked explicitly:
@@ -161,7 +175,7 @@ endif()
 #   -DWORKRAVE_SIGN_IDENTITY="Developer ID Application: ..."   (see `security find-identity -v -p codesigning`)
 #   xcrun notarytool store-credentials <profile> --apple-id <apple-id> --team-id <team-id> --password <app-specific-password>
 #   -DWORKRAVE_NOTARIZE_PROFILE=<profile>
-set(WORKRAVE_NOTARIZE_PROFILE "" CACHE STRING "xcrun notarytool keychain profile used to notarize ${PROJECT_NAME}.app")
+set(WORKRAVE_NOTARIZE_PROFILE "" CACHE STRING "xcrun notarytool keychain profile used to notarize ${MACOS_APP_NAME}.app")
 
 add_custom_target(notarize
     # The install step below only re-runs macdeployqt (and therefore only signs
@@ -175,14 +189,14 @@ add_custom_target(notarize
             "-DWORKRAVE_APP=${_deploy_app}"
             "-DWORKRAVE_SIGN_IDENTITY=${WORKRAVE_SIGN_IDENTITY}"
             "-DWORKRAVE_NOTARIZE_PROFILE=${WORKRAVE_NOTARIZE_PROFILE}"
-            "-DWORKRAVE_NOTARIZE_ZIP=${CMAKE_BINARY_DIR}/${PROJECT_NAME}-notarize.zip"
+            "-DWORKRAVE_NOTARIZE_ZIP=${CMAKE_BINARY_DIR}/${MACOS_APP_NAME}-notarize.zip"
             "-DWORKRAVE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
             -P "${CMAKE_CURRENT_SOURCE_DIR}/notarize.cmake"
     DEPENDS workrave
-    COMMENT "Signing and notarizing ${PROJECT_NAME}.app with Apple (not part of 'all')"
+    COMMENT "Signing and notarizing ${MACOS_APP_NAME}.app with Apple (not part of 'all')"
     VERBATIM)
 
-# Packages ${PROJECT_NAME}.app into a disk image ready to distribute. Also kept
+# Packages ${MACOS_APP_NAME}.app into a disk image ready to distribute. Also kept
 # out of "all":
 #   cmake --build . --target dmg
 #
@@ -209,12 +223,12 @@ if(WORKRAVE_SIGN_IDENTITY)
                 "-DWORKRAVE_DMG_BACKGROUND=${CMAKE_CURRENT_SOURCE_DIR}/dmg_background.png"
                 "-DWORKRAVE_DMG_ICON=${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns"
                 "-DWORKRAVE_DMG_APPLESCRIPT=${CMAKE_CURRENT_SOURCE_DIR}/dmg.applescript"
-                "-DWORKRAVE_VOLUME_NAME=${PROJECT_NAME}"
+                "-DWORKRAVE_VOLUME_NAME=${MACOS_APP_NAME}"
                 "-DWORKRAVE_SIGN_IDENTITY=${WORKRAVE_SIGN_IDENTITY}"
                 "-DWORKRAVE_NOTARIZE_PROFILE=${WORKRAVE_NOTARIZE_PROFILE}"
                 -P "${CMAKE_CURRENT_SOURCE_DIR}/make-dmg.cmake"
         DEPENDS notarize
-        COMMENT "Building a signed, notarized disk image of ${PROJECT_NAME}.app (not part of 'all')"
+        COMMENT "Building a signed, notarized disk image of ${MACOS_APP_NAME}.app (not part of 'all')"
         VERBATIM)
 else()
     add_custom_target(dmg
@@ -227,11 +241,11 @@ else()
                 "-DWORKRAVE_DMG_BACKGROUND=${CMAKE_CURRENT_SOURCE_DIR}/dmg_background.png"
                 "-DWORKRAVE_DMG_ICON=${CMAKE_SOURCE_DIR}/ui/data/images/macos/workrave.icns"
                 "-DWORKRAVE_DMG_APPLESCRIPT=${CMAKE_CURRENT_SOURCE_DIR}/dmg.applescript"
-                "-DWORKRAVE_VOLUME_NAME=${PROJECT_NAME}"
+                "-DWORKRAVE_VOLUME_NAME=${MACOS_APP_NAME}"
                 "-DWORKRAVE_SIGN_IDENTITY="
                 "-DWORKRAVE_NOTARIZE_PROFILE="
                 -P "${CMAKE_CURRENT_SOURCE_DIR}/make-dmg.cmake"
         DEPENDS workrave
-        COMMENT "Building an unsigned disk image of ${PROJECT_NAME}.app for local testing (not part of 'all')"
+        COMMENT "Building an unsigned disk image of ${MACOS_APP_NAME}.app for local testing (not part of 'all')"
         VERBATIM)
 endif()

@@ -2,8 +2,9 @@
 """Regenerate the stopme raster brand assets from their SVG sources.
 
 Every PNG, ICO and ICNS under ui/data/images that carries the application
-icon, and the Windows installer wizard bitmaps, are derived from an SVG in
-the same tree; this script is the only thing that should ever write them.
+icon, the Windows installer wizard bitmaps and the macOS disk image
+background are derived from an SVG in the same tree; this script is the
+only thing that should ever write them.
 
     pip install cairosvg pillow
     python3 tools/brand/render-brand-rasters.py
@@ -36,6 +37,7 @@ WORDMARK = IMAGES / "workrave-text.svg"
 
 MAGENTA = (0xFF, 0x3D, 0x8B)
 ELECTRIC_BLUE = (0x55, 0x66, 0xFF)
+MIST = (0xEE, 0xF1, 0xF8)
 
 ICON_THEME_SIZES = (16, 24, 32, 48, 64, 96, 128)
 ICO_SIZES = (16, 24, 32, 48, 64, 128, 256)
@@ -128,6 +130,54 @@ def write_wizard_bitmaps(dest: Path) -> None:
         print(f"  {(dest / name).relative_to(ROOT)}  {width}x{height}")
 
 
+def dmg_background() -> Image.Image:
+    """Finder window of the macOS disk image: the wordmark above two rings
+    joined by an arrow, drawn at 2x (1200x800 pixels for a 600x400 point
+    window). The rings sit where dmg.applescript places the app and the
+    Applications alias, so move both together."""
+    from PIL import ImageDraw
+
+    width, height, scale = 1200, 800, 2  # drawn at 2x again for smooth edges
+    canvas = Image.new("RGBA", (width * scale, height * scale), (255, 255, 255, 255))
+    draw = ImageDraw.Draw(canvas)
+
+    radius, ring = 192, 8
+    for cx in (293, 907):
+        box = [(cx - radius) * scale, (487 - radius) * scale,
+               (cx + radius) * scale, (487 + radius) * scale]
+        draw.ellipse(box, outline=MIST, width=ring * scale)
+
+    # Arrow from the app to Applications, in the brand gradient.
+    arrow = Image.new("L", canvas.size, 0)
+    shape = ImageDraw.Draw(arrow)
+    shape.rectangle([486 * scale, 476 * scale, 700 * scale, 498 * scale], fill=255)
+    shape.polygon([(699 * scale, 458 * scale), (728 * scale, 487 * scale),
+                   (699 * scale, 516 * scale)], fill=255)
+    left, right = 486 * scale, 728 * scale
+    fill = Image.new("RGBA", canvas.size)
+    pixels = fill.load()
+    for x in range(left, right + 1):
+        t = (x - left) / (right - left)
+        colour = tuple(round(a + (b - a) * t) for a, b in zip(MAGENTA, ELECTRIC_BLUE)) + (255,)
+        for y in range(458 * scale, 516 * scale + 1):
+            pixels[x, y] = colour
+    canvas.paste(fill, (0, 0), arrow)
+
+    canvas = canvas.resize((width, height), Image.LANCZOS)
+    mark = render_wordmark(420)
+    canvas.alpha_composite(mark, ((width - mark.width) // 2, 62))
+    return canvas.convert("RGB")
+
+
+def render_wordmark(width: int) -> Image.Image:
+    """The stopme wordmark in its brand gradient."""
+    import io
+
+    height = round(width * 88 / 258)
+    png = cairosvg.svg2png(url=str(WORDMARK), output_width=width, output_height=height)
+    return Image.open(io.BytesIO(png)).convert("RGBA")
+
+
 def write_png(svg: Path, dest: Path, size: int) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     render(svg, size).save(dest)
@@ -200,6 +250,12 @@ def main() -> None:
     print("windows installers")
     for toolkit in ("gtkmm", "qt"):
         write_wizard_bitmaps(TOOLKITS / toolkit / "dist" / "windows")
+
+    print("macos disk image")
+    dest = TOOLKITS / "qt" / "dist" / "macos" / "dmg_background.png"
+    # 144 dpi tells Finder the image is 2x, so it fills the 600x400 window.
+    dmg_background().save(dest, dpi=(144, 144))
+    print(f"  {dest.relative_to(ROOT)}  1200x800 @144dpi")
 
 
 if __name__ == "__main__":
