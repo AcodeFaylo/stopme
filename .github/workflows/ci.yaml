@@ -152,14 +152,15 @@ jobs:
         # No AUTO_UPDATE: the updater follows Workrave's release feed and
         # would offer to install Workrave, which stopme's installers now
         # keep separate from stopme.
+        # No CRASHPAD: its crash reports go to Workrave's crash server.
         config:
           - configuration: Release
             ui: Gtk+3
-            enable: TESTS, CRASHPAD, SBOM
+            enable: TESTS, SBOM
             upload: windows-gtk3-release
 
           - configuration: Debug
-            enable: TESTS, TRACING, CRASHPAD, SBOM
+            enable: TESTS, TRACING, SBOM
             ui: Gtk+3
             upload: windows-gtk3-debug
 
