@@ -13,13 +13,13 @@ VS_VERSION_INFO VERSIONINFO
     BEGIN
       BLOCK "040904B0"
       BEGIN
-        VALUE "CompanyName", "The Workrave development team"
-        VALUE "FileDescription", "Workrave"
+        VALUE "CompanyName", "stopme contributors"
+        VALUE "FileDescription", "stopme"
         VALUE "FileVersion", "@WR_VERSION@"
         VALUE "InternalName", "workrave"
         VALUE "LegalCopyright", "Copyright (C) 2001-2021 The Workrave development team."
         VALUE "OriginalFilename", "workrave.exe"
-        VALUE "ProductName", "Workrave"
+        VALUE "ProductName", "stopme"
         VALUE "ProductVersion", "@WR_VERSION@"
       END
     END

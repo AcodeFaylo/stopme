@@ -19,21 +19,28 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;
 
+; Builds with the auto-updater ("ON") offer to switch it on; others don't.
+#define AutoUpdate "@HAVE_UNFOLD_AUTO_UPDATE@"
+
 [Setup]
-AppId=WorkraveQt
-AppName=WorkraveQt
+; stopme Qt is its own product: it installs side by side with stopme (the
+; Gtk build) and with Workrave, and neither setup touches the others.
+AppId=stopmeQt
+AppName=stopme Qt
 AppVersion=@WORKRAVE_VERSION@
-AppVerName=WorkraveQt @WORKRAVE_VERSION@
-AppPublisher=Rob Caelers & Raymond Penners
-AppPublisherURL=https://www.workrave.org
-AppSupportURL=https://www.workrave.org
-AppUpdatesURL=https://www.workrave.org
-DefaultDirName={autopf}\WorkraveQt
-DefaultGroupName=Workrave
+AppVerName=stopme Qt @WORKRAVE_VERSION@
+AppPublisher=stopme contributors
+AppPublisherURL=https://github.com/AcodeFaylo/stopme
+AppSupportURL=https://github.com/AcodeFaylo/stopme
+AppUpdatesURL=https://github.com/AcodeFaylo/stopme
+DefaultDirName={autopf}\stopme Qt
+DefaultGroupName=stopme Qt
 LicenseFile=@INSTALL_WIN_PATH@\COPYING.txt
 AppMutex=WorkraveQtMutex
-WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp
-WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp
+SetupIconFile=@INSTALL_WIN_PATH@\dist\stopme.ico
+UninstallDisplayIcon={app}\bin\stopmeQt.exe
+WizardImageFile=@INSTALL_WIN_PATH@\dist\WizModernImage.bmp,@INSTALL_WIN_PATH@\dist\WizModernImage-328x604.bmp
+WizardSmallImageFile=@INSTALL_WIN_PATH@\dist\WizModernSmall.bmp,@INSTALL_WIN_PATH@\dist\WizModernSmall-110x106.bmp
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 CloseApplications=yes
@@ -46,12 +53,14 @@ SignedUninstaller=yes
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "Additional tasks:"
-Name: "startupmenu"; Description: "Start Workrave when Windows starts"; GroupDescription: "Additional tasks:"
+Name: "startupmenu"; Description: "Start stopme Qt when Windows starts"; GroupDescription: "Additional tasks:"
+#if AutoUpdate == "ON"
 Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescription: "Additional tasks:"
+#endif
 
 [Files]
 ;TODO;Source: "@INSTALL_WIN_PATH@\bin\harpoon64.dll"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
-Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "WorkraveQt.exe"; Flags: ignoreversion;
+Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "stopmeQt.exe"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\bin\qt.conf"; DestDir: "{app}\bin"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\lib\plugins\*.*"; DestDir: "{app}\lib\plugins"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALL_WIN_PATH@\share\*.*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs;
@@ -63,22 +72,21 @@ Source: "@INSTALL_WIN_PATH@\README.txt"; DestDir: "{app}"; DestName: "README.txt
 #include "libraries.iss"
 
 [Registry]
-Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "WorkraveQt"; ValueData: "{app}\bin\WorkraveQt.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
+Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "stopme Qt"; ValueData: "{app}\bin\stopmeQt.exe"; Flags: uninsdeletevalue; Tasks: startupmenu
 
 [Icons]
-Name: "{group}\WorkraveQt"; Filename: "{app}\bin\WorkraveQt.exe"
+Name: "{group}\stopme Qt"; Filename: "{app}\bin\stopmeQt.exe"
 Name: "{group}\News"; Filename: "{app}\NEWS.txt"
 Name: "{group}\Read me"; Filename: "{app}\README.txt"
 Name: "{group}\License"; Filename: "{app}\COPYING.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\WorkraveQt"; Filename: "{app}\bin\WorkraveQt.exe"; MinVersion: 4,4; Tasks: desktopicon
-Name: "{app}\WorkraveQt"; Filename: "{app}\bin\WorkraveQt.exe"
+Name: "{autodesktop}\stopme Qt"; Filename: "{app}\bin\stopmeQt.exe"; MinVersion: 4,4; Tasks: desktopicon
+Name: "{app}\stopme Qt"; Filename: "{app}\bin\stopmeQt.exe"
 
 [Run]
-Filename: "{app}\bin\WorkraveQt.exe"; Description: "Launch WorkraveQt"; Flags: nowait postinstall shellexec;
+Filename: "{app}\bin\stopmeQt.exe"; Description: "Launch stopme Qt"; Flags: nowait postinstall shellexec;
 
 [InstallDelete]
-Type: files; Name: "{autostartup}\WorkraveQt.lnk"
 Type: files; Name: "{app}\share\sounds\*.wav"
 
 [Code]
@@ -86,42 +94,6 @@ Var
   taskPageShown: boolean;
 
 function GetInstallLocation(): String; forward;
-function GetLegacyInstallLocation(): String; forward;
-
-function ShouldUninstall(): Boolean;
-var
-  versionMS, versionLS: Cardinal;
-  major, minor: Integer;
-  executableNames: array[0..1] of String;
-  i: Integer;
-  executablePath: String;
-  installLocation: String;
-begin
-  executableNames[0] := 'WorkraveQt.exe';
-  executableNames[1] := 'workrave.exe';
-  installLocation := GetLegacyInstallLocation();
-
-  if installLocation <> '' then
-  begin
-    for i := 0 to High(executableNames) do
-    begin
-      executablePath := ExpandConstant(AddBackslash(installLocation) + 'bin\' + executableNames[i]);
-      if FileExists(executablePath) and GetVersionNumbers(executablePath, versionMS, versionLS) then
-      begin
-        major := versionMS shr 16;
-        minor := versionMS and $FFFF;
-
-        if (major < 1) or ((major = 1) and (minor < 11)) then
-          Result := True
-        else
-          Result := False;
-        Exit;
-      end;
-    end;
-  end;
-
-  Result := False;
-end;
 
 procedure InitializeWizard();
 begin
@@ -153,6 +125,7 @@ begin
   Result := (ProcessorArchitecture = paX64);
 end;
 
+#if AutoUpdate == "ON"
 Procedure UpdateAutoInstallTask();
 var
   success: boolean;
@@ -190,13 +163,14 @@ begin
   RegWriteStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'channel', '{#Channel}');
 #endif
 end;
+#endif
 
 function GetInstallLocation(): String;
 var
   uninstallPath: String;
   installLocation: String;
 begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\WorkraveQt_is1');
+  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\stopmeQt_is1');
   installLocation := '';
 
   if not RegQueryStringValue(HKLM, uninstallPath, 'InstallLocation', installLocation) then
@@ -206,51 +180,7 @@ begin
   Result := installLocation;
 end;
 
-// Workrave 1.11 and up is always installed in 64-bit (native) mode, so any
-// pre-1.11 install can only be registered in the 32-bit registry view. Unlike
-// GetInstallLocation (which is used to find whichever Workrave is currently
-// installed/running), these must not fall back to the native view: on a
-// machine that already has 1.11+ installed, that fallback would just find
-// the current install again and hide a leftover legacy one.
-function GetLegacyUninstallCommand(): String;
-var
-  uninstallPath: String;
-  uninstallCommand: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
-  uninstallCommand := '';
-
-  if not RegQueryStringValue(HKLM32, uninstallPath, 'UninstallString', uninstallCommand) then
-    RegQueryStringValue(HKCU32, uninstallPath, 'UninstallString', uninstallCommand);
-  Result := uninstallCommand;
-end;
-
-function GetLegacyInstallLocation(): String;
-var
-  uninstallPath: String;
-  installLocation: String;
-begin
-  uninstallPath := ExpandConstant('Software\Microsoft\Windows\CurrentVersion\Uninstall\Workrave_is1');
-  installLocation := '';
-
-  if not RegQueryStringValue(HKLM32, uninstallPath, 'InstallLocation', installLocation) then
-    RegQueryStringValue(HKCU32, uninstallPath, 'InstallLocation', installLocation);
-  Result := installLocation;
-end;
-
-Procedure UninstallPreviousVersion();
-var
-  uninstallCommand: String;
-  iResultCode: Integer;
-begin
-  uninstallCommand := GetLegacyUninstallCommand();
-
-  if uninstallCommand <> '' then begin
-    uninstallCommand := RemoveQuotes(uninstallCommand);
-    Exec(uninstallCommand, '/VERYSILENT /NORESTART /SUPPRESSMSGBOXES','', SW_HIDE, ewWaitUntilTerminated, iResultCode);
-  end
-end;
-
+#if AutoUpdate == "ON"
 Procedure CurPageChanged(CurPageID: Integer);
 begin
   if (CurPageID = wpSelectTasks) and not taskPageShown then
@@ -262,17 +192,9 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
-  case CurStep of
-    ssInstall:
-      begin
-         if ShouldUninstall() then
-         begin
-           UninstallPreviousVersion();
-         end;
-      end;
-    ssDone:
-      begin
-        UpdateAutoInstallSetting();
-      end
+  if CurStep = ssDone then
+  begin
+    UpdateAutoInstallSetting();
   end;
 end;
+#endif

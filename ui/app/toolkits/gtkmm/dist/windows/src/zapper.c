@@ -136,7 +136,7 @@ EnumWindowsProc(HWND hwnd, LPARAM lParam)
         {
           // printf("processName = %s\n", processName);
           char *ptr = strrchr(processName, '\\');
-          if (ptr != NULL && _stricmp(ptr + 1, "Workrave.exe") == 0)
+          if (ptr != NULL && _stricmp(ptr + 1, "stopme.exe") == 0)
             {
               success = TRUE;
               if (!simulate)
@@ -292,7 +292,7 @@ TerminateProcessesByNames(const char *directory, const char **executable_names_t
 }
 
 static const char *workrave_executables[] =
-  {"Workrave.exe", "workrave.exe", "WorkraveHelper.exe", "WorkraveCrashHandler.exe", "gdbus.exe", "harpoonHelper.exe", "dbus-daemon.exe", NULL};
+  {"stopme.exe", "WorkraveHelper.exe", "WorkraveCrashHandler.exe", "gdbus.exe", "harpoonHelper.exe", "dbus-daemon.exe", NULL};
 
 BOOL
 AreWorkraveProcessesRunning(const char *directory)
