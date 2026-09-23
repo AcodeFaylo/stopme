@@ -442,9 +442,79 @@ jobs:
           name: artifacts-${{ matrix.config.upload }}
           path: _deploy
 
+  build-macos:
+    # The Intel Mac app, for macOS 13 and later. Qt is the official build,
+    # and the other libraries are built for that macOS here: Homebrew's only
+    # run on the build machine's macOS, and Homebrew no longer builds for
+    # Intel Macs.
+    runs-on: macos-15-intel
+    permissions:
+      id-token: write
+      attestations: write
+    needs: prep
+    env:
+      QT_VERSION: 6.11.2
+      MACOSX_DEPLOYMENT_TARGET: "13.0"
+      ARCH: x86_64
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Cache Qt
+        id: qt-cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.temp }}/Qt
+          key: qt-${{ env.QT_VERSION }}-macos-clang_64
+
+      - name: Install Qt
+        if: steps.qt-cache.outputs.cache-hit != 'true'
+        run: |
+          python3 -m venv "$RUNNER_TEMP/aqt"
+          "$RUNNER_TEMP/aqt/bin/pip" install aqtinstall==3.3.0
+          "$RUNNER_TEMP/aqt/bin/aqt" install-qt mac desktop "$QT_VERSION" clang_64 --outputdir "$RUNNER_TEMP/Qt"
+
+      - name: Cache libraries
+        id: deps-cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.temp }}/deps
+          key: macos-deps-${{ env.ARCH }}-${{ env.MACOSX_DEPLOYMENT_TARGET }}-${{ hashFiles('tools/ci/macos-deps.sh') }}
+
+      - name: Build libraries
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        run: ./tools/ci/macos-deps.sh "$RUNNER_TEMP/deps"
+
+      - name: Build
+        run: ./tools/ci/build-macos.sh
+        env:
+          # config.sh's setting for a build straight on a GitHub runner.
+          WORKRAVE_ENV: github-ubuntu
+          QT_ROOT_DIR: ${{ runner.temp }}/Qt/${{ env.QT_VERSION }}/macos
+          DEPS_PREFIX: ${{ runner.temp }}/deps
+          WORKRAVE_BUILD_DATETIME: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATETIME }}
+          WORKRAVE_BUILD_DATE: ${{ needs.prep.outputs.WORKRAVE_BUILD_DATE }}
+
+      - name: attest
+        uses: actions/attest-build-provenance@v1
+        if: github.event_name == 'push'
+        with:
+          subject-path: _deploy/*
+
+      - name: Upload artifacts to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-macos-intel-release
+          path: _deploy
+
   merge:
     runs-on: ubuntu-24.04
-    needs: [prep, build-cmake, build-msys2]
+    needs: [prep, build-cmake, build-msys2, build-macos]
     steps:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v4
