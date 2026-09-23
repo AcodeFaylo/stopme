@@ -27,7 +27,8 @@ using namespace std;
 
 Config::Config()
 {
-  key_root = "Software/Workrave";
+  // Must match the main program's key; see W32Configurator.
+  key_root = "Software/stopme";
 }
 
 bool

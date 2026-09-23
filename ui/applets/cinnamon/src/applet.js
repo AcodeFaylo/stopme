@@ -435,7 +435,7 @@ MyApplet.prototype = {
 
         if (menuitems == null || menuitems.length == 0)
         {
-            let popup = new PopupMenu.PopupMenuItem(_("Open Workrave"));
+            let popup = new PopupMenu.PopupMenuItem(_("Open stopme"));
             popup.connect('activate', Lang.bind(this, this._onMenuOpenCommand));
             current_menu.addMenuItem(popup);
         }

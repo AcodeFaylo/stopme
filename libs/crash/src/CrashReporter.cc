@@ -225,7 +225,7 @@ CrashReporter::Pimpl::init()
       annotations["product"] = "Workrave";
       annotations["version"] = WORKRAVE_VERSION;
 #if defined(HAVE_UNFOLD_AUTO_UPDATE)
-      auto value = utils::Platform::registry_get_value(R"(Software\Workrave\plugins\auto_update)", "channel");
+      auto value = utils::Platform::registry_get_value(R"(Software\stopme\plugins\auto_update)", "channel");
       if (value.has_value())
         {
           annotations["channel"] = *value;

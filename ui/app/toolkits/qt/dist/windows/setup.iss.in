@@ -134,7 +134,7 @@ var
 begin
   enabled := False;
 
-  success := RegQueryStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'enabled', enabledStr);
+  success := RegQueryStringValue(HKCU, 'Software\stopme\plugins\auto_update', 'enabled', enabledStr);
   if success and (enabledStr = '1') then
   begin
     enabled := True;
@@ -158,9 +158,9 @@ begin
     enabledStr := '1'
   else
     enabledStr := '0';
-  RegWriteStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'enabled', enabledStr);
+  RegWriteStringValue(HKCU, 'Software\stopme\plugins\auto_update', 'enabled', enabledStr);
 #ifdef Channel
-  RegWriteStringValue(HKCU, 'Software\Workrave\plugins\auto_update', 'channel', '{#Channel}');
+  RegWriteStringValue(HKCU, 'Software\stopme\plugins\auto_update', 'channel', '{#Channel}');
 #endif
 end;
 #endif

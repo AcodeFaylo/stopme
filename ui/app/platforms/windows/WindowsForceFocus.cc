@@ -83,7 +83,7 @@ functions we should use to try to force window focus.
 -
 The names match to the focus functions' enumerated names. For example:
 
-[HKEY_CURRENT_USER\Software\Workrave\advanced]
+[HKEY_CURRENT_USER\Software\stopme\advanced]
 "force_focus_functions"="minimize_restore,attach_input"
 
 If the above was found then this function returns ( MINIMIZE_RESTORE | ATTACH_INPUT ).

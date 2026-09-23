@@ -247,10 +247,11 @@ void
 GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *key, void *user_data)
 {
   TRACE_ENTRY_PAR(key);
+  auto *self = (GSettingsConfigurator *)user_data;
   gchar *path = nullptr;
   g_object_get(gsettings, "path", &path, NULL);
 
-  std::string tmp = boost::algorithm::replace_all_copy(std::string(path) + key, "/org/workrave/", "");
+  std::string tmp = boost::algorithm::replace_all_copy(std::string(path) + key, self->path_base, "");
   std::string changed = boost::algorithm::replace_all_copy(tmp, "-", "_");
   TRACE_VAR(changed);
 
@@ -265,7 +266,6 @@ GSettingsConfigurator::on_settings_changed(GSettings *gsettings, const gchar *ke
         }
     }
 
-  auto *self = (GSettingsConfigurator *)user_data;
   if (self->listener != nullptr)
     {
       self->listener->config_changed_notify(changed);

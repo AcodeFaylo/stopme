@@ -53,19 +53,21 @@ namespace
 {
   using namespace std::string_view_literals;
 
+  // stopme's own folders, not Workrave's, so the two never share settings,
+  // statistics or logs.
 #ifdef PLATFORM_OS_WINDOWS
 #  ifdef HAVE_APP_QT
-  constexpr std::string_view app_name = "WorkraveQt"sv;
+  constexpr std::string_view app_name = "stopmeQt"sv;
 #  else
-  constexpr std::string_view app_name = "Workrave"sv;
+  constexpr std::string_view app_name = "stopme"sv;
 #  endif
 #else
 #  ifdef HAVE_APP_QT
-  constexpr std::string_view app_name = "workrave-qt"sv;
-  constexpr std::string_view dot_app_name = ".workrave-qt"sv;
+  constexpr std::string_view app_name = "stopme-qt"sv;
+  constexpr std::string_view dot_app_name = ".stopme-qt"sv;
 #  else
-  constexpr std::string_view app_name = "workrave"sv;
-  constexpr std::string_view dot_app_name = ".Workrave"sv;
+  constexpr std::string_view app_name = "stopme"sv;
+  constexpr std::string_view dot_app_name = ".stopme"sv;
 #  endif
 #endif
 

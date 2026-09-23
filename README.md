@@ -47,12 +47,12 @@ Have a look at the [contrib](./contrib) directory to get a little insight into t
 
 ### Unix/Linux
 
-- stopme uses [dconf](https://wiki.gnome.org/Projects/dconf) to store its configuration.
-  `dconf-editor` can be used to explore and manipulate the values - be careful!
+- stopme uses [dconf](https://wiki.gnome.org/Projects/dconf) to store its configuration,
+  under `/org/stopme/`. `dconf-editor` can be used to explore and manipulate the values - be careful!
 - stopme can receive [dbus](https://www.freedesktop.org/wiki/Software/dbus/) signals.
   Explore by having a look at the [example python script](./libs/core/src/dbus-example.py) or viewing in `qdbusviewer` (part of the `qttools5-dev-tools` package in Ubuntu).
 
-In both of these, workrave is found under the `org.workrave` key.
+Its D-Bus interfaces are found under the `org.workrave` key.
 
 ### Changelog
 

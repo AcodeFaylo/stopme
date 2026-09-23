@@ -74,7 +74,7 @@ AutoUpdater::AutoUpdater(std::shared_ptr<IPluginContext> context)
       return;
     }
 
-  updater->set_configuration_prefix("Software\\Workrave");
+  updater->set_configuration_prefix("Software\\stopme");
 
   init_channels();
 
