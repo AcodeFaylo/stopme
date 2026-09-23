@@ -551,7 +551,7 @@ const WorkraveButton = GObject.registerClass(
       let indent = "";
 
       if (menuitems == null || menuitems.length == 0) {
-        let popup = new PopupMenu.PopupMenuItem(_("Open Workrave"));
+        let popup = new PopupMenu.PopupMenuItem(_("Open stopme"));
         popup.connect("activate", this._onMenuOpenCommand.bind(this));
         current_menu.addMenuItem(popup);
       } else {

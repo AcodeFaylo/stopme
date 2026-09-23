@@ -680,7 +680,7 @@ Application::on_main_window_closed()
   if (closewarn && !closewarn_shown)
     {
       toolkit->show_notification("closewarn",
-                                 "Workrave",
+                                 "stopme",
                                  _("stopme is still running. "
                                    "You can access stopme by clicking on the panda icon in the system tray. "
                                    "Click on this balloon to disable this message"),
@@ -696,7 +696,7 @@ Application::on_operation_mode_warning_timer()
   if (mode == OperationMode::Suspended)
     {
       toolkit->show_notification("operation_mode",
-                                 "Workrave",
+                                 "stopme",
                                  _("stopme is in suspended mode.\n"
                                    "Mouse and keyboard activity will not be monitored."),
                                  []() {});
@@ -704,7 +704,7 @@ Application::on_operation_mode_warning_timer()
   else if (mode == OperationMode::Quiet)
     {
       toolkit->show_notification("operation_mode",
-                                 "Workrave",
+                                 "stopme",
                                  _("stopme is in quiet mode. "
                                    "No break windows will appear."),
                                  []() {});

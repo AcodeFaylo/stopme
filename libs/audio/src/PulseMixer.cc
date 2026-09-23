@@ -71,7 +71,7 @@ PulseMixer::init()
 
   pa_proplist *pa_proplist = pa_proplist_new();
 
-  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_NAME, "Workrave");
+  pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_NAME, "stopme");
   pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_ID, "org.workrave.Workrave");
   pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_ICON_NAME, "workrave");
   pa_proplist_sets(pa_proplist, PA_PROP_APPLICATION_VERSION, WORKRAVE_VERSION);

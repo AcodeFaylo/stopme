@@ -122,7 +122,7 @@ WindowsStatusIcon::show_balloon(const std::string &id, const std::string &balloo
 {
   TRACE_ENTRY();
   std::wstring winfo = workrave::utils::utf8_to_utf16(balloon);
-  std::wstring wtitle = workrave::utils::utf8_to_utf16("Workrave");
+  std::wstring wtitle = workrave::utils::utf8_to_utf16("stopme");
 
   current_id = id;
 
