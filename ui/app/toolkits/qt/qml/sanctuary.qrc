@@ -7,6 +7,11 @@
         <file alias="daily-limit.png">../../../../data/images/daily-limit.png</file>
         <file alias="timer-rest-break.png">../../../../data/images/timer-rest-break.png</file>
         <file alias="stopme-panda.svg">../../../../data/images/stopme-panda.svg</file>
+        <file alias="stopme-panda-face.svg">../../../../data/images/workrave-normal.svg</file>
+        <file alias="stopme-panda-sad.svg">../../../../data/images/stopme-panda-sad.svg</file>
+        <file alias="timer-micro-break-large.png">../../../../data/images/timer-micro-break-large.png</file>
+        <file alias="timer-rest-break-large.png">../../../../data/images/timer-rest-break-large.png</file>
+        <file alias="timer-daily-large.png">../../../../data/images/timer-daily-large.png</file>
         <file>AboutDialog.qml</file>
         <file>AutoUpdateDialog.qml</file>
         <file>DailyLimitClassic.qml</file>

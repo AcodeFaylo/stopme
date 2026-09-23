@@ -175,6 +175,17 @@ Item {
                         width: parent.width
                         topPadding: 32; bottomPadding: 36; spacing: 4
 
+                        Image {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            source: "qrc:/sanctuary/stopme-panda-face.svg"
+                            width: 64; height: 64
+                            sourceSize: Qt.size(128, 128)
+                            fillMode: Image.PreserveAspectFit
+                            smooth: true
+                        }
+
+                        Item { width: 1; height: 12 }
+
                         Canvas {
                             id: cardRingCanvas
                             anchors.horizontalCenter: parent.horizontalCenter
@@ -464,6 +475,16 @@ Item {
                                 }
                             }
 
+                            // The ring is full inside, so the panda sits on top of it
+                            Image {
+                                anchors { horizontalCenter: parent.horizontalCenter; bottom: ringCanvas.top; bottomMargin: 20 }
+                                source: "qrc:/sanctuary/stopme-panda-face.svg"
+                                width: 72; height: 72
+                                sourceSize: Qt.size(144, 144)
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true
+                            }
+
                             Column {
                                 anchors.centerIn: parent
                                 spacing: 4
@@ -494,6 +515,12 @@ Item {
                                         font.features: {"tnum": 1}
                                     }
                                 }
+                            }
+
+                            // Below the ring, where the text has the room it needs
+                            Column {
+                                anchors { horizontalCenter: parent.horizontalCenter; top: ringCanvas.bottom; topMargin: 20 }
+                                spacing: 4
                                 Text { anchors.horizontalCenter: parent.horizontalCenter; text: qsTr("Please stand up and walk away from your computer"); font.pixelSize: 13; color: tok.mute }
                                 Item { width: 1; height: 16 }
                                 Rectangle {

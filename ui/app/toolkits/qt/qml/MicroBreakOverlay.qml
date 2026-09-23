@@ -127,6 +127,16 @@ Item {
                 }
             }
 
+            // ── Panda ─────────────────────────────────────────────────────────
+            Image {
+                anchors.horizontalCenter: parent.horizontalCenter
+                source: "qrc:/sanctuary/stopme-panda-face.svg"
+                width: 56; height: 56
+                sourceSize: Qt.size(112, 112)
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+            }
+
             // ── Hero ring timer ───────────────────────────────────────────────
             Item {
                 width: parent.width

@@ -29,6 +29,7 @@ IMAGES = ROOT / "ui" / "data" / "images"
 NORMAL = IMAGES / "workrave-normal.svg"
 QUIET = IMAGES / "workrave-quiet.svg"
 SUSPENDED = IMAGES / "workrave-suspended.svg"
+SAD = IMAGES / "stopme-panda-sad.svg"
 MASCOT = IMAGES / "stopme-panda.svg"
 
 ICON_THEME_SIZES = (16, 24, 32, 48, 64, 96, 128)
@@ -95,6 +96,12 @@ def main() -> None:
 
     print("about / update dialog mascot")
     write_mascot(IMAGES / "workrave.png", 123, 92)
+
+    print("break windows and break warnings")
+    for name in ("micro-break.png", "rest-break.png", "daily-limit.png"):
+        write_png(NORMAL, IMAGES / name, 64)
+    write_png(NORMAL, IMAGES / "prelude-hint.png", 48)
+    write_png(SAD, IMAGES / "prelude-hint-sad.png", 48)
 
     print("hicolor icon theme")
     for size in ICON_THEME_SIZES:
