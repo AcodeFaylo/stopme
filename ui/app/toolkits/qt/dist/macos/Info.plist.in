@@ -5,17 +5,17 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Workrave</string>
+	<string>@MACOS_APP_NAME@</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Workrave @VERSION@</string>
+	<string>@MACOS_APP_NAME@ @VERSION@</string>
 	<key>CFBundleIconFile</key>
-	<string>Workrave</string>
+	<string>@MACOS_APP_NAME@</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.workrave.Workrave</string>
+	<string>@MACOS_BUNDLE_ID@</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Workrave</string>
+	<string>@MACOS_APP_NAME@</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersions</key>

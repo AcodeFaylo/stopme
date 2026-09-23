@@ -1,6 +1,12 @@
-on run -- for testing in script editor
+on run argv
+	-- make-dmg.cmake passes the volume name and the app's file name; the
+	-- defaults are for testing in Script Editor.
+	set volumeName to "stopme"
+	set appFileName to "stopme.app"
+	if (count of argv) > 0 then set volumeName to item 1 of argv
+	if (count of argv) > 1 then set appFileName to item 2 of argv
 	tell application "Finder"
-		tell disk "Workrave"
+		tell disk volumeName
 			open
 			tell container window
 				set current view to icon view
@@ -16,7 +22,7 @@ on run -- for testing in script editor
 				set arrangement to not arranged
 			end tell
 			set background picture of opts to file ".background:background.png"
-			set position of item "Workrave" to {147, 202}
+			set position of item appFileName to {147, 202}
 			set position of item "Applications" to {454, 202}
                         -- set position of item "Workrave.webloc" to {260, 150}
 

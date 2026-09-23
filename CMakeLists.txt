@@ -352,7 +352,12 @@ if (UNIX AND NOT APPLE)
   set (XDGAUTOSTARTDIR "${XDGCONFDIR}/autostart")
 elseif (APPLE)
   set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "Minimum macOS deployment target")
-  set (BUNDLEDIR Workrave.app/Contents)
+  # stopme's own bundle name and identifier. The identifier is also the
+  # NSUserDefaults domain MacOSConfigurator stores the settings in, so it
+  # keeps them apart from an installed Workrave.
+  set (MACOS_APP_NAME stopme)
+  set (MACOS_BUNDLE_ID io.github.acodefaylo.stopme)
+  set (BUNDLEDIR ${MACOS_APP_NAME}.app/Contents)
   set (BINDIR ${BUNDLEDIR}/MacOS)
   set (RESOURCESDIR ${BUNDLEDIR}/Resources)
   set (DATADIR ${RESOURCESDIR}/share                        CACHE PATH "datadir")

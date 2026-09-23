@@ -15,8 +15,8 @@
 #   WORKRAVE_DMG_BACKGROUND       background image for the Finder window
 #   WORKRAVE_DMG_ICON             .icns file used as the mounted volume's icon
 #   WORKRAVE_DMG_APPLESCRIPT      AppleScript that lays out the Finder window/icons
-#   WORKRAVE_VOLUME_NAME          volume name shown when the dmg is mounted (must
-#                                 match the "disk ..." name inside WORKRAVE_DMG_APPLESCRIPT)
+#   WORKRAVE_VOLUME_NAME          volume name shown when the dmg is mounted (passed,
+#                                 with the app's file name, to WORKRAVE_DMG_APPLESCRIPT)
 #
 # Optional (leave both empty to build a plain, unsigned dmg for local testing —
 # not something to distribute):
@@ -55,10 +55,12 @@ message("-- Assembling disk image contents...")
 file(REMOVE_RECURSE "${WORKRAVE_DMG_STAGING}")
 file(MAKE_DIRECTORY "${WORKRAVE_DMG_STAGING}/.background")
 
+get_filename_component(_app_file_name "${WORKRAVE_APP}" NAME)
+
 # ditto (not cp -R) to preserve the extended attributes the notarization
 # staple and code signatures are stored in.
 execute_process(
-    COMMAND ditto "${WORKRAVE_APP}" "${WORKRAVE_DMG_STAGING}/Workrave.app"
+    COMMAND ditto "${WORKRAVE_APP}" "${WORKRAVE_DMG_STAGING}/${_app_file_name}"
     RESULT_VARIABLE _result)
 if(NOT _result EQUAL 0)
     message(FATAL_ERROR "Failed to copy the app into the dmg staging area (exit ${_result}).")
@@ -98,7 +100,7 @@ endif()
 file(REMOVE_RECURSE "${WORKRAVE_DMG_STAGING}")
 
 # Unmount any stale leftover volume from a previous failed run so hdiutil
-# attach below doesn't mount this one as "Workrave 1" instead.
+# attach below doesn't mount this one as "<volume> 1" instead.
 execute_process(COMMAND diskutil unmount force "/Volumes/${WORKRAVE_VOLUME_NAME}" OUTPUT_QUIET ERROR_QUIET)
 
 message("-- Mounting disk image to set the icon layout...")
@@ -165,7 +167,8 @@ endforeach()
 if(EXISTS "${WORKRAVE_DMG_APPLESCRIPT}")
     message("-- Applying Finder window layout...")
     execute_process(
-        COMMAND osascript "${WORKRAVE_DMG_APPLESCRIPT}"
+        COMMAND osascript "${WORKRAVE_DMG_APPLESCRIPT}" "${WORKRAVE_VOLUME_NAME}" "${_app_file_name}"
+        TIMEOUT 300
         RESULT_VARIABLE _as_result
         OUTPUT_VARIABLE _as_output
         ERROR_VARIABLE _as_error)
