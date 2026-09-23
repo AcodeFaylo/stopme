@@ -465,9 +465,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Cache Qt
+      # Qt and the libraries are saved as soon as they are ready, so a
+      # failure later in the job doesn't make the next run rebuild them.
+      - name: Restore Qt
         id: qt-cache
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: ${{ runner.temp }}/Qt
           key: qt-${{ env.QT_VERSION }}-macos-clang_64
@@ -479,9 +481,16 @@ jobs:
           "$RUNNER_TEMP/aqt/bin/pip" install aqtinstall==3.3.0
           "$RUNNER_TEMP/aqt/bin/aqt" install-qt mac desktop "$QT_VERSION" clang_64 --outputdir "$RUNNER_TEMP/Qt"
 
-      - name: Cache libraries
+      - name: Save Qt
+        if: steps.qt-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ runner.temp }}/Qt
+          key: ${{ steps.qt-cache.outputs.cache-primary-key }}
+
+      - name: Restore libraries
         id: deps-cache
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         with:
           path: ${{ runner.temp }}/deps
           key: macos-deps-${{ env.ARCH }}-${{ env.MACOSX_DEPLOYMENT_TARGET }}-${{ hashFiles('tools/ci/macos-deps.sh') }}
@@ -489,6 +498,13 @@ jobs:
       - name: Build libraries
         if: steps.deps-cache.outputs.cache-hit != 'true'
         run: ./tools/ci/macos-deps.sh "$RUNNER_TEMP/deps"
+
+      - name: Save libraries
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ runner.temp }}/deps
+          key: ${{ steps.deps-cache.outputs.cache-primary-key }}
 
       - name: Build
         run: ./tools/ci/build-macos.sh
