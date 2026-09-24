@@ -48,14 +48,25 @@ namespace
     tick.user_active = false;
     return tick;
   }
+} // namespace
 
-  //! Ticks `seconds` times and returns the actions other than Nothing.
-  std::vector<Action> run(SitStandTimer &timer, const SitStandTimer::Tick &tick, int64_t seconds)
+class SitStandTimerTest : public ::testing::Test
+{
+protected:
+  //! Ticks one second after the previous tick.
+  Action tick(SitStandTimer::Tick now)
+  {
+    now.time = ++clock;
+    return timer.tick(now);
+  }
+
+  //! Ticks once a second for `seconds` seconds; returns the actions other than Nothing.
+  std::vector<Action> run(const SitStandTimer::Tick &now, int64_t seconds)
   {
     std::vector<Action> actions;
     for (int64_t i = 0; i < seconds; i++)
       {
-        Action action = timer.tick(tick);
+        Action action = tick(now);
         if (action != Action::Nothing)
           {
             actions.push_back(action);
@@ -63,133 +74,150 @@ namespace
       }
     return actions;
   }
-} // namespace
 
-TEST(SitStandTimerTest, FirstReminderIsToStandUp)
-{
   SitStandTimer timer;
+  int64_t clock{1000000};
+};
 
-  EXPECT_TRUE(run(timer, active(), INTERVAL - 1).empty());
+TEST_F(SitStandTimerTest, FirstReminderIsToStandUp)
+{
+  EXPECT_TRUE(run(active(), INTERVAL - 1).empty());
   EXPECT_EQ(timer.get_next_posture(), Posture::Standing);
 
-  EXPECT_EQ(timer.tick(active()), Action::Remind);
+  EXPECT_EQ(tick(active()), Action::Remind);
   EXPECT_EQ(timer.get_posture(), Posture::Standing);
   EXPECT_TRUE(timer.is_reminding());
   EXPECT_EQ(timer.get_elapsed(), 0);
 }
 
-TEST(SitStandTimerTest, RemindersAlternate)
+TEST_F(SitStandTimerTest, RemindersAlternate)
 {
-  SitStandTimer timer;
-
-  run(timer, active(), INTERVAL);
+  run(active(), INTERVAL);
   EXPECT_EQ(timer.get_posture(), Posture::Standing);
   timer.dismiss();
 
-  EXPECT_EQ(run(timer, active(), INTERVAL), std::vector<Action>{Action::Remind});
+  EXPECT_EQ(run(active(), INTERVAL), std::vector<Action>{Action::Remind});
   EXPECT_EQ(timer.get_posture(), Posture::Sitting);
 
   // An unanswered reminder is replaced by the next one.
-  EXPECT_EQ(run(timer, active(), INTERVAL), std::vector<Action>{Action::Remind});
+  EXPECT_EQ(run(active(), INTERVAL), std::vector<Action>{Action::Remind});
   EXPECT_EQ(timer.get_posture(), Posture::Standing);
 }
 
-TEST(SitStandTimerTest, ShortPausesCount)
+TEST_F(SitStandTimerTest, ShortPausesCount)
 {
-  SitStandTimer timer;
-
-  run(timer, active(), INTERVAL - 120);
-  run(timer, idle(), 119);
+  run(active(), INTERVAL - 120);
+  run(idle(), 119);
   EXPECT_EQ(timer.get_elapsed(), INTERVAL - 1);
 
-  EXPECT_EQ(timer.tick(active()), Action::Remind);
+  EXPECT_EQ(tick(active()), Action::Remind);
 }
 
-TEST(SitStandTimerTest, DueReminderWaitsForActivity)
+TEST_F(SitStandTimerTest, DueReminderWaitsForActivity)
 {
-  SitStandTimer timer;
+  run(active(), INTERVAL - 10);
+  EXPECT_TRUE(run(idle(), 60).empty());
 
-  run(timer, active(), INTERVAL - 10);
-  EXPECT_TRUE(run(timer, idle(), 60).empty());
-
-  EXPECT_EQ(timer.tick(active()), Action::Remind);
+  EXPECT_EQ(tick(active()), Action::Remind);
 }
 
-TEST(SitStandTimerTest, BeingAwayStartsOver)
+TEST_F(SitStandTimerTest, BeingAwayStartsOver)
 {
-  SitStandTimer timer;
-
-  run(timer, active(), INTERVAL);
+  run(active(), INTERVAL);
   EXPECT_TRUE(timer.is_reminding());
 
   // The reminder that is showing is taken down, and the countdown starts over.
-  EXPECT_EQ(run(timer, idle(), SitStandTimer::AWAY_SECONDS), std::vector<Action>{Action::Withdraw});
+  EXPECT_EQ(run(idle(), SitStandTimer::AWAY_SECONDS), std::vector<Action>{Action::Withdraw});
   EXPECT_EQ(timer.get_elapsed(), 0);
 
   // The last posture is kept: a full interval later it is time to sit down.
-  EXPECT_TRUE(run(timer, active(), INTERVAL - 1).empty());
-  EXPECT_EQ(timer.tick(active()), Action::Remind);
+  EXPECT_TRUE(run(active(), INTERVAL - 1).empty());
+  EXPECT_EQ(tick(active()), Action::Remind);
   EXPECT_EQ(timer.get_posture(), Posture::Sitting);
 }
 
-TEST(SitStandTimerTest, SuspendedPausesAndCountsAsAway)
+TEST_F(SitStandTimerTest, SuspendedPausesAndCountsAsAway)
 {
-  SitStandTimer timer;
   SitStandTimer::Tick suspended = active();
   suspended.running = false;
   suspended.user_active = false;
 
-  run(timer, active(), 100);
-  run(timer, suspended, SitStandTimer::AWAY_SECONDS - 1);
+  run(active(), 100);
+  run(suspended, SitStandTimer::AWAY_SECONDS - 1);
   EXPECT_EQ(timer.get_elapsed(), 100);
 
-  timer.tick(suspended);
+  tick(suspended);
   EXPECT_EQ(timer.get_elapsed(), 0);
 }
 
-TEST(SitStandTimerTest, QuietModeHoldsTheReminderBack)
+TEST_F(SitStandTimerTest, QuietModeHoldsTheReminderBack)
 {
-  SitStandTimer timer;
   SitStandTimer::Tick quiet = active();
   quiet.can_remind = false;
 
-  EXPECT_TRUE(run(timer, quiet, 2 * INTERVAL).empty());
-  EXPECT_EQ(timer.tick(active()), Action::Remind);
+  EXPECT_TRUE(run(quiet, 2 * INTERVAL).empty());
+  EXPECT_EQ(tick(active()), Action::Remind);
 
   // A break or quiet mode takes a showing reminder down.
-  EXPECT_EQ(timer.tick(quiet), Action::Withdraw);
+  EXPECT_EQ(tick(quiet), Action::Withdraw);
   EXPECT_FALSE(timer.is_reminding());
 }
 
-TEST(SitStandTimerTest, DisablingStartsOver)
+TEST_F(SitStandTimerTest, DisablingStartsOver)
 {
-  SitStandTimer timer;
   SitStandTimer::Tick disabled = active();
   disabled.enabled = false;
 
-  run(timer, active(), INTERVAL);
-  EXPECT_EQ(timer.tick(disabled), Action::Withdraw);
+  run(active(), INTERVAL);
+  EXPECT_EQ(tick(disabled), Action::Withdraw);
   EXPECT_EQ(timer.get_posture(), Posture::Sitting);
   EXPECT_EQ(timer.get_elapsed(), 0);
-  EXPECT_TRUE(run(timer, disabled, 2 * INTERVAL).empty());
+  EXPECT_TRUE(run(disabled, 2 * INTERVAL).empty());
 }
 
-TEST(SitStandTimerTest, ShorterIntervalTakesEffectRightAway)
+TEST_F(SitStandTimerTest, ShorterIntervalTakesEffectRightAway)
 {
-  SitStandTimer timer;
   SitStandTimer::Tick shorter = active();
   shorter.interval = 10 * 60;
 
-  run(timer, active(), 20 * 60);
-  EXPECT_EQ(timer.tick(shorter), Action::Remind);
+  run(active(), 20 * 60);
+  EXPECT_EQ(tick(shorter), Action::Remind);
 }
 
-TEST(SitStandTimerTest, TinyIntervalIsRaisedToTheMinimum)
+TEST_F(SitStandTimerTest, TinyIntervalIsRaisedToTheMinimum)
 {
-  SitStandTimer timer;
   SitStandTimer::Tick tiny = active();
   tiny.interval = 0;
 
-  EXPECT_TRUE(run(timer, tiny, SitStandTimer::MIN_INTERVAL - 1).empty());
-  EXPECT_EQ(timer.tick(tiny), Action::Remind);
+  EXPECT_TRUE(run(tiny, SitStandTimer::MIN_INTERVAL - 1).empty());
+  EXPECT_EQ(tick(tiny), Action::Remind);
+}
+
+TEST_F(SitStandTimerTest, SleepCountsAsTimeAway)
+{
+  run(active(), INTERVAL);
+  EXPECT_TRUE(timer.is_reminding());
+
+  // The computer sleeps for an hour, and is in use as soon as it wakes up.
+  clock += 60 * 60;
+  EXPECT_EQ(tick(active()), Action::Withdraw);
+  EXPECT_EQ(timer.get_elapsed(), 1);
+}
+
+TEST_F(SitStandTimerTest, MissedTicksStillCount)
+{
+  run(active(), 100);
+
+  clock += 2;
+  tick(active());
+  EXPECT_EQ(timer.get_elapsed(), 103);
+}
+
+TEST_F(SitStandTimerTest, ClockSetBackCountsNothing)
+{
+  run(active(), 100);
+
+  clock -= 60 * 60;
+  tick(active());
+  EXPECT_EQ(timer.get_elapsed(), 100);
 }

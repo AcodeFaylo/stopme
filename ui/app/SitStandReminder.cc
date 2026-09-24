@@ -28,6 +28,7 @@
 
 #include "core/ICore.hh"
 #include "ui/GUIConfig.hh"
+#include "utils/TimeSource.hh"
 
 using namespace workrave;
 
@@ -48,6 +49,7 @@ SitStandReminder::heartbeat()
   OperationMode mode = core->get_active_operation_mode();
 
   SitStandTimer::Tick now;
+  now.time = workrave::utils::TimeSource::get_real_time_sec();
   now.enabled = GUIConfig::sit_stand_enabled()();
   now.interval = GUIConfig::sit_stand_interval()();
   now.running = mode != OperationMode::Suspended;

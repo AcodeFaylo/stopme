@@ -26,6 +26,10 @@
 SitStandTimer::Action
 SitStandTimer::tick(const Tick &now)
 {
+  // One second is expected. The clock can also be set back: count nothing then.
+  int64_t seconds = last_time != 0 ? std::max<int64_t>(now.time - last_time, 0) : 1;
+  last_time = now.time;
+
   if (!now.enabled)
     {
       bool was_reminding = reminding;
@@ -33,23 +37,14 @@ SitStandTimer::tick(const Tick &now)
       return was_reminding ? Action::Withdraw : Action::Nothing;
     }
 
+  // Seconds without a tick mean the computer slept, or stopme could not run.
+  // Nobody saw what the user did meanwhile, so they count as time away.
+  bool away = seconds > 1 && count(seconds - 1, false, now.running);
+
   // Suspended counts as away too, so a long suspension starts the countdown over.
-  idle = (now.running && now.user_active) ? 0 : idle + 1;
-  if (idle >= AWAY_SECONDS)
-    {
-      elapsed = 0;
-      return withdraw();
-    }
+  away = count(std::min<int64_t>(seconds, 1), now.running && now.user_active, now.running) || away;
 
-  if (!now.running)
-    {
-      return withdraw();
-    }
-
-  // Short pauses, such as reading, still count.
-  elapsed++;
-
-  if (!now.can_remind)
+  if (away || !now.running || !now.can_remind)
     {
       return withdraw();
     }
@@ -103,6 +98,26 @@ bool
 SitStandTimer::is_reminding() const
 {
   return reminding;
+}
+
+//! Counts `seconds` spent at the computer or not; returns whether the user
+//! has now been away long enough for the countdown to start over.
+bool
+SitStandTimer::count(int64_t seconds, bool present, bool running)
+{
+  idle = present ? 0 : idle + seconds;
+  if (idle >= AWAY_SECONDS)
+    {
+      elapsed = 0;
+      return true;
+    }
+
+  if (running)
+    {
+      // Short pauses, such as reading, still count.
+      elapsed += seconds;
+    }
+  return false;
 }
 
 SitStandTimer::Action

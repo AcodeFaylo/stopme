@@ -35,7 +35,8 @@ enum class Posture
  * The user is assumed to sit when the countdown starts, so the first reminder
  * is to stand up; after that the reminders alternate. Time spent away from the
  * computer does not count: whoever is away for AWAY_SECONDS or longer has
- * moved already, so the countdown starts over when they are back.
+ * moved already, so the countdown starts over when they are back. A gap
+ * between ticks, such as a computer that slept, counts as time away.
  */
 class SitStandTimer
 {
@@ -43,6 +44,10 @@ public:
   //! What the caller knows about the current second.
   struct Tick
   {
+    //! Wall-clock time in seconds. Not a monotonic clock: those stop while
+    //! the computer sleeps, and a sleep has to count as time away.
+    int64_t time{0};
+
     //! The reminder is switched on.
     bool enabled{false};
 
@@ -97,12 +102,14 @@ public:
   bool is_reminding() const;
 
 private:
+  bool count(int64_t seconds, bool present, bool running);
   Action withdraw();
 
 private:
   Posture posture{Posture::Sitting};
   int64_t elapsed{0};
   int64_t idle{0};
+  int64_t last_time{0};
   bool reminding{false};
 };
 
