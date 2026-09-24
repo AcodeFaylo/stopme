@@ -59,6 +59,9 @@ const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_X = "gui/main_window/x";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_Y = "gui/main_window/y";
 const std::string GUIConfig::CFG_KEY_MAIN_WINDOW_HEAD = "gui/main_window/head";
 
+const std::string GUIConfig::CFG_KEY_SIT_STAND_ENABLED = "gui/sit_stand/enabled";
+const std::string GUIConfig::CFG_KEY_SIT_STAND_INTERVAL = "gui/sit_stand/interval";
+
 const std::string GUIConfig::CFG_KEY_APPLET_FALLBACK_ENABLED = "gui/applet/fallback_enabled";
 const std::string GUIConfig::CFG_KEY_APPLET_ICON_ENABLED = "gui/applet/icon_enabled";
 
@@ -108,6 +111,8 @@ GUIConfig::init(std::shared_ptr<workrave::config::IConfigurator> config)
   config->set_value(CFG_KEY_LOCALE, "", CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_SANCTUARY_UI_ENABLED, false, CONFIG_FLAG_INITIAL);
   config->set_value(CFG_KEY_DISPLAY_STYLE, static_cast<int>(DisplayStyle::Rings), CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_SIT_STAND_ENABLED, false, CONFIG_FLAG_INITIAL);
+  config->set_value(CFG_KEY_SIT_STAND_INTERVAL, 30 * 60, CONFIG_FLAG_INITIAL);
 
 #if defined(PLATFORM_OS_WINDOWS)
   bool dark = false;
@@ -296,6 +301,18 @@ auto
 GUIConfig::main_window_head() -> Setting<int> &
 {
   return SettingCache::get<int>(config, CFG_KEY_MAIN_WINDOW_HEAD, 0);
+}
+
+auto
+GUIConfig::sit_stand_enabled() -> Setting<bool> &
+{
+  return SettingCache::get<bool>(config, CFG_KEY_SIT_STAND_ENABLED, false);
+}
+
+auto
+GUIConfig::sit_stand_interval() -> Setting<int> &
+{
+  return SettingCache::get<int>(config, CFG_KEY_SIT_STAND_INTERVAL, 30 * 60);
 }
 
 auto

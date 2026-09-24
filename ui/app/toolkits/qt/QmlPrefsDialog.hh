@@ -28,6 +28,7 @@ class QQuickView;
 class MicrobreakPrefBridge;
 class RestBreakPrefBridge;
 class DailyLimitPrefBridge;
+class SitStandPrefBridge;
 class StatusWindowPrefBridge;
 class AppletPrefBridge;
 class GeneralPrefBridge;
@@ -64,6 +65,7 @@ private:
   MicrobreakPrefBridge   *microbreakBridge{nullptr};
   RestBreakPrefBridge    *restBreakBridge{nullptr};
   DailyLimitPrefBridge   *dailyLimitBridge{nullptr};
+  SitStandPrefBridge     *sitStandBridge{nullptr};
   StatusWindowPrefBridge *statusWindowBridge{nullptr};
   AppletPrefBridge       *appletBridge{nullptr};
   GeneralPrefBridge      *generalBridge{nullptr};

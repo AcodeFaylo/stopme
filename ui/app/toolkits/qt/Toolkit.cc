@@ -36,6 +36,7 @@
 #include "QmlPreludeWindow.hh"
 #include "QmlDailyLimitWindow.hh"
 #include "QmlRestBreakWindow.hh"
+#include "QmlSitStandWindow.hh"
 #include "debug.hh"
 #include "ui/GUIConfig.hh"
 #include "utils/Signals.hh"
@@ -167,6 +168,17 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id) -> 
   // Always use the QML prelude window; it switches between Sanctuary and Classic
   // designs live via bridge.classic without requiring a Workrave restart.
   return std::make_shared<QmlPreludeWindow>(app, screen, break_id);
+}
+
+auto
+Toolkit::create_sit_stand_window(int screen_index, Posture posture) -> ISitStandWindow::Ptr
+{
+  QList<QScreen *> screens = QGuiApplication::screens();
+  if (screen_index < 0 || screen_index >= screens.size())
+    {
+      return {};
+    }
+  return std::make_shared<QmlSitStandWindow>(app, screens.at(screen_index), posture);
 }
 
 void

@@ -34,6 +34,7 @@
 #include "GeneralPreferencePanel.hh"
 #include "MonitoringPreferencePanel.hh"
 #include "RemoteControlPreferencePanel.hh"
+#include "SitStandPreferencePanel.hh"
 #include "SoundPreferencePanel.hh"
 #include "TimerBoxPreferencePanel.hh"
 #include "TimerPreferencePanel.hh"
@@ -112,6 +113,11 @@ PreferencesDialog::create_timers_page()
       box->show_all();
       page->add_panel(timer_ids.at(i), tp, box);
     }
+
+  std::string icon = GtkUtil::get_image_filename("timer-sit-stand.png");
+  Gtk::Widget *sit_stand_label = Gtk::manage(GtkUtil::create_label_with_icon(_("Sit / stand"), icon.c_str()));
+  sit_stand_label->show_all();
+  page->add_panel("sitstand", Gtk::manage(new SitStandPreferencePanel(app)), sit_stand_label);
 }
 
 void

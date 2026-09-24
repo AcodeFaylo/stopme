@@ -17,6 +17,7 @@ target_sources(workrave-toolkit-qt PRIVATE
   QmlPluginPrefBridges.cc
   QmlPreludeWindow.cc
   QmlRestBreakWindow.cc
+  QmlSitStandWindow.cc
   QmlTimerBoxView.cc
   DebugDialog.cc
   QmlStatisticsDialog.cc
@@ -115,6 +116,7 @@ set(MOC_SOURCES
   QmlPluginPrefBridges.hh
   QmlPreludeWindow.hh
   QmlRestBreakWindow.hh
+  QmlSitStandWindow.hh
   QmlTimerBoxView.hh
   DebugDialog.hh
   QmlStatisticsDialog.hh

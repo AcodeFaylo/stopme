@@ -21,6 +21,7 @@ Item {
             { id: "microbreak",  title: qsTr("Micro-break")    },
             { id: "restbreak",   title: qsTr("Rest break")    },
             { id: "daily",       title: qsTr("Daily limit")   },
+            { id: "sitstand",    title: qsTr("Sit / stand")   },
             { id: "monitoring",  title: qsTr("Monitoring")    },
         ]},
         { id: "ui", title: qsTr("User interface"), children: [
@@ -70,6 +71,11 @@ Item {
                 title: qsTr("Daily limit"),
                 lede:  qsTr("A cap on how long you'll work at the computer in a day. stopme nudges you to stop when you reach it."),
                 url:   "DailyLimitPrefPage.qml"
+            }
+            if (pg === "sitstand") return {
+                title: qsTr("Sit / stand"),
+                lede:  qsTr("A reminder to change between sitting and standing, for a desk that does both."),
+                url:   "SitStandPrefPage.qml"
             }
             if (pg === "monitoring") return {
                 title: qsTr("Monitoring"),

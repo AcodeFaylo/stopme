@@ -33,6 +33,8 @@ QUIET = IMAGES / "workrave-quiet.svg"
 SUSPENDED = IMAGES / "workrave-suspended.svg"
 SAD = IMAGES / "stopme-panda-sad.svg"
 MASCOT = IMAGES / "stopme-panda.svg"
+STANDING = IMAGES / "stopme-panda-standing.svg"
+SITTING = IMAGES / "stopme-panda-sitting.svg"
 WORDMARK = IMAGES / "workrave-text.svg"
 
 MAGENTA = (0xFF, 0x3D, 0x8B)
@@ -184,6 +186,18 @@ def write_png(svg: Path, dest: Path, size: int) -> None:
     print(f"  {dest.relative_to(ROOT)}  {size}x{size}")
 
 
+def write_cropped_png(svg: Path, dest: Path, box: tuple[int, int, int], size: int) -> None:
+    """Rasterise the square `box` (x, y, side) of a 256x256 `svg`."""
+    import io
+
+    x, y, side = box
+    text = svg.read_text().replace('viewBox="0 0 256 256" width="256" height="256"',
+                                   f'viewBox="{x} {y} {side} {side}" width="{side}" height="{side}"')
+    png = cairosvg.svg2png(bytestring=text.encode(), output_width=size, output_height=size)
+    Image.open(io.BytesIO(png)).convert("RGBA").save(dest)
+    print(f"  {dest.relative_to(ROOT)}  {size}x{size}")
+
+
 def write_ico(svg: Path, dest: Path) -> None:
     largest = render(svg, max(ICO_SIZES))
     largest.save(dest, format="ICO", sizes=[(s, s) for s in ICO_SIZES])
@@ -234,6 +248,12 @@ def main() -> None:
         write_png(NORMAL, IMAGES / name, 64)
     write_png(NORMAL, IMAGES / "prelude-hint.png", 48)
     write_png(SAD, IMAGES / "prelude-hint-sad.png", 48)
+
+    print("sit/stand reminder (SVGs from posture-art.py)")
+    write_png(STANDING, IMAGES / "stopme-panda-standing.png", 96)
+    write_png(SITTING, IMAGES / "stopme-panda-sitting.png", 96)
+    # Head and raised arms only: the whole panda is a smudge at 16 pixels.
+    write_cropped_png(STANDING, IMAGES / "timer-sit-stand.png", (42, 2, 172), 16)
 
     print("hicolor icon theme")
     for size in ICON_THEME_SIZES:

@@ -68,6 +68,7 @@ public:
 
   auto create_break_window(int screen, workrave::BreakId break_id, BreakFlags break_flags) -> IBreakWindow::Ptr override;
   auto create_prelude_window(int screen, workrave::BreakId break_id) -> IPreludeWindow::Ptr override;
+  auto create_sit_stand_window(int screen, Posture posture) -> ISitStandWindow::Ptr override;
   void show_window(WindowType type) override;
 
   auto get_display_name() const -> const char * override;

@@ -14,6 +14,7 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   PreferencesDialog.cc
   PreludeWindow.cc
   RestBreakWindow.cc
+  SitStandWindow.cc
   StatisticsDialog.cc
   Toolkit.cc
   ToolkitFactory.cc
@@ -21,6 +22,7 @@ target_sources(workrave-toolkit-gtkmm PRIVATE
   Ui.cc
   preferences/TimerBoxPreferencePanel.cc
   preferences/TimerPreferencePanel.cc
+  preferences/SitStandPreferencePanel.cc
   preferences/GeneralPreferencePanel.cc
   preferences/SoundPreferencePanel.cc
   preferences/MonitoringPreferencePanel.cc

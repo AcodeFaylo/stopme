@@ -9,6 +9,8 @@
         <file alias="stopme-panda.svg">../../../../data/images/stopme-panda.svg</file>
         <file alias="stopme-panda-face.svg">../../../../data/images/workrave-normal.svg</file>
         <file alias="stopme-panda-sad.svg">../../../../data/images/stopme-panda-sad.svg</file>
+        <file alias="stopme-panda-standing.svg">../../../../data/images/stopme-panda-standing.svg</file>
+        <file alias="stopme-panda-sitting.svg">../../../../data/images/stopme-panda-sitting.svg</file>
         <file alias="timer-micro-break-large.png">../../../../data/images/timer-micro-break-large.png</file>
         <file alias="timer-rest-break-large.png">../../../../data/images/timer-rest-break-large.png</file>
         <file alias="timer-daily-large.png">../../../../data/images/timer-daily-large.png</file>
@@ -26,6 +28,9 @@
         <file>RestBreakClassic.qml</file>
         <file>RestBreakOverlay.qml</file>
         <file>RestBreakShell.qml</file>
+        <file>SitStandShell.qml</file>
+        <file>SitStandOverlay.qml</file>
+        <file>SitStandClassic.qml</file>
         <file>StatusWindow.qml</file>
         <file>ClassicSysOperMenu.qml</file>
         <file>ConfirmDialog.qml</file>
@@ -44,6 +49,7 @@
         <file>MicrobreakPrefPage.qml</file>
         <file>RestBreakPrefPage.qml</file>
         <file>DailyLimitPrefPage.qml</file>
+        <file>SitStandPrefPage.qml</file>
         <file>GeneralPrefPage.qml</file>
         <file>RemoteControlPrefPage.qml</file>
         <file>TimerStylePreview.qml</file>

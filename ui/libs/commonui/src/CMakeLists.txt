@@ -4,6 +4,7 @@ target_sources(workrave-libs-commonui PRIVATE
   Locale.cc
   MenuHelper.cc
   MenuModel.cc
+  SitStandTimer.cc
   Text.cc
 )
 
