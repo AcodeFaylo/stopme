@@ -64,6 +64,9 @@ SitStandWindow::SitStandWindow(std::shared_ptr<IApplicationContext> app, HeadInf
       signal_screen_changed().connect(sigc::mem_fun(*this, &SitStandWindow::on_screen_changed_event));
       on_screen_changed_event(get_screen());
       set_size_request(this->head.get_width(), this->head.get_height());
+
+      // Placing the window on the right monitor is left to arm_unfullscreen(),
+      // which runs from start() before the window is mapped.
     }
 
   realize();
@@ -137,6 +140,9 @@ SitStandWindow::start()
       set_position(Gtk::WIN_POS_NONE);
       move(x, head.get_y() + SCREEN_MARGIN);
     }
+#if defined(HAVE_WAYLAND)
+  arm_unfullscreen();
+#endif
 
   show_all();
 
@@ -149,10 +155,75 @@ SitStandWindow::stop()
   TRACE_ENTRY();
 #if defined(HAVE_WAYLAND)
   layer_surface.reset();
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = false;
 #endif
 
   hide();
 }
+
+#if defined(HAVE_WAYLAND)
+//! Maps the window fullscreen on its own monitor, and leaves fullscreen again.
+/*!
+ *  The same fallback as PreludeWindow::arm_unfullscreen(): without the layer
+ *  shell protocol (Mutter), a Wayland client cannot pick the output it
+ *  appears on, so each screen-sized window is briefly made fullscreen on the
+ *  monitor of its head.
+ */
+void
+SitStandWindow::arm_unfullscreen()
+{
+  TRACE_ENTRY();
+  if (window_manager || !Platform::running_on_wayland() || Platform::can_position_windows())
+    {
+      return;
+    }
+
+  if (!app || (app->get_toolkit()->get_head_count() <= 1))
+    {
+      return;
+    }
+
+  const auto screen = get_screen();
+  if (!screen)
+    {
+      return;
+    }
+
+  const int monitor_index = head.get_monitor_index(screen);
+  if (monitor_index < 0)
+    {
+      TRACE_MSG("no monitor index for head");
+      return;
+    }
+
+  unfullscreen_connection.disconnect();
+  unfullscreen_pending = true;
+  fullscreen_on_monitor(screen, monitor_index);
+}
+
+bool
+SitStandWindow::on_window_state_event(GdkEventWindowState *event)
+{
+  if (unfullscreen_pending && ((event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN) != 0)
+      && ((event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN) != 0))
+    {
+      unfullscreen_pending = false;
+
+      // Leave the fullscreen state only after the compositor has presented a
+      // frame. Unsetting it right away allows the compositor to coalesce both
+      // requests, in which case the window never moves to the right monitor.
+      unfullscreen_connection = Glib::signal_timeout().connect(
+        [this]() {
+          unfullscreen();
+          return false;
+        },
+        100);
+    }
+
+  return Gtk::Window::on_window_state_event(event);
+}
+#endif
 
 boost::signals2::signal<void()> &
 SitStandWindow::signal_dismissed()

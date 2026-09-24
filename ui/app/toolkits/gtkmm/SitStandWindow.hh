@@ -75,6 +75,13 @@ private:
 #if defined(HAVE_WAYLAND)
   std::shared_ptr<WaylandWindowManager> window_manager;
   std::shared_ptr<WaylandLayerSurface> layer_surface;
+
+  //! Waiting for the compositor to confirm fullscreen, so it can be undone again
+  bool unfullscreen_pending{false};
+  sigc::connection unfullscreen_connection;
+
+  void arm_unfullscreen();
+  bool on_window_state_event(GdkEventWindowState *event) override;
 #endif
 };
 
