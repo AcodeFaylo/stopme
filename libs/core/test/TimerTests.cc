@@ -2206,3 +2206,32 @@ TEST_F(TimerTest, test_timer_deserialize_overdue_state)
   ASSERT_EQ(timer->get_total_overdue_time(), 50);
 }
 
+
+// During a break the timers are frozen (InsistPolicy::Halt). The break must
+// end once its duration has been spent idle, also when the user becomes
+// active in the very second the countdown runs out.
+TEST_F(TimerTest, test_timer_frozen_reset_when_active_at_reset_time)
+{
+  init();
+
+  tick(true, 100, [this](int count, TimerEvent event) {
+    ASSERT_EQ(timer->get_elapsed_time(), count);
+    ASSERT_EQ(event, TIMER_EVENT_NONE);
+  });
+
+  TimeSource::sync();
+  timer->freeze_timer(true);
+
+  tick(false, 20, [this](int count, TimerEvent event) {
+    ASSERT_EQ(timer->get_elapsed_time(), 100);
+    ASSERT_EQ(timer->get_elapsed_idle_time(), count);
+    ASSERT_EQ(event, TIMER_EVENT_NONE);
+  });
+
+  TimerInfo info{};
+  TimeSource::sync();
+  timer->process(ACTIVITY_ACTIVE, info);
+  ASSERT_EQ(info.event, TIMER_EVENT_NATURAL_RESET);
+  ASSERT_EQ(timer->get_elapsed_time(), 0);
+  ASSERT_EQ(timer->get_elapsed_idle_time(), 0);
+}

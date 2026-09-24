@@ -301,6 +301,12 @@ Timer::process(bool user_is_active)
   int64_t current_time = TimeSource::get_monotonic_time_sec_sync();
   TimerEvent event = TIMER_EVENT_NONE;
 
+  // A frozen timer (during a break) keeps its idle time when the user becomes
+  // active, so a reset that falls due in that very second must not be lost:
+  // start_timer() drops it, and the idle time then already covers the reset
+  // interval. That left the break window at 0:00 until the user postponed.
+  bool reset_due = timer_frozen && next_reset_time != 0 && current_time >= next_reset_time;
+
   if (timer_enabled)
     {
       if (user_is_active && timer_state != STATE_RUNNING)
@@ -327,7 +333,7 @@ Timer::process(bool user_is_active)
       compute_next_daily_reset_time();
       event = TIMER_EVENT_RESET;
     }
-  else if (next_limit_time != 0 && current_time >= next_limit_time)
+  else if (!reset_due && next_limit_time != 0 && current_time >= next_limit_time)
     {
       TRACE_MSG("limit");
       // A next limit time was set and the current time >= limit time.
@@ -337,7 +343,7 @@ Timer::process(bool user_is_active)
       compute_next_limit_time();
       event = TIMER_EVENT_LIMIT_REACHED;
     }
-  else if (next_reset_time != 0 && current_time >= next_reset_time)
+  else if (reset_due || (next_reset_time != 0 && current_time >= next_reset_time))
     {
       TRACE_MSG("reset");
       bool natural = is_limit_enabled() && limit_interval >= get_elapsed_time();
@@ -686,11 +692,20 @@ Timer::compute_next_reset_time()
       // next reset time = last stop time + auto reset
       next_reset_time = last_stop_time + auto_reset_interval - elapsed_idle_timespan;
       TRACE_MSG("Next reset time = {} {}", next_reset_time, (next_reset_time - TimeSource::get_real_time_sec_sync()));
-      if (next_reset_time <= last_reset_time || next_reset_time <= last_stop_time)
+      if (next_reset_time <= last_reset_time)
         {
           // Just is sanity check, can't reset before the previous one..
           next_reset_time = 0;
           TRACE_MSG("Next reset time in past, setting to 0 ");
+        }
+      else if (next_reset_time <= last_stop_time)
+        {
+          // The idle time collected while frozen already covers the interval.
+          // A timer that holds active time resets now; one that holds none,
+          // like a timer that just started with its idle time at the maximum,
+          // has nothing to reset.
+          next_reset_time = elapsed_timespan > 0 ? last_stop_time : 0;
+          TRACE_MSG("Idle time covers the reset interval, next reset time = {}", next_reset_time);
         }
     }
 }
