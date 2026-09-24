@@ -28,6 +28,7 @@
 #include "MicroBreakWindow.hh"
 #include "PreludeWindow.hh"
 #include "RestBreakWindow.hh"
+#include "SitStandWindow.hh"
 #include "commonui/credits.h"
 #include "commonui/nls.h"
 #include "debug.hh"
@@ -238,6 +239,18 @@ Toolkit::create_prelude_window(int screen_index, workrave::BreakId break_id)
     }
   HeadInfo head = *optional_head;
   return std::make_shared<PreludeWindow>(app, head, break_id);
+}
+
+ISitStandWindow::Ptr
+Toolkit::create_sit_stand_window(int screen_index, Posture posture)
+{
+  auto optional_head = get_head_info(screen_index);
+  if (!optional_head)
+    {
+      logger->error("Failed to retrieve monitor info for screen index {}", screen_index);
+      return nullptr;
+    }
+  return std::make_shared<SitStandWindow>(app, *optional_head, posture);
 }
 
 void

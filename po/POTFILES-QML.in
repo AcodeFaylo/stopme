@@ -15,6 +15,9 @@ ui/app/toolkits/qt/qml/PreludeOverlay.qml
 ui/app/toolkits/qt/qml/RestBreakClassic.qml
 ui/app/toolkits/qt/qml/RestBreakOverlay.qml
 ui/app/toolkits/qt/qml/RestBreakPrefPage.qml
+ui/app/toolkits/qt/qml/SitStandClassic.qml
+ui/app/toolkits/qt/qml/SitStandOverlay.qml
+ui/app/toolkits/qt/qml/SitStandPrefPage.qml
 ui/app/toolkits/qt/qml/SoundsPrefPage.qml
 ui/app/toolkits/qt/qml/StatusWindow.qml
 ui/app/toolkits/qt/qml/StatusWindowPrefPage.qml

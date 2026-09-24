@@ -4,6 +4,7 @@
     <child schema="org.workrave.gui.applet" name="applet"/>
     <child schema="org.workrave.gui.main-window" name="main-window"/>
     <child schema="org.workrave.gui.breaks" name="breaks"/>
+    <child schema="org.workrave.gui.sit-stand" name="sit-stand"/>
 
     <key type="s" name="preferred-lock-method">
       <default>""</default>
@@ -345,6 +346,19 @@
       <default>1</default>
       <summary></summary>
       <description></description>
+    </key>
+  </schema>
+
+  <schema path="/org/stopme/gui/sit-stand/" id="org.workrave.gui.sit-stand" gettext-domain="workrave">
+    <key type="b" name="enabled">
+      <default>false</default>
+      <summary>Remind to switch between sitting and standing</summary>
+      <description>Show a reminder to stand up or sit down at a regular interval.</description>
+    </key>
+    <key type="i" name="interval">
+      <default>1800</default>
+      <summary>Time between sit/stand reminders</summary>
+      <description>Number of seconds from one reminder to stand up or sit down to the next.</description>
     </key>
   </schema>
 

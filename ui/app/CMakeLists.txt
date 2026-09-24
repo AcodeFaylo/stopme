@@ -8,6 +8,7 @@ target_sources(workrave-app PRIVATE
   Menus.cc
   Prelude.cc
   PreferencesRegistry.cc
+  SitStandReminder.cc
   SoundTheme.cc
   TimerBoxControl.cc
   )

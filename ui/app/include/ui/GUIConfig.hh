@@ -96,6 +96,9 @@ public:
   static workrave::config::Setting<int> &main_window_y();
   static workrave::config::Setting<int> &main_window_head();
 
+  static workrave::config::Setting<bool> &sit_stand_enabled();
+  static workrave::config::Setting<int> &sit_stand_interval();
+
   static workrave::config::Setting<bool> &applet_fallback_enabled();
   static workrave::config::Setting<bool> &applet_icon_enabled();
 
@@ -144,6 +147,9 @@ private:
   static const std::string CFG_KEY_MAIN_WINDOW_X;
   static const std::string CFG_KEY_MAIN_WINDOW_Y;
   static const std::string CFG_KEY_MAIN_WINDOW_HEAD;
+
+  static const std::string CFG_KEY_SIT_STAND_ENABLED;
+  static const std::string CFG_KEY_SIT_STAND_INTERVAL;
 
   static const std::string CFG_KEY_APPLET_FALLBACK_ENABLED;
   static const std::string CFG_KEY_APPLET_ICON_ENABLED;

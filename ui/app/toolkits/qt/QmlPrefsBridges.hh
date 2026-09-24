@@ -291,6 +291,42 @@ private:
   static constexpr int SNOOZE_STEP = 60;
 };
 
+// ── SitStandPrefBridge ─────────────────────────────────────────────────────────
+
+class SitStandPrefBridge : public QObject
+{
+  Q_OBJECT
+
+  Q_PROPERTY(bool    enabled         READ enabled         WRITE setEnabled NOTIFY enabledChanged)
+  Q_PROPERTY(QString intervalDisplay READ intervalDisplay NOTIFY timingChanged)
+  Q_PROPERTY(double  intervalNorm    READ intervalNorm    NOTIFY timingChanged)
+
+public:
+  explicit SitStandPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent = nullptr);
+
+  bool enabled() const;
+  Q_INVOKABLE void setEnabled(bool v);
+
+  QString intervalDisplay() const;
+  double  intervalNorm() const;
+
+  Q_INVOKABLE void incrementInterval();
+  Q_INVOKABLE void decrementInterval();
+  Q_INVOKABLE void setIntervalNorm(double norm);
+  Q_INVOKABLE void setIntervalSeconds(int seconds);
+
+Q_SIGNALS:
+  void enabledChanged();
+  void timingChanged();
+
+private:
+  std::shared_ptr<IApplicationContext> app;
+
+  static constexpr int INTERVAL_MIN  = 5 * 60;
+  static constexpr int INTERVAL_MAX  = 120 * 60;
+  static constexpr int INTERVAL_STEP = 5 * 60;
+};
+
 // ── StatusWindowPrefBridge ────────────────────────────────────────────────────
 
 class StatusWindowPrefBridge : public QObject

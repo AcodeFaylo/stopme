@@ -2182,3 +2182,63 @@ TEST_F(TimerTest, test_timer_deserialize_overdue_state)
   ASSERT_EQ(timer->get_total_overdue_time(), 50);
 }
 
+
+// During a break the timers are frozen (InsistPolicy::Halt). The break must
+// end once its duration has been spent idle, also when the user becomes
+// active in the very second the countdown runs out.
+TEST_F(TimerTest, test_timer_frozen_reset_when_active_at_reset_time)
+{
+  init();
+
+  tick(true, 100, [this](int count, TimerEvent event) {
+    ASSERT_EQ(timer->get_elapsed_time(), count);
+    ASSERT_EQ(event, TIMER_EVENT_NONE);
+  });
+
+  TimeSource::sync();
+  timer->freeze_timer(true);
+
+  tick(false, 20, [this](int count, TimerEvent event) {
+    ASSERT_EQ(timer->get_elapsed_time(), 100);
+    ASSERT_EQ(timer->get_elapsed_idle_time(), count);
+    ASSERT_EQ(event, TIMER_EVENT_NONE);
+  });
+
+  TimeSource::sync();
+  ASSERT_EQ(timer->process(true), TIMER_EVENT_NATURAL_RESET);
+  ASSERT_EQ(timer->get_elapsed_time(), 0);
+  ASSERT_EQ(timer->get_elapsed_idle_time(), 0);
+}
+
+// A frozen timer can collect more idle time than the reset interval, here
+// because the interval shrinks during the break. Stopping it must reset it
+// right away instead of never.
+TEST_F(TimerTest, test_timer_frozen_reset_when_idle_time_covers_interval_at_stop)
+{
+  init();
+
+  tick(true, 100, [this](int count, TimerEvent event) {
+    ASSERT_EQ(timer->get_elapsed_time(), count);
+    ASSERT_EQ(event, TIMER_EVENT_NONE);
+  });
+
+  TimeSource::sync();
+  timer->freeze_timer(true);
+
+  tick(false, 10, [this](int count, TimerEvent event) {
+    ASSERT_EQ(timer->get_elapsed_idle_time(), count);
+    ASSERT_EQ(event, TIMER_EVENT_NONE);
+  });
+
+  tick(true, 5, [this](int count, TimerEvent event) {
+    ASSERT_EQ(timer->get_elapsed_time(), 100);
+    ASSERT_EQ(timer->get_elapsed_idle_time(), 10);
+    ASSERT_EQ(event, TIMER_EVENT_NONE);
+  });
+
+  timer->set_auto_reset(10);
+
+  TimeSource::sync();
+  ASSERT_EQ(timer->process(false), TIMER_EVENT_NATURAL_RESET);
+  ASSERT_EQ(timer->get_elapsed_time(), 0);
+}

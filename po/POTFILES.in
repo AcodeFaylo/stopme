@@ -137,11 +137,13 @@ ui/app/toolkits/gtkmm/platforms/windows/Edge.cc
 ui/app/toolkits/gtkmm/PreferencesDialog.cc
 ui/app/toolkits/gtkmm/preferences/GeneralPreferencePanel.cc
 ui/app/toolkits/gtkmm/preferences/MonitoringPreferencePanel.cc
+ui/app/toolkits/gtkmm/preferences/SitStandPreferencePanel.cc
 ui/app/toolkits/gtkmm/preferences/SoundPreferencePanel.cc
 ui/app/toolkits/gtkmm/preferences/TimerBoxPreferencePanel.cc
 ui/app/toolkits/gtkmm/preferences/TimerPreferencePanel.cc
 ui/app/toolkits/gtkmm/PreludeWindow.cc
 ui/app/toolkits/gtkmm/RestBreakWindow.cc
+ui/app/toolkits/gtkmm/SitStandWindow.cc
 ui/app/toolkits/gtkmm/StatisticsDialog.cc
 ui/app/toolkits/gtkmm/Toolkit.cc
 ui/app/toolkits/gtkmm/ToolkitFactory.cc
@@ -185,6 +187,7 @@ ui/app/toolkits/qt/QmlPrefsBridges.cc
 ui/app/toolkits/qt/QmlPrefsDialog.cc
 ui/app/toolkits/qt/QmlPreludeWindow.cc
 ui/app/toolkits/qt/QmlRestBreakWindow.cc
+ui/app/toolkits/qt/QmlSitStandWindow.cc
 ui/app/toolkits/qt/Toolkit.cc
 ui/app/toolkits/qt/ToolkitFactory.cc
 ui/app/toolkits/qt/ToolkitMacOS.cc

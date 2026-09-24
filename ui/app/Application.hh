@@ -44,6 +44,7 @@
 #if defined(HAVE_DBUS)
 class RpcDBusApplicationServer;
 #endif
+class SitStandReminder;
 
 class Application
   : public workrave::IApp
@@ -118,6 +119,7 @@ private:
 #if defined(HAVE_DBUS)
   std::unique_ptr<RpcDBusApplicationServer> rpc_dbus_server;
 #endif
+  std::unique_ptr<SitStandReminder> sit_stand_reminder;
 
   int argc{0};
   char **argv{nullptr};

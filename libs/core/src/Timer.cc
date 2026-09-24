@@ -714,6 +714,12 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
         }
     }
 
+  // A frozen timer (during a break) keeps its idle time when the user becomes
+  // active, so a reset that falls due in that very second must not be lost:
+  // start_timer() drops it, and the break window stays at 0:00 for as long as
+  // the user is active.
+  bool reset_due = timer_frozen && next_reset_time != 0 && current_time >= next_reset_time;
+
   // Start or stop timer.
   if (timer_enabled)
     {
@@ -755,7 +761,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           stop_timer();
         }
     }
-  else if (next_limit_time != 0 && current_time >= next_limit_time)
+  else if (!reset_due && next_limit_time != 0 && current_time >= next_limit_time)
     {
       // A next limit time was set and the current time >= limit time.
       next_limit_time = 0;
@@ -776,7 +782,7 @@ Timer::process(ActivityState new_activity_state, TimerInfo &info)
           TRACE_MSG("limit reached, setting state = IDLE");
         }
     }
-  else if (next_reset_time != 0 && current_time >= next_reset_time)
+  else if (reset_due || (next_reset_time != 0 && current_time >= next_reset_time))
     {
       // A next reset time was set and the current time >= reset time.
 

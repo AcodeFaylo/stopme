@@ -25,6 +25,7 @@
 #include <boost/program_options.hpp>
 
 #include "Application.hh"
+#include "SitStandReminder.hh"
 
 #if defined(HAVE_DBUS)
 #  include "GenericDBusApplet.hh"
@@ -159,6 +160,8 @@ Application::main()
 
   init_operation_mode_warning();
 
+  sit_stand_reminder = std::make_unique<SitStandReminder>(context);
+
   init_platform_post();
 
   connect(toolkit->signal_timer(), this, [this] { on_timer(); });
@@ -181,6 +184,8 @@ Application::main()
 #endif
 
   toolkit->run();
+
+  sit_stand_reminder.reset();
 
 #if defined(HAVE_DBUS)
   if (rpc_dbus_server != nullptr)
@@ -655,6 +660,11 @@ Application::on_timer()
 
   core->heartbeat();
 
+  if (sit_stand_reminder)
+    {
+      sit_stand_reminder->heartbeat();
+    }
+
   // TODO: tip changed.
   // applet_control->set_tooltip(tip);
   toolkit->show_tooltip(tip);
@@ -768,6 +778,17 @@ Application::get_timers_tooltip()
           tip += labels.at(count);
           tip += ": " + text;
         }
+    }
+
+  if (sit_stand_reminder && sit_stand_reminder->is_enabled())
+    {
+      if (!tip.empty())
+        {
+          tip += "\n";
+        }
+
+      tip += sit_stand_reminder->get_next_posture() == Posture::Standing ? _("Stand up") : _("Sit down");
+      tip += ": " + Text::time_to_string(sit_stand_reminder->get_remaining());
     }
 
   return tip;

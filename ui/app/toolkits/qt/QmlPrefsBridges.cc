@@ -856,6 +856,70 @@ DailyLimitPrefBridge::decrementMaxPreludes()
     }
 }
 
+// ── SitStandPrefBridge ─────────────────────────────────────────────────────────
+
+SitStandPrefBridge::SitStandPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent)
+  : QObject(parent)
+  , app(std::move(app))
+{
+}
+
+bool
+SitStandPrefBridge::enabled() const
+{
+  return GUIConfig::sit_stand_enabled()();
+}
+
+void
+SitStandPrefBridge::setEnabled(bool v)
+{
+  GUIConfig::sit_stand_enabled().set(v);
+  Q_EMIT enabledChanged();
+}
+
+QString
+SitStandPrefBridge::intervalDisplay() const
+{
+  return PrefUtils::formatTime(GUIConfig::sit_stand_interval()());
+}
+
+double
+SitStandPrefBridge::intervalNorm() const
+{
+  return PrefUtils::normalize(GUIConfig::sit_stand_interval()(), INTERVAL_MIN, INTERVAL_MAX);
+}
+
+void
+SitStandPrefBridge::incrementInterval()
+{
+  int v = PrefUtils::clampStep(GUIConfig::sit_stand_interval()(), +1, INTERVAL_MIN, INTERVAL_MAX, INTERVAL_STEP);
+  GUIConfig::sit_stand_interval().set(v);
+  Q_EMIT timingChanged();
+}
+
+void
+SitStandPrefBridge::decrementInterval()
+{
+  int v = PrefUtils::clampStep(GUIConfig::sit_stand_interval()(), -1, INTERVAL_MIN, INTERVAL_MAX, INTERVAL_STEP);
+  GUIConfig::sit_stand_interval().set(v);
+  Q_EMIT timingChanged();
+}
+
+void
+SitStandPrefBridge::setIntervalNorm(double norm)
+{
+  GUIConfig::sit_stand_interval().set(PrefUtils::denormalize(norm, INTERVAL_MIN, INTERVAL_MAX, INTERVAL_STEP));
+  Q_EMIT timingChanged();
+}
+
+void
+SitStandPrefBridge::setIntervalSeconds(int seconds)
+{
+  // Typed values may be off the slider's five-minute grid, down to a minute.
+  GUIConfig::sit_stand_interval().set(PrefUtils::snapStep(seconds, 60, 4 * 3600, 60));
+  Q_EMIT timingChanged();
+}
+
 // ── StatusWindowPrefBridge ────────────────────────────────────────────────────
 
 StatusWindowPrefBridge::StatusWindowPrefBridge(std::shared_ptr<IApplicationContext> app, QObject *parent)

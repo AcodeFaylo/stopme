@@ -40,6 +40,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   microbreakBridge   = new MicrobreakPrefBridge(this->app, this);
   restBreakBridge    = new RestBreakPrefBridge(this->app, this);
   dailyLimitBridge   = new DailyLimitPrefBridge(this->app, this);
+  sitStandBridge     = new SitStandPrefBridge(this->app, this);
   statusWindowBridge = new StatusWindowPrefBridge(this->app, this);
   appletBridge       = new AppletPrefBridge(this->app, this);
   generalBridge      = new GeneralPrefBridge(this->app, this);
@@ -77,6 +78,7 @@ QmlPrefsDialog::QmlPrefsDialog(std::shared_ptr<IApplicationContext> app, QObject
   ctx->setContextProperty("microbreakPrefBridge",   microbreakBridge);
   ctx->setContextProperty("restBreakPrefBridge",    restBreakBridge);
   ctx->setContextProperty("dailyLimitPrefBridge",   dailyLimitBridge);
+  ctx->setContextProperty("sitStandPrefBridge",     sitStandBridge);
   ctx->setContextProperty("statusWindowPrefBridge", statusWindowBridge);
   ctx->setContextProperty("appletPrefBridge",       appletBridge);
   ctx->setContextProperty("generalPrefBridge",      generalBridge);

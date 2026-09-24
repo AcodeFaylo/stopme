@@ -27,6 +27,7 @@
 #include "ui/Locker.hh"
 #include "ui/IBreakWindow.hh"
 #include "ui/IPreludeWindow.hh"
+#include "ui/ISitStandWindow.hh"
 
 class IApplicationContext;
 
@@ -60,6 +61,7 @@ public:
 
   virtual IBreakWindow::Ptr create_break_window(int screen_index, workrave::BreakId break_id, BreakFlags break_flags) = 0;
   virtual IPreludeWindow::Ptr create_prelude_window(int screen_index, workrave::BreakId break_id) = 0;
+  virtual ISitStandWindow::Ptr create_sit_stand_window(int screen_index, Posture posture) = 0;
   virtual void show_window(WindowType type) = 0;
 
   virtual boost::signals2::signal<void()> &signal_timer() = 0;
