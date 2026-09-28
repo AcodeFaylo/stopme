@@ -63,6 +63,9 @@ Name: "autoupdate"; Description: "Automatically check for updates"; GroupDescrip
 Source: "@INSTALL_WIN_PATH@\bin\workrave.exe"; DestDir: "{app}\bin"; DestName: "stopmeQt.exe"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\bin\qt.conf"; DestDir: "{app}\bin"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\lib\plugins\*.*"; DestDir: "{app}\lib\plugins"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
+; The QML modules windeployqt deployed, where bin\qt.conf points QmlImports.
+; Without QtQuick.Controls.Basic the preferences window stays blank.
+Source: "@INSTALL_WIN_PATH@\qml\*.*"; DestDir: "{app}\qml"; Flags: ignoreversion recursesubdirs restartreplace uninsrestartdelete;
 Source: "@INSTALL_WIN_PATH@\share\*.*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs;
 Source: "@INSTALL_WIN_PATH@\COPYING.txt"; DestDir: "{app}"; DestName: "COPYING.txt"; Flags: ignoreversion;
 Source: "@INSTALL_WIN_PATH@\AUTHORS.txt"; DestDir: "{app}"; DestName: "AUTHORS.txt"; Flags: ignoreversion;

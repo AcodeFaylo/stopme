@@ -58,6 +58,15 @@ if(EXISTS "${INSTALL_PATH}/lib/plugins")
        PATTERN "qmltooling" EXCLUDE)
 endif()
 
+# qml/ holds the QML modules windeployqt deployed, where bin/qt.conf points
+# QmlImports. QtQuick itself also loads from the Qt6Quick DLL, so the break
+# windows work without it, but QtQuick.Controls.Basic does not: the
+# preferences and statistics windows would stay blank.
+if(NOT EXISTS "${INSTALL_PATH}/qml")
+  message(FATAL_ERROR "MakePortable.cmake: ${INSTALL_PATH}/qml is missing; windeployqt deploys the QML modules there")
+endif()
+file(COPY "${INSTALL_PATH}/qml" DESTINATION "${app_dir}")
+
 file(GLOB txt_files "${INSTALL_PATH}/*.txt")
 if(txt_files)
   file(COPY ${txt_files} DESTINATION "${app_dir}")
